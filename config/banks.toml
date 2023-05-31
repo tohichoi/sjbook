@@ -1,0 +1,28 @@
+[data]
+root = '/home/x/Workspace/sjbook/data'
+
+[kb1]
+excel.name_pattern = '국민(?!외환).+'
+excel.engine = 'xlrd'
+# row, col (zero-based)
+account.number_pos = [0, 0]
+account.number_regexp = '계좌번호 *: *([0-9-]+)' # 계좌번호 : 000000-00-000000(OO통장)
+# row, col (zero-based)
+account.name_pos = [2, 0]
+account.name_regexp = '계좌명 *: *(.+)$' # 계좌명 : KBOOOOO전용통장-OOO등거래OO-OO자유예금
+
+[kb1.transaction]
+start_row = 6 # with heading, zero-based
+
+[kb1.transaction.colums]
+date = 1
+recipient = 2
+expense = 3
+saving = 4
+balance = 5
+# 내 통장 표시
+ledger_note = 6
+# 적요
+note = 7
+handler = 8
+category = 9
