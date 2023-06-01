@@ -1,0 +1,12 @@
+[sqlite]
+file="/home/x/Workspace/sjbook/db/sjbook.db"
+
+[table]
+[table.columns]
+id="int NOT NULL"
+bank_name="text"
+account_name="text"
+account_number="text"
+alias="text"
+status="text"
+note="text"

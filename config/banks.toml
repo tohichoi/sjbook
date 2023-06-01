@@ -1,28 +1,50 @@
 [data]
 root = '/home/x/Workspace/sjbook/data'
+ledger_types = ['kb1', 'nh1']
 
 [kb1]
-excel.name_pattern = '국민(?!외환).+'
+excel.name_pattern = '^국민(?!외환).+'
 excel.engine = 'xlrd'
+
+#bank.alias
+#bank.status
+#bank.note
+
 # row, col (zero-based)
 account.number_pos = [0, 0]
 account.number_regexp = '계좌번호 *: *([0-9-]+)' # 계좌번호 : 000000-00-000000(OO통장)
 # row, col (zero-based)
+
+account.bank_name = '국민은행'
 account.name_pos = [2, 0]
 account.name_regexp = '계좌명 *: *(.+)$' # 계좌명 : KBOOOOO전용통장-OOO등거래OO-OO자유예금
 
-[kb1.transaction]
-start_row = 6 # with heading, zero-based
+transaction.start_row = 6 # with heading, zero-based
+transaction.datetime_columns = [0]
+transaction.column_indicies = "B:J"
+# No	거래일시	보낸분/받는분	출금액(원)	입금액(원)	잔액(원)	내 통장 표시	적요	처리점	구분
+# 구분 : INT, POS, TRN
+# 내 통장 표시 : 대부분 빈칸
+transaction.column_names = ["datetime", "recipient", "withdraw", "saving", "balance", "bank_note", "category", "handler", "user_note"]
 
-[kb1.transaction.colums]
-date = 1
-recipient = 2
-expense = 3
-saving = 4
-balance = 5
-# 내 통장 표시
-ledger_note = 6
-# 적요
-note = 7
-handler = 8
-category = 9
+
+[nh1]
+excel.name_pattern = '^농협.+'
+excel.engine = 'xlrd'
+# row, col (zero-based)
+account.bank_name = '농협'
+account.number_pos = [5, 2]
+account.number_regexp = '([0-9-]+)' # 000-00000
+# row, col (zero-based)
+account.name_pos = [6, 2]
+account.name_regexp = '(.+)$' # OOOO
+
+transaction.start_row = 9 # with heading, zero-based
+transaction.parse_date_columns = [[0, 7]]
+transaction.date_format = ['%Y/%m/%d', '%I:%M:%S']
+transaction.column_indicies = "B:J"
+# 농협은 일자와 시간 컬럼이 분리되어있음.
+# pandas.read_excel의 parse_dates 와 date_format 이용하여 하나의 column 으로 통합
+# 구분	거래일자	출금금액(원)	입금금액(원)	거래 후 잔액(원)	거래내용	거래기록사항	거래점	거래시간	이체메모
+#
+transaction.column_names = ["datetime", "withdraw", "saving", "balance", "category", "user_note", "handler", "bank_note"]

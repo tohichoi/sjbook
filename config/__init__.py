@@ -17,6 +17,10 @@ path = pr / "banks.toml"
 with path.open(mode="rb") as fp:
     banks_conf = tomli.load(fp)
 
-path = pr / "common.toml"
+path = pr / "database.toml"
 with path.open(mode="rb") as fp:
-    common_conf = tomli.load(fp)
+    database_conf = tomli.load(fp)
+
+path = pr / "frontend.toml"
+with path.open(mode="rb") as fp:
+    frontend_conf = tomli.load(fp)
