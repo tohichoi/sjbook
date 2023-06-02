@@ -5,6 +5,7 @@ import pandas as pd
 
 from config import database_conf
 from src.transaction import TransactionData
+from src.common import generate_hash
 
 
 def open_database(fn):
@@ -42,6 +43,7 @@ def create_tables(cur):
             "category"       text,
             "handler"        text,
             "bank_note"      text,
+            "transaction_id" text,
             "bank_id"        int NOT NULL,
             FOREIGN KEY (bank_id) REFERENCES BankAccount(id),
             CONSTRAINT "id" PRIMARY KEY ("id" AUTOINCREMENT)
@@ -65,18 +67,31 @@ def _import_bankaccount_data(conn: sqlite3.Connection, trs):
     conn.commit()
 
 
-def _insert_transaction(conn: sqlite3.Connection, tr: TransactionData):
+def _query_hash(conn, hash):
+    cur = conn.cursor()
+    result = cur.execute(f'select 1 from "Transaction" where transaction_id="{hash}"')
+    value = result.fetchone()
+    return value[0]
+    
+def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
     # sql = f'insert into "Transaction" ' \
     #       f'(datetime, expense, balance, saving, recipient, user_note, category, handler, bank_note, bank_id)' \
     #       f'values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
     # cur.execute(sql, (tr.bank_name, tr.account_name, tr.account_number, tr.alias, tr.status, tr.note))
-    tr.dataframe.to_sql('Transaction', conn, index=False)
+
+    # tr.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
+
+    for row in td.dataframe.iterrows():
+        hash_df = row[1]['transaction_id']
+        hash_db = _query_hash(conn, row[1]['transaction_id'])
+        if hash_df == hash_db:
+            warning.warn(f'Duplicated transaction: {transaction_id}')
 
 
 def _import_transaction_data(conn: sqlite3.Connection, trs):
     cur = conn.cursor()
     for tr in trs:
-        _insert_bankaccount(cur, tr)
+        _insert_transaction_data(conn, tr)
     conn.commit()
 
 
@@ -87,15 +102,19 @@ def _query_bankaccount(cur, account_number):
     return bank_id
 
 
-def _import_data(conn, trs: list):
-    _import_bankaccount_data(conn, trs)
-    _import_transaction_data(conn, trs)
+def _insert_relation(conn, trs):
     cur = conn.cursor()
     for tr in trs:
         df: pd.DataFrame = tr.dataframe
         bank_id = _query_bankaccount(cur, tr.account_number)
         df['bank_id'] = bank_id
         df.to_sql('Transaction', conn, index=False, if_exists='append')
+  
+
+def _import_data(conn, trs: list):
+    _import_bankaccount_data(conn, trs)
+    _import_transaction_data(conn, trs)
+    _insert_relation(conn, trs)
 
 
 def import_transaction_data(trs: list):

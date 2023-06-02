@@ -1,4 +1,5 @@
 import dataclasses
+import hashlib
 import datetime
 import re
 import warnings
@@ -8,6 +9,8 @@ import pandas as pd
 from config import banks_conf
 import pendulum
 import xlrd
+from src.common import generate_hash
+
 
 TIMEZONE = 'Asia/Seoul'
 
@@ -62,6 +65,22 @@ def read_account_info(fn: Path, ac) -> TransactionData:
     return TransactionData(bank_name, account_name, account_number, alias, 'Active', 'Auto-generated', pd.DataFrame())
 
 
+def verify_transaction_data(df:pd.DataFrame):
+    try:
+        df['datetime'] = df['datetime'].apply(lambda x : x.tz_localize(TIMEZONE))
+    except TypeError as e:
+        if 'localize tz-aware' in e.args:
+            pass
+
+    # transaction_id
+    # bytes(str(df['datetime']), 'utf-8')
+    df['transaction_id'] = pd.Series()
+    df = df.apply(generate_hash, axis=1)
+    
+    # print(df[['datetime', 'transaction_id']])
+    return df
+    
+    
 def read_ledger(fn, ledger_type, ledger_conf: dict) -> TransactionData:
     lc = ledger_conf
 
@@ -84,7 +103,7 @@ def read_ledger(fn, ledger_type, ledger_conf: dict) -> TransactionData:
     df = pd.read_excel(fn, **kwargs)
     df.columns = lc['transaction']['column_names']
 
-    td.dataframe = df
+    td.dataframe = verify_transaction_data(df)
 
     return td
 
