@@ -24,3 +24,12 @@ with path.open(mode="rb") as fp:
 path = pr / "frontend.toml"
 with path.open(mode="rb") as fp:
     frontend_conf = tomli.load(fp)
+
+path = pr / "backend.toml"
+with path.open(mode="rb") as fp:
+    backend_conf = tomli.load(fp)
+
+path = pr / "faccount.toml"
+with path.open(mode="rb") as fp:
+    faccount_conf = tomli.load(fp)
+

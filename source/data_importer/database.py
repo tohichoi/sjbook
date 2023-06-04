@@ -1,11 +1,10 @@
 import sqlite3
-import unittest
+import warnings
 
 import pandas as pd
 
-from config import database_conf
-from src.transaction import TransactionData
-from src.common import generate_hash
+from source.config import database_conf
+from transaction import TransactionData
 
 
 def open_database(fn):
@@ -23,7 +22,7 @@ def create_tables(cur):
             "account_name"   TEXT NOT NULL,
             "account_number" text NOT NULL,
             "alias"          text,
-            "status"         text,
+            "status"         integer,
             "note"           text,
             CONSTRAINT "id" PRIMARY KEY ("id" AUTOINCREMENT)
         );
@@ -34,6 +33,7 @@ def create_tables(cur):
         CREATE TABLE IF NOT EXISTS "Transaction"
         (
             "id"             integer,
+            "transaction_order" int NOT NULL,
             "datetime"       TEXT NOT NULL,
             "withdraw"        int DEFAULT 0,
             "balance"        int DEFAULT 0,
@@ -54,6 +54,11 @@ def create_tables(cur):
 
 
 def _insert_bankaccount(cur: sqlite3.Cursor, tr: TransactionData):
+    bank_id = _query_bankaccount(cur, tr.account_number)
+    if bank_id:
+        warnings.warn(f'{tr.bank_name}:{tr.alias}:{tr.account_number} exists')
+        return
+
     sql = f'insert into BankAccount ' \
           f'(bank_name, account_name, account_number, alias, status, note)' \
           f'values (?, ?, ?, ?, ?, ?);'
@@ -64,42 +69,51 @@ def _import_bankaccount_data(conn: sqlite3.Connection, trs):
     cur = conn.cursor()
     for tr in trs:
         _insert_bankaccount(cur, tr)
-    conn.commit()
-
-
-def _query_hash(conn, hash):
-    cur = conn.cursor()
-    result = cur.execute(f'select 1 from "Transaction" where transaction_id="{hash}"')
-    value = result.fetchone()
-    return value[0]
-    
-def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
-    # sql = f'insert into "Transaction" ' \
-    #       f'(datetime, expense, balance, saving, recipient, user_note, category, handler, bank_note, bank_id)' \
-    #       f'values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
-    # cur.execute(sql, (tr.bank_name, tr.account_name, tr.account_number, tr.alias, tr.status, tr.note))
-
-    # tr.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
-
-    for row in td.dataframe.iterrows():
-        hash_df = row[1]['transaction_id']
-        hash_db = _query_hash(conn, row[1]['transaction_id'])
-        if hash_df == hash_db:
-            warning.warn(f'Duplicated transaction: {transaction_id}')
-
-
-def _import_transaction_data(conn: sqlite3.Connection, trs):
-    cur = conn.cursor()
-    for tr in trs:
-        _insert_transaction_data(conn, tr)
-    conn.commit()
+        conn.commit()
 
 
 def _query_bankaccount(cur, account_number):
     result = cur.execute('select id from BankAccount where account_number = ? limit 1', (account_number,))
     value = result.fetchone()
-    bank_id = value[0]
-    return bank_id
+    if value:
+        return value[0]
+    return None
+
+
+def _query_hash(cur, h):
+    result = cur.execute(f'select transaction_id from "Transaction" where transaction_id="{h}"')
+    value = result.fetchone()
+    if value:
+        return value[0]
+    return None
+
+
+def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
+    cur = conn.cursor()
+    bank_id = _query_bankaccount(cur, td.account_number)
+    td.dataframe['bank_id'] = bank_id
+
+    dup_record_iloc = []
+    nrecords = td.dataframe.shape[0]
+    for idx, row in td.dataframe.iterrows():
+        hash_df = row['transaction_id']
+        hash_db = _query_hash(cur, row['transaction_id'])
+        if hash_df == hash_db:
+            # warnings.warn(f'Duplicated transaction: {hash_db}')
+            dup_record_iloc.append(idx)
+
+    if len(dup_record_iloc) > 0:
+        td.dataframe = td.dataframe.drop(dup_record_iloc)
+        warnings.warn(f'{td.bank_name} : {len(dup_record_iloc)} / {nrecords} transactions dropped')
+
+    if td.dataframe.shape[0] > 0:
+        td.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
+
+
+def _import_transaction_data(conn: sqlite3.Connection, trs):
+    for tr in trs:
+        _insert_transaction_data(conn, tr)
+    conn.commit()
 
 
 def _insert_relation(conn, trs):
@@ -114,11 +128,20 @@ def _insert_relation(conn, trs):
 def _import_data(conn, trs: list):
     _import_bankaccount_data(conn, trs)
     _import_transaction_data(conn, trs)
-    _insert_relation(conn, trs)
 
 
 def import_transaction_data(trs: list):
     conn, cur = open_database(database_conf['sqlite']['file'])
-    create_tables(cur)
-    _import_data(conn, trs)
+    # create_tables(cur)
+    try:
+        _import_data(conn, trs)
+    except sqlite3.OperationalError as e:
+        if 'no such table' in e.args:
+            msg = '데이터베이스가 초기화되지 않았습니다.\n'
+            msg += '다음 명령을 실행한 후 다시 시도하세요.\n'
+            msg += 'cd ../server\n'
+            msg += 'py manage.py makemigrations ; py manage.py migrate\n'
+        else:
+            raise e
+
     conn.close()

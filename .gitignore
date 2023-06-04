@@ -1,2 +1,3 @@
-/src/venv/
+/data_importer/venv/
 /data/
+/source/config/django_key.txt

@@ -1,18 +1,15 @@
 import dataclasses
-import hashlib
 import datetime
 import re
 import warnings
 from pathlib import Path
 
 import pandas as pd
-from config import banks_conf
+from source.config import banks_conf
 import pendulum
 import xlrd
-from src.common import generate_hash
-
-
-TIMEZONE = 'Asia/Seoul'
+from common import generate_transaction_hash
+from source.data_importer.common import TIMEZONE
 
 
 @dataclasses.dataclass
@@ -21,9 +18,17 @@ class TransactionData:
     account_name: str
     account_number: str
     alias: str
-    status: str
+    status: int
     note: str
     dataframe: pd.DataFrame
+
+
+def swap_columns(df, col1, col2):
+    col_list = list(df.columns)
+    x, y = col_list.index(col1), col_list.index(col2)
+    col_list[y], col_list[x] = col_list[x], col_list[y]
+    df = df[col_list]
+    return df
 
 
 def convert_datetime_kb1(v):
@@ -62,12 +67,18 @@ def read_account_info(fn: Path, ac) -> TransactionData:
     if m:
         account_name = m.group(1)
 
-    return TransactionData(bank_name, account_name, account_number, alias, 'Active', 'Auto-generated', pd.DataFrame())
+    # class BankAccountBase(models.Model):
+    #     ACTIVE = 1
+    #     DEACTIVE = 2
+    #     REVOKED = 3
+    status = 1
+
+    return TransactionData(bank_name, account_name, account_number, alias, status, 'Auto-generated', pd.DataFrame())
 
 
-def verify_transaction_data(df:pd.DataFrame):
+def verify_transaction_data(df: pd.DataFrame):
     try:
-        df['datetime'] = df['datetime'].apply(lambda x : x.tz_localize(TIMEZONE))
+        df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize(TIMEZONE))
     except TypeError as e:
         if 'localize tz-aware' in e.args:
             pass
@@ -75,13 +86,14 @@ def verify_transaction_data(df:pd.DataFrame):
     # transaction_id
     # bytes(str(df['datetime']), 'utf-8')
     df['transaction_id'] = pd.Series()
-    df = df.apply(generate_hash, axis=1)
-    
+    df['faccount_category_id'] = pd.Series()
+    df = df.apply(generate_transaction_hash, axis=1)
+
     # print(df[['datetime', 'transaction_id']])
     return df
-    
-    
-def read_ledger(fn, ledger_type, ledger_conf: dict) -> TransactionData:
+
+
+def read_ledgers(fn, ledger_type, ledger_conf: dict) -> list:
     lc = ledger_conf
 
     td = read_account_info(fn, lc['account'])
@@ -89,7 +101,8 @@ def read_ledger(fn, ledger_type, ledger_conf: dict) -> TransactionData:
     kwargs = {
         'engine': lc['excel']['engine'],
         'skiprows': lc['transaction']['start_row'],
-        'usecols': lc['transaction']['column_indicies']
+        'usecols': lc['transaction']['column_indices'],
+        'sheet_name': lc['excel']['sheet_name']
     }
 
     if 'datetime_columns' in lc['transaction']:
@@ -98,31 +111,19 @@ def read_ledger(fn, ledger_type, ledger_conf: dict) -> TransactionData:
 
     if 'parse_date_columns' in lc['transaction'] and 'date_format' in lc['transaction']:
         kwargs['parse_dates'] = lc['transaction']['parse_date_columns']
-        kwargs['date_format'] = dict.fromkeys(kwargs['parse_dates'][0], lc['transaction']['date_format'])
+        kwargs['date_format'] = dict(zip(kwargs['parse_dates'][0], lc['transaction']['date_format']))
 
-    df = pd.read_excel(fn, **kwargs)
-    df.columns = lc['transaction']['column_names']
+    df0 = pd.read_excel(fn, **kwargs)
+    tds = []
+    for k, df in df0.items():
+        df.columns = lc['transaction']['column_names']
+        num_columns = ['transaction_order', 'withdraw', 'saving', 'balance']
+        df[num_columns] = df[num_columns].fillna(0)
+        df[num_columns] = df[num_columns].astype('int64')
+        td.dataframe = verify_transaction_data(df)
+        tds.append(td)
 
-    td.dataframe = verify_transaction_data(df)
-
-    return td
-
-
-def load_transaction_data(filelist) -> list:
-    trs = []
-    for fn in filelist:
-        print(fn)
-        lt = find_ledger_type(fn.name)
-        if not lt:
-            warnings.warn(f'{fn.name}은 처리할 수 없는 거래내역 엑셀파일입니다.')
-            continue
-
-        td = read_ledger(fn, lt, banks_conf[lt])
-        # print(td.account_name, td.account_number)
-        # print(td.dataframe)
-        trs.append(td)
-
-    return trs
+    return tds
 
 
 def find_ledger_type(fn):
@@ -132,3 +133,24 @@ def find_ledger_type(fn):
         if m:
             return lt
     return None
+
+
+def load_transaction_data(filelist) -> list:
+    trs = []
+
+    for lt in banks_conf['data']['ledger_types']:
+        print(lt)
+        pat = banks_conf[lt]['excel']['name_pattern']
+        for fn in filelist:
+            m = re.match(pat, fn.name)
+            if not lt:
+                # warnings.warn(f'{fn.name}은 처리할 수 없는 거래내역 엑셀파일입니다.')
+                continue
+            print(fn)
+            tds = read_ledgers(fn, lt, banks_conf[lt])
+            # print(td.account_name, td.account_number)
+            # print(td.dataframe)
+            trs += tds
+
+    return trs
+

@@ -1,6 +1,13 @@
 [data]
-root = '/home/x/Workspace/sjbook/data'
+root = '/home/x/Workspace/sjbook/data/input'
 ledger_types = ['kb1', 'nh1']
+
+
+[constants]
+bankaccount.status.ACTIVE = 1
+bankaccount.status.DEACTIVE = 2
+bankaccount.status.REVOKED = 3
+
 
 [kb1]
 excel.name_pattern = '^국민(?!외환).+'
@@ -20,12 +27,12 @@ account.name_pos = [2, 0]
 account.name_regexp = '계좌명 *: *(.+)$' # 계좌명 : KBOOOOO전용통장-OOO등거래OO-OO자유예금
 
 transaction.start_row = 6 # with heading, zero-based
-transaction.datetime_columns = [0]
-transaction.column_indicies = "B:J"
+transaction.datetime_columns = [1]
+transaction.column_indices = "A:J"
 # No	거래일시	보낸분/받는분	출금액(원)	입금액(원)	잔액(원)	내 통장 표시	적요	처리점	구분
 # 구분 : INT, POS, TRN
 # 내 통장 표시 : 대부분 빈칸
-transaction.column_names = ["datetime", "recipient", "withdraw", "saving", "balance", "bank_note", "category", "handler", "user_note"]
+transaction.column_names = ["transaction_order", "datetime", "recipient", "withdraw", "saving", "balance", "bank_note", "category", "handler", "user_note"]
 
 
 [nh1]
@@ -40,11 +47,12 @@ account.name_pos = [6, 2]
 account.name_regexp = '(.+)$' # OOOO
 
 transaction.start_row = 9 # with heading, zero-based
-transaction.parse_date_columns = [[0, 7]]
+transaction.parse_date_columns = [[1, 8]]
 transaction.date_format = ['%Y/%m/%d', '%I:%M:%S']
-transaction.column_indicies = "B:J"
+transaction.column_indices = "A:J"
 # 농협은 일자와 시간 컬럼이 분리되어있음.
-# pandas.read_excel의 parse_dates 와 date_format 이용하여 하나의 column 으로 통합
 # 구분	거래일자	출금금액(원)	입금금액(원)	거래 후 잔액(원)	거래내용	거래기록사항	거래점	거래시간	이체메모
-#
-transaction.column_names = ["datetime", "withdraw", "saving", "balance", "category", "user_note", "handler", "bank_note"]
+# pandas.read_excel의 parse_dates 와 date_format 이용하여 하나의 column 으로 통합
+# 합쳐진 시간은 "거래일자_거래시간" 으로 첫번째 column 에 위치하므로 "구분" column 이 두번째가 됨
+#     df = pd.read_excel(fn, **kwargs)
+transaction.column_names = ["datetime", "transaction_order", "withdraw", "saving", "balance", "category", "user_note", "handler", "bank_note"]

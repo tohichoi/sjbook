@@ -3,11 +3,24 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import banks_conf, database_conf
-from src.database import import_transaction_data
-from src.transaction import load_transaction_data, read_ledger
+from config import faccount_conf
+from source.config import banks_conf
+from database import import_transaction_data
+from source.data_importer.faccount import load_faccount_data
+from transaction import load_transaction_data, read_ledgers
 
 
+class Test_faccount(unittest.TestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        data_root = Path(faccount_conf['data']['root'])
+        self.filelist = set(data_root.rglob("*.xls[x]"))
+
+    def test_load_faccount_data(self):
+        load_faccount_data(self.filelist)
+
+
+@unittest.skip('Passed')
 class Test_database(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -29,7 +42,7 @@ class Test_transaction(unittest.TestCase):
         fns = ['국민환전.xls', '국민고철.xls', '국민퇴직연금.xls']
         for f in fns:
             fn = Path(self.data_root) / f
-            bd = read_ledger(fn, ledger_type, banks_conf[ledger_type])
+            bd = read_ledgers(fn, ledger_type, banks_conf[ledger_type])
             print(bd.account_name, bd.account_number)
             print(bd.dataframe)
             self.assertGreater(bd.dataframe.shape[0], 0)
@@ -39,7 +52,7 @@ class Test_transaction(unittest.TestCase):
         fns = ['농협관리.xls', '농협스위칭.xls', '농협원자재.xls', '농협일반경비.xls']
         for f in fns:
             fn = Path(self.data_root) / f
-            bd = read_ledger(fn, ledger_type, banks_conf[ledger_type])
+            bd = read_ledgers(fn, ledger_type, banks_conf[ledger_type])
             print(bd.account_name, bd.account_number)
             print(bd.dataframe)
             self.assertGreater(bd.dataframe.shape[0], 0)

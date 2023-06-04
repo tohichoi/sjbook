@@ -1,5 +1,5 @@
 [sqlite]
-file="/home/x/Workspace/sjbook/db/sjbook.db"
+file="/home/x/Workspace/sjbook/data/db/sjbook.db"
 
 [table]
 [table.columns]
@@ -10,3 +10,5 @@ account_number="text"
 alias="text"
 status="text"
 note="text"
+
+

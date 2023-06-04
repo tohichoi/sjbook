@@ -1,0 +1,3 @@
+[server]
+django.key_file='/home/x/Workspace/sjbook/source/config/django_key.txt'
+django.allowed_hosts=['0.0.0.0']
