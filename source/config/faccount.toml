@@ -3,36 +3,36 @@ root = '/home/x/Workspace/sjbook/data/books'
 faccount_types = ['withdraw1', 'withdraw2', 'saving1']
 
 [constants]
-faccount.type.WITHDRAW = 1
-faccount.type.SAVING = 2
-faccount.type.ETC = 9
+faccount.type.WITHDRAW = "출금"
+faccount.type.SAVING = "입금"
+faccount.type.ETC = "기타"
 
 [withdraw1]
 excel.name_pattern = '^.*현금\+카드정산.*xls[x]$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [0]
-type = 0
+type = "출금"
 
 transaction.start_row = 1 # with heading, zero-based
 transaction.column_indices = "A:C"
-transaction.column_names = ["FAccountCategory.name", "FAccountMinorCategory.name", "FAccountMajorCategory.name"]
+transaction.column_names = ["FAccountMajorCategory.name", "FAccountMinorCategory.name", "FAccountCategory.name"]
 
 [withdraw2]
 excel.name_pattern = '^삼정일계표.*[x]$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [3]
-type = 0
+type = "출금"
 
 transaction.start_row = 0 # with heading, zero-based
 transaction.column_indices = "A:C"
-transaction.column_names = ["FAccountCategory.name", "FAccountMinorCategory.name", "FAccountMajorCategory.name"]
+transaction.column_names = ["FAccountMajorCategory.name", "FAccountMinorCategory.name", "FAccountCategory.name"]
 
 [saving1]
 excel.name_pattern = '^삼정일계표.*[x]$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [2]
-type = 1
+type = "입금"
 
 transaction.start_row = 0 # with heading, zero-based
 transaction.column_indices = "A:C"
-transaction.column_names = ["FAccountCategory.name", "FAccountMinorCategory.name", "FAccountMajorCategory.name"]
+transaction.column_names = ["FAccountMajorCategory.name", "FAccountMinorCategory.name", "FAccountCategory.name"]

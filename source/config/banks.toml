@@ -10,8 +10,9 @@ bankaccount.status.REVOKED = 3
 
 
 [kb1]
-excel.name_pattern = '^국민(?!외환).+'
+excel.name_pattern = '^국민(?!외환).*xlsx?$'
 excel.engine = 'xlrd'
+excel.sheet_name = [0]
 
 #bank.alias
 #bank.status
@@ -36,12 +37,15 @@ transaction.column_names = ["transaction_order", "datetime", "recipient", "withd
 
 
 [nh1]
-excel.name_pattern = '^농협.+'
+excel.name_pattern = '^농협.*xlsx?$'
 excel.engine = 'xlrd'
+excel.sheet_name = [0]
+
 # row, col (zero-based)
 account.bank_name = '농협'
 account.number_pos = [5, 2]
 account.number_regexp = '([0-9-]+)' # 000-00000
+
 # row, col (zero-based)
 account.name_pos = [6, 2]
 account.name_regexp = '(.+)$' # OOOO

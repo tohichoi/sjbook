@@ -143,7 +143,7 @@ def load_transaction_data(filelist) -> list:
         pat = banks_conf[lt]['excel']['name_pattern']
         for fn in filelist:
             m = re.match(pat, fn.name)
-            if not lt:
+            if not m:
                 # warnings.warn(f'{fn.name}은 처리할 수 없는 거래내역 엑셀파일입니다.')
                 continue
             print(fn)

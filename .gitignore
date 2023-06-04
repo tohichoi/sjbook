@@ -1,3 +1,4 @@
 /data_importer/venv/
 /data/
 /source/config/django_key.txt
+/source/server/restful_server/migrations/

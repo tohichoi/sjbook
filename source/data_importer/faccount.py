@@ -11,7 +11,7 @@ from source.data_importer.common import TIMEZONE
 
 @dataclasses.dataclass
 class FAccountData:
-    faccount_type: int
+    faccount_type: str
     dataframe: pd.DataFrame
 
 

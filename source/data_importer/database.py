@@ -4,6 +4,7 @@ import warnings
 import pandas as pd
 
 from source.config import database_conf
+from source.data_importer.faccount import FAccountData
 from transaction import TransactionData
 
 
@@ -123,9 +124,9 @@ def _insert_relation(conn, trs):
         bank_id = _query_bankaccount(cur, tr.account_number)
         df['bank_id'] = bank_id
         df.to_sql('Transaction', conn, index=False, if_exists='append')
-  
 
-def _import_data(conn, trs: list):
+
+def _import_ledger_data(conn, trs: list):
     _import_bankaccount_data(conn, trs)
     _import_transaction_data(conn, trs)
 
@@ -134,13 +135,124 @@ def import_transaction_data(trs: list):
     conn, cur = open_database(database_conf['sqlite']['file'])
     # create_tables(cur)
     try:
-        _import_data(conn, trs)
+        _import_ledger_data(conn, trs)
     except sqlite3.OperationalError as e:
         if 'no such table' in e.args:
             msg = '데이터베이스가 초기화되지 않았습니다.\n'
             msg += '다음 명령을 실행한 후 다시 시도하세요.\n'
             msg += 'cd ../server\n'
-            msg += 'py manage.py makemigrations ; py manage.py migrate\n'
+            msg += 'python recreate-database.py\n'
+        else:
+            raise e
+
+    conn.close()
+
+
+def _query_name_value(cur, table_name, column_name, value):
+    result = cur.execute(f'select id from {table_name} where {column_name} = ? limit 1', (value,))
+    value = result.fetchone()
+    if value:
+        return value[0]
+    return None
+
+
+def _query_faccounttype(cur, faccount_type):
+    return _query_name_value(cur, 'FAccountCategoryType', 'name', faccount_type)
+
+
+def _insert_faccounttype_data(conn, tr):
+    # FAccountType
+    cur = conn.cursor()
+    sql = '''
+        insert into FAccountCategoryType values (?, ?, ?)
+    '''
+    try:
+        cur.execute(sql, (None, tr.faccount_type, 'Auto-generated'))
+        conn.commit()
+    except sqlite3.IntegrityError as e:
+        if 'UNIQUE' in e.args:
+            pass
+
+    return _query_name_value(cur, 'FAccountCategoryType', 'name', tr.faccount_type)
+
+
+def _import_faccount_data(conn, trs: list):
+    for tr in trs:
+        type_pk = _insert_faccounttype_data(conn, tr)
+        if not type_pk:
+            raise sqlite3.DataError('Error')
+
+        _insert_faccountmajorcategory_data(conn, type_pk, tr)
+        _insert_faccountminorcategory_data(conn, type_pk, tr)
+
+
+
+def _insert_faccountminorcategory_data(conn, type_pk, tr: FAccountData):
+    cur = conn.cursor()
+    df2 = tr.dataframe.drop_duplicates(subset=['FAccountMajorCategory.name', 'FAccountMinorCategory.name']).sort_values(
+        by=['FAccountMinorCategory.name'])
+    # double check major category insertion
+
+    for idx, row in df2.iterrows():
+        r = row.values.tolist()
+        pk_major = _query_name_value(cur, 'FAccountMajorCategory', 'name', r[0])
+        if not pk_major:
+            raise sqlite3.DataError('Error')
+        sql = '''
+            insert into FAccountMinorCategory values (?, ?, ?, ?)
+        '''
+        try:
+            cur.execute(sql, [None, r[1], 'Auto-Generated', pk_major])
+        except sqlite3.IntegrityError as e:
+            if 'UNIQUE' in e.args:
+                pass
+
+    # n = len(major_categories)
+    # df2 = pd.DataFrame(
+    #     data={'name': major_categories, 'note': ['Auto-generated'] * n, 'account_type_id': [type_pk] * n})
+    # for idx, row in df2.iterrows():
+    #     sql = '''
+    #         insert into FAccountMajorCategory values (?, ?, ?, ?)
+    #     '''
+    #     try:
+    #         cur.execute(sql, [None] + row.values.tolist())
+    #     except sqlite3.IntegrityError as e:
+    #         if 'UNIQUE' in e.args:
+    #             pass
+
+    conn.commit()
+
+
+def _insert_faccountmajorcategory_data(conn, type_pk, tr: FAccountData):
+    cur = conn.cursor()
+    major_categories = tr.dataframe['FAccountMajorCategory.name'].unique()
+    n = len(major_categories)
+    df2 = pd.DataFrame(
+        data={'name': major_categories, 'note': ['Auto-generated'] * n, 'account_type_id': [type_pk] * n})
+    for idx, row in df2.iterrows():
+        sql = '''
+            insert into FAccountMajorCategory values (?, ?, ?, ?)
+        '''
+        try:
+            cur.execute(sql, [None] + row.values.tolist())
+        except sqlite3.IntegrityError as e:
+            if 'UNIQUE' in e.args:
+                pass
+
+    conn.commit()
+
+
+def import_faccount_data(trs: list):
+    conn, cur = open_database(database_conf['sqlite']['file'])
+    # create_tables(cur)
+    try:
+        _import_faccount_data(conn, trs)
+    except sqlite3.OperationalError as e:
+        if 'no such table' in e.args:
+            msg = '데이터베이스가 초기화되지 않았습니다.\n'
+            msg += '다음 명령을 실행한 후 다시 시도하세요.\n'
+            msg += 'cd ../server\n'
+            msg += 'python recreate-database.py\n'
         else:
             raise e
 

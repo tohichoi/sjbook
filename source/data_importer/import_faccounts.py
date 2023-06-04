@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from database import import_transaction_data, open_database
+from database import import_transaction_data, open_database, import_faccount_data
 from source.data_importer.faccount import load_faccount_data
 from transaction import load_transaction_data
 from source.config import banks_conf, database_conf, frontend_conf, faccount_conf
@@ -32,7 +32,7 @@ def main():
     data_root = Path(faccount_conf['data']['root'])
     filelist = set(data_root.rglob("*.xls*"))
     trs = load_faccount_data(sorted(filelist))
-    print(trs)
+    import_faccount_data(trs)
     # import_faccount_data(trs)
     # export_data('html')
     # export_data('excel')

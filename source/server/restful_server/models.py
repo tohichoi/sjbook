@@ -63,24 +63,6 @@ class Transaction(TransactionBase):
         ordering = ['datetime', 'transaction_order', 'bank']
 
 
-class FAccountCategoryType(models.Model):
-    # 입급, 출금
-    WITHDRAW = faccount_conf['constants']['faccount']['type']['WITHDRAW']
-    SAVING = faccount_conf['constants']['faccount']['type']['SAVING']
-    ETC = faccount_conf['constants']['faccount']['type']['ETC']
-    STATUS_CHOICES = [
-        (WITHDRAW, '지출'),
-        (SAVING, '입금'),
-        (ETC, '기타'),
-    ]
-
-    name = models.CharField('유형', max_length=MAX_CHAR_FIELD_LENGTH, choices=STATUS_CHOICES, default=WITHDRAW,
-                            blank=False)
-    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True)
-
-    class Meta:
-        db_table = 'FAccountCategoryType'
-
 
 class FAccountSubCategory(models.Model):
     # 계정명 뒤에 붙는 세부항목(is_null=True)
@@ -93,14 +75,12 @@ class FAccountSubCategory(models.Model):
 
 class FAccountCategory(models.Model):
     # 계정명
-    name = models.CharField('계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None)
-    account_type = models.ForeignKey('FAccountCategoryType', verbose_name='계정유형', on_delete=models.DO_NOTHING,
-                                     blank=False, default=None)
+    name = models.CharField('계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None, unique=True)
     minor_category = models.ForeignKey('FAccountMinorCategory', verbose_name='중분류계정', on_delete=models.DO_NOTHING,
                                        blank=False, default=None)
     sub_category = models.ForeignKey('FAccountSubCategory', verbose_name='세항목', on_delete=models.DO_NOTHING, blank=True,
                                      default=None)
-    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, default=None)
+    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True, default=None)
 
     class Meta:
         db_table = 'FAccountCategory'
@@ -108,10 +88,11 @@ class FAccountCategory(models.Model):
 
 class FAccountMinorCategory(models.Model):
     # 중분류
-    name = models.CharField('중분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None)
+    name = models.CharField('중분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None, unique=True)
+
     major_category = models.ForeignKey('FAccountMajorCategory', verbose_name='대분류계정', on_delete=models.DO_NOTHING,
                                        blank=False, default=None)
-    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True)
+    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True)
 
     class Meta:
         db_table = 'FAccountMinorCategory'
@@ -119,8 +100,29 @@ class FAccountMinorCategory(models.Model):
 
 class FAccountMajorCategory(models.Model):
     # 대분류
-    name = models.CharField('대분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None)
-    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True)
+    name = models.CharField('대분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None, unique=True)
+    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True)
+    account_type = models.ForeignKey('FAccountCategoryType', verbose_name='계정유형', on_delete=models.DO_NOTHING,
+                                     blank=False, default=None)
 
     class Meta:
         db_table = 'FAccountMajorCategory'
+
+
+class FAccountCategoryType(models.Model):
+    # 입급, 출금
+    WITHDRAW = faccount_conf['constants']['faccount']['type']['WITHDRAW']
+    SAVING = faccount_conf['constants']['faccount']['type']['SAVING']
+    ETC = faccount_conf['constants']['faccount']['type']['ETC']
+    STATUS_CHOICES = [
+        (1, '지출'),
+        (2, '입금'),
+        (9, '기타'),
+    ]
+
+    name = models.CharField('유형', max_length=MAX_CHAR_FIELD_LENGTH, choices=STATUS_CHOICES, default=WITHDRAW,
+                            blank=False, unique=True)
+    note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True)
+
+    class Meta:
+        db_table = 'FAccountCategoryType'
