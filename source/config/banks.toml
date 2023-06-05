@@ -10,6 +10,7 @@ bankaccount.status.REVOKED = 3
 
 
 [kb1]
+excel.parent_name_pattern = '202[0-3].*'
 excel.name_pattern = '^국민(?!외환).*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]
@@ -37,6 +38,7 @@ transaction.column_names = ["transaction_order", "datetime", "recipient", "withd
 
 
 [nh1]
+excel.parent_name_pattern = '202[0-3].*'
 excel.name_pattern = '^농협.*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]

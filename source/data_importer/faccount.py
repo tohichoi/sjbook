@@ -2,6 +2,7 @@ import dataclasses
 import re
 import warnings
 from pathlib import Path
+from zipfile import BadZipFile
 
 import pandas as pd
 
@@ -42,8 +43,13 @@ def read_faccounts(fn, faccount_conf: dict) -> list:
         'sheet_name': lc['excel']['sheet_name']
     }
 
-    df0 = pd.read_excel(fn, **kwargs)
     fds = []
+    try:
+        df0 = pd.read_excel(fn, **kwargs)
+    except BadZipFile as e:
+        warnings.warn(str(e))
+        return fds
+
     for k, df in df0.items():
         df.dropna(axis=0, how='any', inplace=True)
         df.columns = lc['transaction']['column_names']

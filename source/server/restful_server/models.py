@@ -90,8 +90,6 @@ class FAccountMinorCategory(models.Model):
     # 중분류
     name = models.CharField('중분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None, unique=True)
 
-    major_category = models.ForeignKey('FAccountMajorCategory', verbose_name='대분류계정', on_delete=models.DO_NOTHING,
-                                       blank=False, default=None)
     note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True)
 
     class Meta:
@@ -107,6 +105,17 @@ class FAccountMajorCategory(models.Model):
 
     class Meta:
         db_table = 'FAccountMajorCategory'
+
+
+class FAccountMajorMinorCategoryLink(models.Model):
+    # 대분류
+    minor_category = models.ForeignKey('FAccountMinorCategory', verbose_name='중분류계정', on_delete=models.DO_NOTHING,
+                                       blank=False, default=None)
+    major_category = models.ForeignKey('FAccountMajorCategory', verbose_name='대분류계정', on_delete=models.DO_NOTHING,
+                                       blank=False, default=None)
+
+    class Meta:
+        db_table = 'FAccountMajorMinorCategoryLink'
 
 
 class FAccountCategoryType(models.Model):

@@ -189,9 +189,26 @@ def _import_faccount_data(conn, trs: list):
 
 def _insert_faccountminorcategory_data(conn, type_pk, tr: FAccountData):
     cur = conn.cursor()
-    df2 = tr.dataframe.drop_duplicates(subset=['FAccountMajorCategory.name', 'FAccountMinorCategory.name']).sort_values(
-        by=['FAccountMinorCategory.name'])
+    columns = ['FAccountMajorCategory.name', 'FAccountMinorCategory.name']
+    df2 = tr.dataframe.drop_duplicates(subset=columns).sort_values(
+        by=['FAccountMajorCategory.name', 'FAccountMinorCategory.name'])
     # double check major category insertion
+
+    # 1. 중분류 record insert
+    df_minor = tr.dataframe['FAccountMinorCategory.name'].drop_duplicates()
+    for r in df_minor:
+        try:
+            sql = '''
+                insert into FAccountMinorCategory values (?, ?, ?, ?)
+            '''
+            cur.execute(sql, [None, r, 'Auto-Generated', None])
+        except sqlite3.IntegrityError as e:
+            if 'UNIQUE' in e.args:
+                pass
+
+    # 2. 대분류 record insert
+
+    # 3. FAccountMajorMinorCategoryLink 레코드 삽입
 
     for idx, row in df2.iterrows():
         r = row.values.tolist()
