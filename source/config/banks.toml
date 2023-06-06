@@ -1,5 +1,6 @@
 [data]
-root = '/home/x/Workspace/sjbook/data/input'
+root = '/home/x/Workspace/sjbook/data/input/bank_ledgers'
+rglob_pattern = '*.xls*'
 ledger_types = ['kb1', 'nh1']
 
 
@@ -7,11 +8,20 @@ ledger_types = ['kb1', 'nh1']
 bankaccount.status.ACTIVE = 1
 bankaccount.status.DEACTIVE = 2
 bankaccount.status.REVOKED = 3
+transaction.remove_patterns = [
+    # to_find, with_replace
+    # 21년2월
+#    ['[0-9]+년{0,1}+[0-9]*월{0,1}', ''],
+    ['[\(\<].[\>\)]', ''],
+    ['(이자세금)([:0-9,]+원)', '\1'],
+    ['[㈜ _\-\(\)（]+', ''],
+    ['[0-9,]+', '']
+]
 
 
 [kb1]
-excel.parent_name_pattern = '202[0-3].*'
-excel.name_pattern = '^국민(?!외환).*xlsx?$'
+# 국민은행
+excel.path_pattern = '.*/bank_ledgers/test/국민(?!외환).*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]
 
@@ -34,12 +44,12 @@ transaction.column_indices = "A:J"
 # No	거래일시	보낸분/받는분	출금액(원)	입금액(원)	잔액(원)	내 통장 표시	적요	처리점	구분
 # 구분 : INT, POS, TRN
 # 내 통장 표시 : 대부분 빈칸
-transaction.column_names = ["transaction_order", "datetime", "recipient", "withdraw", "saving", "balance", "bank_note", "category", "handler", "user_note"]
+transaction.column_names = ["transaction_order", "datetime", "recipient", "withdraw", "saving", "balance", "user_note", "bank_note", "handler", "category"]
 
 
 [nh1]
-excel.parent_name_pattern = '202[0-3].*'
-excel.name_pattern = '^농협.*xlsx?$'
+# 농협은행
+excel.path_pattern = '.*/bank_ledgers/test/농협.*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]
 
@@ -61,4 +71,4 @@ transaction.column_indices = "A:J"
 # pandas.read_excel의 parse_dates 와 date_format 이용하여 하나의 column 으로 통합
 # 합쳐진 시간은 "거래일자_거래시간" 으로 첫번째 column 에 위치하므로 "구분" column 이 두번째가 됨
 #     df = pd.read_excel(fn, **kwargs)
-transaction.column_names = ["datetime", "transaction_order", "withdraw", "saving", "balance", "category", "user_note", "handler", "bank_note"]
+transaction.column_names = ["datetime", "transaction_order", "withdraw", "saving", "balance", "bank_note", "recipient", "handler", "category"]

@@ -30,7 +30,9 @@ def export_data(file_format):
 
 def main():
     data_root = Path(faccount_conf['data']['root'])
-    filelist = set(data_root.rglob("*.xls*"))
+    if not data_root.exists():
+        raise FileNotFoundError(f'{data_root} not found')
+    filelist = set(data_root.rglob(faccount_conf['data']['rglob_pattern']))
     trs = load_faccount_data(sorted(filelist))
     import_faccount_data(trs)
     # import_faccount_data(trs)

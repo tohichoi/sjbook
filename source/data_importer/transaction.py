@@ -5,6 +5,8 @@ import warnings
 from pathlib import Path
 
 import pandas as pd
+
+from common import normalize_name
 from source.config import banks_conf
 import pendulum
 import xlrd
@@ -77,11 +79,12 @@ def read_account_info(fn: Path, ac) -> TransactionData:
 
 
 def verify_transaction_data(df: pd.DataFrame):
-    try:
-        df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize(TIMEZONE))
-    except TypeError as e:
-        if 'localize tz-aware' in e.args:
-            pass
+    df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize(TIMEZONE) if pd.isnull(x.tz) else x)
+
+    # try:
+    #     df['datetime'] = df['datetime'].apply(lambda x: x.isoformat())
+    # except AttributeError as e:
+    #     pass
 
     # transaction_id
     # bytes(str(df['datetime']), 'utf-8')
@@ -89,7 +92,9 @@ def verify_transaction_data(df: pd.DataFrame):
     df['faccount_category_id'] = pd.Series()
     df = df.apply(generate_transaction_hash, axis=1)
 
-    # print(df[['datetime', 'transaction_id']])
+    df['norm_name'] = pd.Series()
+    df = df.apply(normalize_transaction_name, axis=1)
+
     return df
 
 
@@ -140,9 +145,9 @@ def load_transaction_data(filelist) -> list:
 
     for lt in banks_conf['data']['ledger_types']:
         print(lt)
-        pat = banks_conf[lt]['excel']['name_pattern']
+        pat = banks_conf[lt]['excel']['path_pattern']
         for fn in filelist:
-            m = re.match(pat, fn.name)
+            m = re.match(pat, str(fn))
             if not m:
                 # warnings.warn(f'{fn.name}은 처리할 수 없는 거래내역 엑셀파일입니다.')
                 continue
@@ -154,3 +159,27 @@ def load_transaction_data(filelist) -> list:
 
     return trs
 
+
+def normalize_transaction_name(row):
+    # logic
+    # 적용 순서
+    #  recipient, user_name, bank_note
+    #
+    # null 필드가 여러개일 때
+    # recipient 가 NULL 이면 bank_note 로 대체
+    # bank_note 가 NULL 이면 바꾸지 않음
+    patterns = banks_conf['constants']['transaction']['remove_patterns']
+
+    ref_col = 'recipient'
+    if pd.isnull(row['recipient']) and pd.isnull(row['bank_note']):
+        return row
+    elif pd.isnull(row['recipient']) and not pd.isnull(row['bank_note']):
+        ref_col = 'bank_note'
+    elif not pd.isnull(row['recipient']) and pd.isnull(row['bank_note']):
+        ref_col = 'recipient'
+    # else : recipient, bank_note 둘 다 있으면 recipient 사용
+    # user_note 는 테스트 데이터에 나타나지 않으므로 참고 필드에서 제외
+
+    row['norm_name'] = normalize_name(patterns, row[ref_col])
+
+    return row

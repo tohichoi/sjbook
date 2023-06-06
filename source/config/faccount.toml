@@ -1,14 +1,24 @@
 [data]
-root = '/home/x/Workspace/sjbook/data/books'
+root = '/home/x/Workspace/sjbook/data/books/'
+rglob_pattern = '*.xls*'
 faccount_types = ['withdraw1', 'withdraw2', 'saving1']
 
 [constants]
 faccount.type.WITHDRAW = "출금"
 faccount.type.SAVING = "입금"
 faccount.type.ETC = "기타"
+faccount.name.remove_patterns = [
+    # to_find, with_replace
+    # 21년2월
+    #    ['[0-9]+년{0,1}+[0-9]*월{0,1}', ''],
+    ['[\(\<].[\>\)]', ''],
+    ['(이자세금)([:0-9,]+원)', '\1'],
+    ['[㈜ _\-\(\)（]+', ''],
+    ['[0-9,]+', '']
+]
 
 [withdraw1]
-excel.name_pattern = '^.*현금\+카드정산.*xls[x]$'
+excel.path_pattern = '.+Executve Summary Report/.*현금\+카드정산.*xls[x]$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [0]
 type = "출금"
@@ -18,7 +28,8 @@ transaction.column_indices = "A:C"
 transaction.column_names = ["FAccountMajorCategory.name", "FAccountMinorCategory.name", "FAccountCategory.name"]
 
 [withdraw2]
-excel.name_pattern = '^삼정일계표.*[x]$'
+#excel.path_pattern = '.+일계표/[0-9]{4}년/삼정일계표.*[x]$'
+excel.path_pattern = '.+일계표/2023년/삼정일계표.*x?$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [3]
 type = "출금"
@@ -28,7 +39,8 @@ transaction.column_indices = "A:C"
 transaction.column_names = ["FAccountMajorCategory.name", "FAccountMinorCategory.name", "FAccountCategory.name"]
 
 [saving1]
-excel.name_pattern = '^삼정일계표.*[x]$'
+#excel.path_pattern = '.+일계표/[0-9]{4}년/삼정일계표.*[x]$'
+excel.path_pattern = '.+일계표/2023년/삼정일계표.*x?$'
 excel.engine = 'openpyxl'
 excel.sheet_name = [2]
 type = "입금"

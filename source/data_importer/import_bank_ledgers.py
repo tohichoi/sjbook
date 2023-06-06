@@ -28,7 +28,9 @@ def export_data(file_format):
 
 def main():
     data_root = Path(banks_conf['data']['root'])
-    filelist = set(data_root.rglob("*.xls"))
+    if not data_root.exists():
+        raise FileNotFoundError(f'{data_root} not found')
+    filelist = set(data_root.rglob(banks_conf['data']['rglob_pattern']))
     trs = load_transaction_data(filelist)
     import_transaction_data(trs)
     export_data('html')

@@ -7,17 +7,18 @@ from zipfile import BadZipFile
 import pandas as pd
 
 from source.config import faccount_conf
-from source.data_importer.common import TIMEZONE
+from source.data_importer.common import TIMEZONE, normalize_name
 
 
 @dataclasses.dataclass
 class FAccountData:
+    exel_path_name: Path
     faccount_type: str
     dataframe: pd.DataFrame
 
 
 def read_faccount_info(fn: Path, ac) -> FAccountData:
-    return FAccountData(faccount_type=ac['type'], dataframe=pd.DataFrame())
+    return FAccountData(fn, faccount_type=ac['type'], dataframe=pd.DataFrame())
 
 
 def prepare_faccount_data(df: pd.DataFrame):
@@ -28,6 +29,25 @@ def prepare_faccount_data(df: pd.DataFrame):
     # df = df.apply(generate_hash, axis=1)
 
     # print(df[['datetime', 'transaction_id']])
+    return df
+
+
+def normalize_faccount_name(row):
+    patterns = faccount_conf['constants']['faccount']['name']['remove_patterns']
+
+    ref_col = 'FAccountCategory.name'
+    if pd.isnull(ref_col):
+        return row
+
+    row['norm_name'] = normalize_name(patterns, row[ref_col])
+
+    return row
+
+
+def verify_faccount_data(df: pd.DataFrame):
+    df['norm_name'] = pd.Series()
+    df = df.apply(normalize_faccount_name, axis=1)
+
     return df
 
 
@@ -53,7 +73,8 @@ def read_faccounts(fn, faccount_conf: dict) -> list:
     for k, df in df0.items():
         df.dropna(axis=0, how='any', inplace=True)
         df.columns = lc['transaction']['column_names']
-        fd.dataframe = prepare_faccount_data(df)
+        df['norm_name'] = pd.Series()
+        fd.dataframe = verify_faccount_data(df)
         fds.append(fd)
 
     return fds
@@ -73,9 +94,9 @@ def load_faccount_data(filelist) -> list:
 
     for lt in faccount_conf['data']['faccount_types']:
         print(lt)
-        pat = faccount_conf[lt]['excel']['name_pattern']
+        pat = faccount_conf[lt]['excel']['path_pattern']
         for fn in filelist:
-            m = re.match(pat, fn.name)
+            m = re.match(pat, str(fn))
             if not m:
                 continue
             print(fn)

@@ -4,3 +4,10 @@ select BA.bank_name, BA.alias, datetime, recipient, withdraw, saving, balance, u
 inner join BankAccount BA on BA.id = "Transaction".bank_id
 order by BA.bank_name, BA.alias
 """
+
+q2="""
+select "type".name, major.name, minor.name from FAccountMajorMinorCategoryLink link
+inner join FAccountMajorCategory major on major.id = link.major_category_id
+inner join FAccountMinorCategory minor on minor.id = link.minor_category_id
+inner join FAccountCategoryType "type"
+"""

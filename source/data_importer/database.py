@@ -3,6 +3,7 @@ import warnings
 
 import pandas as pd
 
+from source.data_importer.common import normalize_name
 from source.config import database_conf
 from source.data_importer.faccount import FAccountData
 from transaction import TransactionData
@@ -82,7 +83,7 @@ def _query_bankaccount(cur, account_number):
 
 
 def _query_hash(cur, h):
-    result = cur.execute(f'select transaction_id from "Transaction" where transaction_id="{h}"')
+    result = cur.execute('select transaction_id from "Transaction" where transaction_id=?', (h,))
     value = result.fetchone()
     if value:
         return value[0]
@@ -108,6 +109,15 @@ def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
         warnings.warn(f'{td.bank_name} : {len(dup_record_iloc)} / {nrecords} transactions dropped')
 
     if td.dataframe.shape[0] > 0:
+        td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.tz_convert('UTC'))
+        datetime_format = None
+        if database_conf['database']['engine'] == 'sqlite':
+            warnings.warn('SQLite does not support timezone-aware datetime. Data saved as UTC time.')
+            # YYYY-MM-DDTHH:MM:SS
+            # sqlite : https://www.sqlite.org/lang_datefunc.html
+            # python : https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+            datetime_format = '%Y-%m-%dT%H:%M:%S'
+            td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.strftime(datetime_format))
         td.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
 
 
@@ -176,6 +186,33 @@ def _insert_faccounttype_data(conn, tr):
     return _query_name_value(cur, 'FAccountCategoryType', 'name', tr.faccount_type)
 
 
+def _insert_faccountsubcategory_data(conn, type_pk, tr):
+    pass
+
+
+def _insert_faccountcategory_data(conn, type_pk, tr):
+    cur = conn.cursor()
+    columns = ['FAccountCategory.name']
+    df2 = tr.dataframe.drop_duplicates(subset=columns).sort_values(
+        by=['FAccountCategory.name'])
+    df2.columns = ['major', 'minor', 'core', 'norm_name']
+    for idx, row in df2.iterrows():
+        try:
+            minor_pk = _query_name_value(cur, 'FAccountMinorCategory', 'name', row['minor'])
+            if not minor_pk:
+                raise Exception(f'Cannot find {row["minor_pk"]} in FAccountMinorCategory')
+            # norm_name = normalize_name(row['core'])
+            sql = '''
+                insert into FAccountCategory values (?, ?, ?, ?, ?)
+            '''
+            cur.execute(sql, [None, row['core'], row['norm_name'], 'Auto-Generated', minor_pk])
+        except sqlite3.IntegrityError as e:
+            if 'UNIQUE' in str(e):
+                pass
+            else:
+                raise e
+
+
 def _import_faccount_data(conn, trs: list):
     for tr in trs:
         type_pk = _insert_faccounttype_data(conn, tr)
@@ -184,7 +221,7 @@ def _import_faccount_data(conn, trs: list):
 
         _insert_faccountmajorcategory_data(conn, type_pk, tr)
         _insert_faccountminorcategory_data(conn, type_pk, tr)
-
+        _insert_faccountcategory_data(conn, type_pk, tr)
 
 
 def _insert_faccountminorcategory_data(conn, type_pk, tr: FAccountData):
@@ -192,69 +229,75 @@ def _insert_faccountminorcategory_data(conn, type_pk, tr: FAccountData):
     columns = ['FAccountMajorCategory.name', 'FAccountMinorCategory.name']
     df2 = tr.dataframe.drop_duplicates(subset=columns).sort_values(
         by=['FAccountMajorCategory.name', 'FAccountMinorCategory.name'])
+    df2.columns = ['major', 'minor', 'core', 'norm_name']
     # double check major category insertion
 
-    # 1. 중분류 record insert
-    df_minor = tr.dataframe['FAccountMinorCategory.name'].drop_duplicates()
-    for r in df_minor:
+    for idx, row in df2.iterrows():
         try:
+            # major_pk = _query_name_value(cur, 'FAccountMajorCategory', 'name', row['major'])
+            # if not major_pk:
+            #     raise Exception(f'Cannot find {row["major"]} in FAccountMajorCategory')
+            # _insert_faccountmajorcategory_record(cur, [r['major'], 'Auto-generated', type_pk])
             sql = '''
-                insert into FAccountMinorCategory values (?, ?, ?, ?)
+                insert into FAccountMinorCategory values (?, ?, ?)
             '''
-            cur.execute(sql, [None, r, 'Auto-Generated', None])
+            cur.execute(sql, [None, row['minor'], 'Auto-Generated'])
         except sqlite3.IntegrityError as e:
-            if 'UNIQUE' in e.args:
+            if 'UNIQUE' in str(e):
                 pass
-
-    # 2. 대분류 record insert
-
-    # 3. FAccountMajorMinorCategoryLink 레코드 삽입
+            else:
+                raise e
 
     for idx, row in df2.iterrows():
-        r = row.values.tolist()
-        pk_major = _query_name_value(cur, 'FAccountMajorCategory', 'name', r[0])
-        if not pk_major:
-            raise sqlite3.DataError('Error')
-        sql = '''
-            insert into FAccountMinorCategory values (?, ?, ?, ?)
-        '''
         try:
-            cur.execute(sql, [None, r[1], 'Auto-Generated', pk_major])
-        except sqlite3.IntegrityError as e:
-            if 'UNIQUE' in e.args:
-                pass
+            major_pk = _query_name_value(cur, 'FAccountMajorCategory', 'name', row['major'])
+            if not major_pk:
+                raise Exception(f'Cannot find {row["major"]} in FAccountMajorCategory')
+            minor_pk = _query_name_value(cur, 'FAccountMinorCategory', 'name', row['minor'])
+            if not minor_pk:
+                raise Exception(f'Cannot find {row["minor_pk"]} in FAccountMinorCategory')
 
-    # n = len(major_categories)
-    # df2 = pd.DataFrame(
-    #     data={'name': major_categories, 'note': ['Auto-generated'] * n, 'account_type_id': [type_pk] * n})
-    # for idx, row in df2.iterrows():
-    #     sql = '''
-    #         insert into FAccountMajorCategory values (?, ?, ?, ?)
-    #     '''
-    #     try:
-    #         cur.execute(sql, [None] + row.values.tolist())
-    #     except sqlite3.IntegrityError as e:
-    #         if 'UNIQUE' in e.args:
-    #             pass
+            r = cur.execute('''
+                select 1 from FAccountMajorMinorCategoryLink where
+                    major_category_id = ? and minor_category_id = ?
+            ''', (major_pk, minor_pk))
+            result = r.fetchone()
+            if result:
+                continue
+
+            sql = '''
+                insert into FAccountMajorMinorCategoryLink values (?, ?, ?)
+            '''
+            cur.execute(sql, [None, major_pk, minor_pk])
+        except sqlite3.IntegrityError as e:
+            if 'UNIQUE' in str(e):
+                pass
+            else:
+                raise e
 
     conn.commit()
 
 
+def _insert_faccountmajorcategory_record(cur, values: list):
+    sql = '''
+        insert into FAccountMajorCategory values (?, ?, ?, ?)
+    '''
+    try:
+        r = cur.execute(sql, [None] + values)
+        if r:
+            result = r.fetchone()
+    except sqlite3.IntegrityError as e:
+        if 'UNIQUE' in str(e):
+            pass
+    except sqlite3.InterfaceError as e2:
+        print(e2)
+
+
 def _insert_faccountmajorcategory_data(conn, type_pk, tr: FAccountData):
     cur = conn.cursor()
-    major_categories = tr.dataframe['FAccountMajorCategory.name'].unique()
-    n = len(major_categories)
-    df2 = pd.DataFrame(
-        data={'name': major_categories, 'note': ['Auto-generated'] * n, 'account_type_id': [type_pk] * n})
+    df2 = tr.dataframe[['FAccountMajorCategory.name', ]].drop_duplicates()
     for idx, row in df2.iterrows():
-        sql = '''
-            insert into FAccountMajorCategory values (?, ?, ?, ?)
-        '''
-        try:
-            cur.execute(sql, [None] + row.values.tolist())
-        except sqlite3.IntegrityError as e:
-            if 'UNIQUE' in e.args:
-                pass
+        _insert_faccountmajorcategory_record(cur, [row['FAccountMajorCategory.name'], 'Auto-generated', type_pk])
 
     conn.commit()
 
@@ -272,5 +315,7 @@ def import_faccount_data(trs: list):
             msg += 'python recreate-database.py\n'
         else:
             raise e
+    except sqlite3.InterfaceError as e:
+        print(e)
 
     conn.close()

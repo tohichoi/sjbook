@@ -1,3 +1,6 @@
+[database]
+engine='sqlite'
+
 [sqlite]
 file="/home/x/Workspace/sjbook/data/db/sjbook.db"
 
