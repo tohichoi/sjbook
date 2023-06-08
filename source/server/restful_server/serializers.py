@@ -33,24 +33,22 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Transaction
         fields = [
-            'pk',
-            'bank_name',
             'bank_alias',
-            'bank_account_name',
-            'bank_account_number',
             'faccount_category',
-            'datetime',
-            'user_note',
             'recipient',
+            'datetime',
             'withdraw',
             'saving',
             'balance',
-            'faccount_category',
             'bank_note',
+            'user_note',
+            'bank_name',
+            'bank_account_name',
+            'bank_account_number',
             'handler',
+            'url',
             'transaction_order',
             'pk',
-            'url',
             'transaction_id',
         ]
         # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
