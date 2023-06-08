@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Two Columns Between - Sidebar Combinations | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+</head>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl navbar-vertical-aside-closed-mode">
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+  
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@include("@@autopath/partials/sidebar/main-no-navbar-toggler.html", {
+    "category": "dashboards",
+    "subcategory": "",
+    "link": "index.html"
+  })
+  <!-- End Navbar Vertical -->
+
+  <main id="content" role="main" class="main splitted-content-main">
+    <!-- Fluid Content -->
+    <div class="splitted-content-fluid content-space">
+      <!-- Toggles -->
+      <div class="d-flex d-xl-none justify-content-end mt-3 me-3">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <!-- Offcanvas Toggle -->
+            <button class="navbar-toggler splitted-content-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#splittedOffcanvasContent" aria-controls="splittedOffcanvasContent">
+              <span class="navbar-toggler-default">
+                <i class="bi-list"></i>
+              </span>
+              <span class="navbar-toggler-toggled">
+                <i class="bi-x"></i>
+              </span>
+            </button>
+            <!-- End Offcanvas Toggle -->
+          </li>
+
+          <li class="list-inline-item">
+            <!-- Navbar Vertical Toggle -->
+            <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler position-static">
+              <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+              <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+            </button>
+            <!-- End Navbar Vertical Toggle -->
+          </li>
+        </ul>
+      </div>
+      <!-- End Toggles -->
+
+      <div class="mt-xl-10">
+        <!-- Title -->
+        <div class="text-center">
+          <img class="img-fluid mb-5" src="@@autopath/assets/svg/layouts/sidebar-combinations-two-cols.svg" alt="Image Description" data-hs-theme-appearance="default" style="max-width: 15rem;">
+          <img class="img-fluid shadow-sm mb-5" src="@@autopath/assets/svg/layouts-light/sidebar-combinations-two-cols.svg" alt="Image Description" data-hs-theme-appearance="dark" style="max-width: 15rem;">
+
+          <h1>Two Columns - Sidebar Combinations</h1>
+          <p>Customize your overview page layout. Choose the one that best fits your needs.</p>
+          <a class="btn btn-primary" href="@@autopath/layouts/index.html">Go back to Layouts</a>
+        </div>
+        <!-- End Title -->
+      </div>
+    </div>
+    <!-- End Fluid Content -->
+
+    <!-- Offcanvas Content -->
+    <div class="offcanvas offcanvas-start splitted-content-small splitted-content-bordered d-flex flex-column" tabindex="-1" id="splittedOffcanvasContent">
+      <div class="offcanvas-body">
+        <div class="d-flex justify-content-center flex-column align-items-center h-100 py-10 py-xl-0">
+          <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations/oc-megaphone.svg" alt="Image Description" data-hs-theme-appearance="default">
+          <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations-light/oc-megaphone.svg" alt="Image Description" data-hs-theme-appearance="dark">
+          <p class="card-text">No data to show</p>
+          <a class="btn btn-sm btn-white" href="@@autopath/index.html">Get Started</a>
+        </div>
+      </div>
+    </div>
+    <!-- End Offcanvas Content -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+      // =======================================================
+      new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+      // INITIALIZATION OF FORM SEARCH
+      // =======================================================
+      new HSFormSearch('.js-form-search')
+
+
+      // INITIALIZATION OF BOOTSTRAP DROPDOWN
+      // =======================================================
+      HSBsDropdown.init()
+
+
+      // INITIALIZATION OF SIDEBAR COMBINATIONS WITH OFFCANVAS
+      // =======================================================
+      const offcanvasInstance = new bootstrap.Offcanvas(document.querySelector('.offcanvas-start'))
+      const defaultTransition = window.getComputedStyle(offcanvasInstance._element).getPropertyValue('transition')
+      window.addEventListener('resize', function (e) {
+        if (window.innerWidth > 1200) {
+          if (offcanvasInstance._element.style.transition !== 'none 0s ease 0s' ) {
+            offcanvasInstance._element.style.transition = 'none'
+          }
+
+          // Reset offcanvas states
+          if (offcanvasInstance._isShown) {
+            offcanvasInstance._element.classList.remove('show')
+            offcanvasInstance._backdrop._element.remove()
+            offcanvasInstance._isShown = false
+            offcanvasInstance._backdrop._isAppended = false
+          }
+
+          // Show offcanvas if hidden on desktop
+          if (offcanvasInstance._element.style.visibility === 'hidden') {
+            offcanvasInstance._element.style.visibility = 'visible'
+          }
+        } else {
+          if (offcanvasInstance._element.style.transition === 'none 0s ease 0s' ) {
+            offcanvasInstance._element.style.removeProperty('transition')
+          }
+        }
+      })
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

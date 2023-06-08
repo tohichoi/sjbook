@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Default (Classic) | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+</head>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl">
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+  
+  <!-- ========== HEADER ========== -->
+  @@include("@@autopath/partials/navbar/main.html", {
+    "category": "dashboards",
+    "subcategory": "",
+    "link": "index.html"
+  })
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main" class="main">
+    <!-- Navbar Vertical -->
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "dashboards",
+      "subcategory": "",
+      "link": "index.html"
+    })
+    <!-- End Navbar Vertical -->
+
+    <!-- Content -->
+    <div class="content container">
+      <div class="row justify-content-lg-center pt-lg-5 pt-xl-10">
+        <div class="col-lg-9">
+          <!-- Title -->
+          <div class="text-center">
+            <img class="img-fluid mb-5" src="@@autopath/assets/svg/layouts/demo-layouts-default-classic.svg" alt="Image Description" data-hs-theme-appearance="default" style="max-width: 15rem;">
+            <img class="img-fluid mb-5" src="@@autopath/assets/svg/layouts-light/demo-layouts-default-classic.svg" alt="Image Description" data-hs-theme-appearance="dark" style="max-width: 15rem;">
+
+            <h1>Default (Classic)</h1>
+            <p>Customize your overview page layout. Choose the one that best fits your needs.</p>
+            <a class="btn btn-primary" href="@@autopath/layouts/index.html">Go back to Layouts</a>
+          </div>
+          <!-- End Title -->
+        </div>
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@include("@@autopath/partials/footer/main.html")
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+      // =======================================================
+      new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+      // INITIALIZATION OF BOOTSTRAP DROPDOWN
+      // =======================================================
+      HSBsDropdown.init()
+
+
+      // INITIALIZATION OF FORM SEARCH
+      // =======================================================
+      new HSFormSearch('.js-form-search')
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

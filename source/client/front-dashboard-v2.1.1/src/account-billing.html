@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Billing | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+  <link rel="stylesheet" href="@@autopath/node_modules/tom-select/dist/css/tom-select.bootstrap5.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "account",
+      "subcategory": "",
+      "link": "account-billing.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "account",
+      "subcategory": "",
+      "link": "account-billing.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end">
+          <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Account</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Billing</li>
+              </ol>
+            </nav>
+
+            <h1 class="page-header-title">Billing</h1>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-auto">
+            <a class="btn btn-primary" href="@@autopath/user-profile-my-profile.html">
+              <i class="bi-person me-1"></i> My profile
+            </a>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+      <!-- End Page Header -->
+
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-9">
+          <div class="d-grid gap-3 gap-lg-5">
+            <!-- Card -->
+            <div class="card">
+              <!-- Header -->
+              <div class="card-header card-header-content-between border-bottom">
+                <h4 class="card-header-title">Overview</h4>
+
+                <a class="btn btn-ghost-secondary btn-sm" href="#">
+                  <i class="bi-file-earmark-arrow-down me-1"></i> Download .CSV
+                </a>
+              </div>
+              <!-- End Header -->
+
+              <!-- Body -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md mb-4 mb-md-0">
+                    <div class="mb-4">
+                      <span class="card-subtitle">Your plan (billed yearly):</span>
+                      <h3>Starter - April 2020</h3>
+                    </div>
+
+                    <div>
+                      <span class="card-subtitle">Total per year</span>
+                      <h1 class="text-primary">$264 USD</h1>
+                    </div>
+                  </div>
+                  <!-- End Col -->
+
+                  <div class="col-md-auto">
+                    <div class="d-grid d-sm-flex gap-3">
+                      <a class="btn btn-white" href="#">Cancel subscription</a>
+                      <button type="button" class="btn btn-primary w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#accountUpdatePlanModal">Update plan</button>
+                    </div>
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+              </div>
+              <!-- End Body -->
+
+              <hr class="my-3">
+
+              <!-- Body -->
+              <div class="card-body">
+                <div class="row align-items-center flex-grow-1 mb-2">
+                  <div class="col">
+                    <h4 class="card-header-title">Storage usage</h4>
+                  </div>
+                  <!-- End Col -->
+
+                  <div class="col-auto">
+                    <span class="text-dark fw-semibold">4.27 GB</span> used of 6 GB
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+
+                <!-- Progress -->
+                <div class="progress rounded-pill mb-3">
+                  <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="progress-bar" role="progressbar" style="width: 25%; opacity: .6" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!-- End Progress -->
+
+                <!-- Legend Indicators -->
+                <ul class="list-inline list-px-2">
+                  <li class="list-inline-item">
+                    <span class="legend-indicator bg-primary"></span> Personal usage space
+                  </li>
+                  <li class="list-inline-item">
+                    <span class="legend-indicator bg-primary opacity"></span> Shared space
+                  </li>
+                  <li class="list-inline-item">
+                    <span class="legend-indicator"></span> Unused space
+                  </li>
+                </ul>
+                <!-- End Legend Indicators -->
+              </div>
+              <!-- End Body -->
+            </div>
+            <!-- End Card -->
+
+            <!-- Card -->
+            <div class="card">
+              <!-- Header -->
+              <div class="card-header border-bottom">
+                <h4 class="card-header-title">My address</h4>
+              </div>
+              <!-- End Header -->
+
+              <!-- Body -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6 mb-5 mb-sm-7">
+                    <!-- Radio Check -->
+                    <div class="form-check form-check-inline w-100 h-100">
+                      <input type="radio" id="billingRadio1" name="billingRadio" class="form-check-input" checked>
+                      <label class="form-check-label" for="billingRadio1">
+                        <span class="h5 d-block">Billing address #1</span>
+
+                        <span class="d-block mb-2">
+                          45 Roker Terrace<br>
+                          Latheronwheel<br>
+                          KW5 8NW, London<br>
+                          UK <img class="avatar avatar-xss avatar-circle me-1" src="@@autopath/node_modules/flag-icon-css/flags/1x1/gb.svg" alt="Great Britain Flag">
+                        </span>
+
+                        <a class="btn btn-white btn-sm" href="@@autopath/account-settings.html#accountType">
+                          <i class="bi-pencil-fill me-1"></i> Edit address
+                        </a>
+                      </label>
+                    </div>
+                    <!-- End Radio Check -->
+                  </div>
+                  <!-- End Col -->
+
+                  <div class="col-sm-6 mb-5 mb-sm-7">
+                    <!-- Radio Check -->
+                    <div class="form-check form-check-inline w-100 h-100">
+                      <input type="radio" id="billingRadio2" name="billingRadio" class="form-check-input">
+                      <label class="form-check-label" for="billingRadio2">
+                        <span class="h5 d-block">Billing address #2</span>
+
+                        <span class="d-block mb-2">
+                          27 Thornton St<br>
+                          Hundleby<br>
+                          PE23 0ZJ, Manchester<br>
+                          UK <img class="avatar avatar-xss avatar-circle me-1" src="@@autopath/node_modules/flag-icon-css/flags/1x1/gb.svg" alt="Great Britain Flag">
+                        </span>
+
+                        <a class="btn btn-white btn-sm" href="@@autopath/account-settings.html#accountType">
+                          <i class="bi-pencil-fill me-1"></i> Edit address
+                        </a>
+                      </label>
+                    </div>
+                    <!-- End Radio Check -->
+                  </div>
+                  <!-- End Col -->
+
+                  <div class="col-sm-6 mb-5 mb-sm-7">
+                    <!-- Card -->
+                    <a class="card card-dashed card-centered" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountAddAddressModal">
+                      <div class="card-body card-dashed-body py-8">
+                        <img class="avatar avatar-lg avatar-4x3 mb-2" src="@@autopath/assets/svg/illustrations/oc-address.svg" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="avatar avatar-lg avatar-4x3 mb-2" src="@@autopath/assets/svg/illustrations-light/oc-address.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                        <span><i class="bi-plus"></i> Add a new address</span>
+                      </div>
+                    </a>
+                    <!-- End Card -->
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+
+                <div class="mb-4">
+                  <h4>Tax location</h4>
+                  <p class="mb-0">UK - 20.00% SST</p>
+                  <a class="link" href="#">More info</a>
+                </div>
+
+                <p class="mb-0">Your text location determines the taxes that are applied to your bill.</p>
+                <a class="link" href="#">How do I correct my tax location?</a>
+              </div>
+              <!-- End Body -->
+            </div>
+            <!-- End Card -->
+
+            <!-- Card -->
+            <div class="card">
+              <div class="card-header border-bottom">
+                <h4 class="card-header-title">Payment method</h4>
+              </div>
+
+              <!-- Body -->
+              <div class="card-body">
+                <div class="mb-4">
+                  <p>Cards will be charged either at the end of the month or whenever your balance exceeds the usage threshold. All major credit / debit cards accepted.</p>
+                </div>
+
+                <!-- List Group -->
+                <ul class="list-group mb-5">
+                  <!-- Item -->
+                  <li class="list-group-item">
+                    <div class="mb-2">
+                      <h5>Maria Williams <span class="badge bg-primary ms-1">Primary</span></h5>
+                    </div>
+
+                    <!-- Media -->
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <img class="avatar avatar-sm" src="@@autopath/assets/svg/brands/mastercard.svg" alt="Image Description">
+                      </div>
+
+                      <div class="flex-grow-1 ms-3">
+                        <div class="row">
+                          <div class="col-sm mb-3 mb-sm-0">
+                            <span class="d-block text-dark">MasterCard &bull;&bull;&bull;&bull; 4242</span>
+                            <small class="d-block text-muted">Checking - Expires 12/22</small>
+                          </div>
+                          <!-- End Col -->
+
+                          <div class="col-sm-auto">
+                            <div class="d-flex gap-3">
+                              <a class="btn btn-white btn-sm" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountEditCardModal">
+                                <i class="bi-pencil-fill me-1"></i> Edit
+                              </a>
+                              <button type="button" class="btn btn-white btn-sm">
+                                <i class="bi-trash me-1"></i> Delete
+                              </button>
+                            </div>
+                          </div>
+                          <!-- End Col -->
+                        </div>
+                        <!-- End Row -->
+                      </div>
+                    </div>
+                    <!-- End Media -->
+                  </li>
+                  <!-- End Item -->
+
+                  <!-- Item -->
+                  <li class="list-group-item">
+                    <div class="mb-2">
+                      <h5>Maria Williams <span class="text-danger small ms-1">Expired</span></h5>
+                    </div>
+
+                    <!-- Media -->
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <img class="avatar avatar-sm" src="@@autopath/assets/svg/brands/visa.svg" alt="Image Description">
+                      </div>
+
+                      <div class="flex-grow-1 ms-3">
+                        <div class="row">
+                          <div class="col-sm mb-3 mb-sm-0">
+                            <span class="d-block text-dark">Visa &bull;&bull;&bull;&bull; 9016</span>
+                            <small class="d-block text-muted">Debit - Expires 04/20</small>
+                          </div>
+                          <!-- End Col -->
+
+                          <div class="col-sm-auto">
+                            <div class="d-flex gap-3">
+                              <a class="btn btn-white btn-sm" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountEditCardModal">
+                                <i class="bi-pencil-fill me-1"></i> Edit
+                              </a>
+                              <button type="button" class="btn btn-white btn-sm">
+                                <i class="bi-trash me-1"></i> Delete
+                              </button>
+                            </div>
+                          </div>
+                          <!-- End Col -->
+                        </div>
+                        <!-- End Row -->
+                      </div>
+                    </div>
+                    <!-- End Media -->
+                  </li>
+                  <!-- End Item -->
+                </ul>
+                <!-- End List Group -->
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <!-- Card -->
+                    <a class="card card-dashed card-centered" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountAddCardModal">
+                      <div class="card-body card-dashed-body py-8">
+                        <img class="avatar avatar-lg avatar-4x3 mb-2" src="@@autopath/assets/svg/illustrations/oc-add-card.svg" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="avatar avatar-lg avatar-4x3 mb-2" src="@@autopath/assets/svg/illustrations-light/oc-add-card.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                        <span><i class="bi-plus"></i> Add a new card</span>
+                      </div>
+                    </a>
+                    <!-- End Card -->
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+              </div>
+              <!-- End Body -->
+            </div>
+            <!-- End Card -->
+
+            <!-- Card -->
+            <div class="card">
+              <!-- Header -->
+              <div class="card-header">
+                <h4 class="card-header-title">Order history</h4>
+              </div>
+              <!-- End Header -->
+
+              <!-- Table -->
+              <div class="table-responsive position-relative">
+                <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Reference</th>
+                      <th>Status</th>
+                      <th>Amount</th>
+                      <th>Updated</th>
+                      <th>Invoice</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td><a href="#">#3682303</a></td>
+                      <td><span class="badge bg-soft-warning text-warning">Pending</span></td>
+                      <td>$264</td>
+                      <td>22/04/2020</td>
+                      <td><a class="btn btn-white btn-sm" href="#"><i class="bi-file-earmark-arrow-down-fill me-1"></i> PDF</a></td>
+                      <td>
+                        <a class="btn btn-white btn-sm" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountInvoiceReceiptModal"><i class="bi-eye-fill me-1"></i> Quick view</a>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><a href="#">#2333234</a></td>
+                      <td><span class="badge bg-soft-success text-success">Successful</span></td>
+                      <td>$264</td>
+                      <td>22/04/2019</td>
+                      <td><a class="btn btn-white btn-sm" href="#"><i class="bi-file-earmark-arrow-down-fill me-1"></i> PDF</a></td>
+                      <td><a class="btn btn-white btn-sm" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountInvoiceReceiptModal"><i class="bi-eye-fill me-1"></i> Quick view</a></td>
+                    </tr>
+
+                    <tr>
+                      <td><a href="#">#9834283</a></td>
+                      <td><span class="badge bg-soft-success text-success">Successful</span></td>
+                      <td>$264</td>
+                      <td>22/04/2018</td>
+                      <td><a class="btn btn-white btn-sm" href="#"><i class="bi-file-earmark-arrow-down-fill me-1"></i> PDF</a></td>
+                      <td><a class="btn btn-white btn-sm" href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountInvoiceReceiptModal"><i class="bi-eye-fill me-1"></i> Quick view</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Table -->
+            </div>
+            <!-- End Card -->
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+
+  <!-- Update Plan Modal -->
+  @@include("@@autopath/partials/modals/account-update-plan.html")
+  <!-- End Update Plan Modal -->
+
+  <!-- Edit Card Modal -->
+  @@include("@@autopath/partials/modals/account-edit-card.html")
+
+  <!-- Add Card Modal -->
+  @@include("@@autopath/partials/modals/account-add-card.html")
+
+  <!-- Add Address Modal -->
+  @@include("@@autopath/partials/modals/account-add-address.html")
+
+  <!-- Receipt Invoice Modal -->
+  @@include("@@autopath/partials/modals/account-receipt-invoice.html")
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/node_modules/imask/dist/imask.min.js"></script>
+  <script src="@@autopath/node_modules/tom-select/dist/js/tom-select.complete.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-toggle-switch/dist/hs-toggle-switch.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+  <script src="@@autopath/assets/js/hs.imask.js"></script>
+  <script src="@@autopath/assets/js/hs.tom-select.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select')
+
+
+        // INITIALIZATION OF INPUT MASK
+        // =======================================================
+        HSCore.components.HSMask.init('.js-input-mask')
+
+
+        // INITIALIZATION OF TOGGLE SWITCH
+        // =======================================================
+        new HSToggleSwitch('.js-toggle-switch')
+
+        document.querySelectorAll('[name="billingPricingRadio"]').forEach(item => {
+          if (item.checked) {
+            item.closest('.form-check-select-stretched').classList.add('checked')
+          }
+
+          item.addEventListener('change', function (e) {
+            $checked = document.querySelector('.form-check-select-stretched.checked')
+            if ($checked) {
+              $checked.classList.remove('checked')
+            }
+
+            item.closest('.form-check-select-stretched').classList.add('checked')
+          })
+        })
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Timeline | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "projects",
+      "subcategory": "",
+      "link": "projects-timeline.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "project",
+      "subcategory": "",
+      "link": "project-timeline.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end">
+          <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Projects</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Timeline</li>
+              </ol>
+            </nav>
+
+            <h1 class="page-header-title">Timeline</h1>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+
+        <!-- Nav -->
+        <ul class="nav nav-tabs page-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="@@autopath/projects.html">
+              Projects <span class="badge bg-soft-dark text-dark rounded-pill ms-1">24</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="@@autopath/projects-timeline.html">
+              Timeline
+            </a>
+          </li>
+        </ul>
+        <!-- End Nav -->
+      </div>
+      <!-- End Page Header -->
+
+      <!-- Info -->
+      <div class="text-center">
+        <div class="h1">
+          <span class="badge bg-primary rounded-pill text-uppercase">
+            <i class="bi-patch-check-fill me-1"></i> Pro
+          </span>
+        </div>
+
+        <div class="mb-4">
+          <h2>Plan and manage projects with Timeline</h2>
+        </div>
+
+        <div class="w-lg-75 mx-lg-auto mb-5">
+          <img class="img-fluid" src="@@autopath/assets/svg/illustrations/project-schedule.svg" alt="Image Description">
+        </div>
+
+        <p>Create a visual project plan that helps you stay on schedule—so you hit your deadlines. <a class="link" href="#">Learn More <i class="bi-chevron-right"></i></a></p>
+
+        <a class="btn btn-primary" href="#">Upgrade to premium</a>
+      </div>
+      <!-- End Info -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

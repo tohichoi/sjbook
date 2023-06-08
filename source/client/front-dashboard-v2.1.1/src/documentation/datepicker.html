@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Datepicker - Documentation | Front - Multipurpose Responsive Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="@@autopath/node_modules/flatpickr/dist/flatpickr.min.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+  <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  <link rel="stylesheet" href="@@autopath/assets/css/docs@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+  <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+  <link rel="preload" href="@@autopath/assets/css/docs.css" data-hs-appearance="default" as="style">
+  <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+  <link rel="preload" href="@@autopath/assets/css/docs-dark.css" data-hs-appearance="dark" as="style">
+
+  <style data-hs-appearance-onload-styles>
+      * {
+          transition: unset !important;
+      }
+
+      body {
+          opacity: 0;
+      }
+  </style>
+  }
+</head>
+
+<body class="navbar-sidebar-aside-lg">
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+  <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@include("@@autopath/partials/docs/docs-navbar.html")
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- Navbar -->
+    @@include("@@autopath/partials/docs/docs-sidebar.html", {
+      "link": "datepicker.html"
+    })
+    <!-- End Navbar -->
+
+    <!-- Content -->
+    <div class="navbar-sidebar-aside-content content-space-1 content-space-md-2 px-lg-5 px-xl-10">
+      <!-- Page Header -->
+      <div class="docs-page-header">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <h1 class="docs-page-header-title">Datepicker (Flatpickr)</h1>
+            <p class="docs-page-header-text">Flatpickr is a lightweight and powerful datetime picker.</p>
+            <a class="link" href="https://flatpickr.js.org/" target="_blank">Flatpickr documentation <i class="bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- End Page Header -->
+
+      <!-- Heading -->
+      <h2 id="how-to-use" class="hs-docs-heading">
+        How to use <a class="anchorjs-link" href="#how-to-use" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Copy-paste the stylesheet <code>&lt;link&gt;</code> into your <code>&lt;head&gt;</code> to load the CSS.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;link rel="stylesheet" href="@@autopath/node_modules/flatpickr/dist/flatpickr.min.css"&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the following <code>&lt;script&gt;</code> near the end of your pages under <em><u>JS Implementing Plugins</u></em> to enable it.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;script src="@@autopath/node_modules/flatpickr/dist/flatpickr.min.js"&gt;&lt;/script&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the following <code>&lt;script&gt;</code> near the end of your pages under <em><u>JS Implementing Plugins</u></em> to enable it.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;script src="./assets/js/hs.flatpickr.js"&gt;&lt;/script&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the init function under <em><u>JS Plugins Init.</u></em>, before the closing <code>&lt;/body&gt;</code> tag, to enable it.</p>
+
+      <pre class="rounded">
+        <code class="language-html" data-lang="html">
+          &lt;script&gt;
+            (function() {
+              // INITIALIZATION OF FLATPICKR
+              // =======================================================
+              HSCore.components.HSFlatpickr.init('.js-flatpickr')
+            })();
+          &lt;/script&gt;
+        </code>
+      </pre>
+
+      <!-- Heading -->
+      <h2 id="custom-file-input" class="hs-docs-heading">
+        Custom file input <a class="anchorjs-link" href="#custom-file-input" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab1" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab1" data-bs-toggle="pill" href="#nav-result1" role="tab" aria-controls="nav-result1" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab1" data-bs-toggle="pill" href="#nav-html1" role="tab" aria-controls="nav-html1" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent1">
+          <div class="tab-pane fade p-4 show active" id="nav-result1" role="tabpanel" aria-labelledby="nav-resultTab1">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y"
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html1" role="tabpanel" aria-labelledby="nav-htmlTab1">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y"
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="date-time" class="hs-docs-heading">
+        DateTime <a class="anchorjs-link" href="#date-time" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab9" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab9" data-bs-toggle="pill" href="#nav-result9" role="tab" aria-controls="nav-result9" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab9" data-bs-toggle="pill" href="#nav-html9" role="tab" aria-controls="nav-html9" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent9">
+          <div class="tab-pane fade p-4 show active" id="nav-result9" role="tabpanel" aria-labelledby="nav-resultTab9">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y",
+                       "enableTime": true
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html9" role="tabpanel" aria-labelledby="nav-htmlTab9">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y",
+                         "enableTime": true
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="with-value" class="hs-docs-heading">
+        With value <a class="anchorjs-link" href="#with-value" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Use <code>value</code> attribute.</p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab2" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab2" data-bs-toggle="pill" href="#nav-result2" role="tab" aria-controls="nav-result2" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab2" data-bs-toggle="pill" href="#nav-html2" role="tab" aria-controls="nav-html2" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent2">
+          <div class="tab-pane fade p-4 show active" id="nav-result2" role="tabpanel" aria-labelledby="nav-resultTab2">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates" value="21/06/2019"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y"
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html2" role="tabpanel" aria-labelledby="nav-htmlTab2">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates" value="21/06/2019"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y"
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="external-elements" class="hs-docs-heading">
+        External elements <a class="anchorjs-link" href="#external-elements" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab3" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab3" data-bs-toggle="pill" href="#nav-result3" role="tab" aria-controls="nav-result3" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab3" data-bs-toggle="pill" href="#nav-html3" role="tab" aria-controls="nav-html3" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent3">
+          <div class="tab-pane fade p-4 show active" id="nav-result3" role="tabpanel" aria-labelledby="nav-resultTab3">
+            <div class="w-md-50">
+              <!-- Form Group -->
+              <div class="form-group">
+                <label for="projectDeadlineFlatpickrNewProjectLabel" class="input-label">Due date</label>
+
+                <div id="projectDeadlineNewProjectFlatpickr" class="js-flatpickr flatpickr-custom input-group"
+                     data-hs-flatpickr-options='{
+                      "appendTo": "#projectDeadlineNewProjectFlatpickr",
+                      "dateFormat": "d/m/Y",
+                      "wrap": true
+                    }'>
+                  <div class="input-group-prepend input-group-text" data-bs-toggle>
+                    <i class="bi-calendar-week"></i>
+                  </div>
+
+                  <input type="text" class="flatpickr-custom-form-control form-control" id="projectDeadlineFlatpickrNewProjectLabel" placeholder="Select dates" data-input value="29/06/2020">
+                </div>
+              </div>
+              <!-- End Form Group -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html3" role="tabpanel" aria-labelledby="nav-htmlTab3">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Form Group --&gt;
+                &lt;div class="form-group"&gt;
+                  &lt;label for="projectDeadlineFlatpickrNewProjectLabel" class="input-label"&gt;Due date&lt;/label&gt;
+
+                  &lt;div id="projectDeadlineNewProjectFlatpickr" class="js-flatpickr flatpickr-custom input-group"
+                       data-hs-flatpickr-options='{
+                        "appendTo": "#projectDeadlineNewProjectFlatpickr",
+                        "dateFormat": "d/m/Y",
+                        "wrap": true
+                      }'&gt;
+                    &lt;div class="input-group-prepend input-group-text" data-bs-toggle&gt;
+                      &lt;i class="bi-calendar-week"&gt;&lt;/i&gt;
+                    &lt;/div&gt;
+
+                    &lt;input type="text" class="flatpickr-custom-form-control form-control" id="projectDeadlineFlatpickrNewProjectLabel" placeholder="Select dates" data-input value="29/06/2020"&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Form Group --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="range-dates" class="hs-docs-heading">
+        Range dates <a class="anchorjs-link" href="#range-dates" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Use <code>range</code> dates.</p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab4" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab4" data-bs-toggle="pill" href="#nav-result4" role="tab" aria-controls="nav-result4" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab4" data-bs-toggle="pill" href="#nav-html4" role="tab" aria-controls="nav-html4" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent4">
+          <div class="tab-pane fade p-4 show active" id="nav-result4" role="tabpanel" aria-labelledby="nav-resultTab4">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y",
+                       "mode": "range"
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html4" role="tabpanel" aria-labelledby="nav-htmlTab4">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y",
+                         "mode": "range"
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="multiple-dates" class="hs-docs-heading">
+        Multiple dates <a class="anchorjs-link" href="#multiple-dates" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Use <code>multiple</code> mode.</p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab5" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab5" data-bs-toggle="pill" href="#nav-result5" role="tab" aria-controls="nav-result5" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab5" data-bs-toggle="pill" href="#nav-html5" role="tab" aria-controls="nav-html5" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent5">
+          <div class="tab-pane fade p-4 show active" id="nav-result5" role="tabpanel" aria-labelledby="nav-resultTab5">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y",
+                       "mode": "multiple"
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html5" role="tabpanel" aria-labelledby="nav-htmlTab5">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y",
+                         "mode": "multiple"
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="plain-text" class="hs-docs-heading">
+        Plain Text <a class="anchorjs-link" href="#plain-text" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Use <code>"inline": true</code></p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab6" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab6" data-bs-toggle="pill" href="#nav-result6" role="tab" aria-controls="nav-result6" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab6" data-bs-toggle="pill" href="#nav-html6" role="tab" aria-controls="nav-html6" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent6">
+          <div class="tab-pane fade p-4 show active" id="nav-result6" role="tabpanel" aria-labelledby="nav-resultTab6">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" class="js-flatpickr d-none" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y",
+                       "inline": true
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html6" role="tabpanel" aria-labelledby="nav-htmlTab6">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" class="js-flatpickr d-none" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y",
+                         "inline": true
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="disabling-dates" class="hs-docs-heading">
+        Disabling dates <a class="anchorjs-link" href="#disabling-dates" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Your can write custom javascript function.</p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab7" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab7" data-bs-toggle="pill" href="#nav-result7" role="tab" aria-controls="nav-result7" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab7" data-bs-toggle="pill" href="#nav-html7" role="tab" aria-controls="nav-html7" aria-selected="false">HTML</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-jsTab7" data-bs-toggle="pill" href="#nav-js7" role="tab" aria-controls="nav-js7" aria-selected="false">JS</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent7">
+          <div class="tab-pane fade p-4 show active" id="nav-result7" role="tabpanel" aria-labelledby="nav-resultTab7">
+            <div class="w-md-50">
+              <!-- Flatpickr -->
+              <input type="text" id="js-flatpickr-disabling-dates" class="form-control flatpickr-custom" placeholder="Select dates"
+                     data-hs-flatpickr-options='{
+                       "dateFormat": "d/m/Y"
+                     }'>
+              <!-- End Flatpickr -->
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-html7" role="tabpanel" aria-labelledby="nav-htmlTab7">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Flatpickr --&gt;
+                &lt;input type="text" id="js-flatpickr-disabling-dates" class="form-control flatpickr-custom" placeholder="Select dates"
+                       data-hs-flatpickr-options='{
+                         "dateFormat": "d/m/Y"
+                       }'&gt;
+                &lt;!-- End Flatpickr --&gt;
+              </code>
+            </pre>
+          </div>
+
+          <div class="tab-pane fade" id="nav-js7" role="tabpanel" aria-labelledby="nav-jsTab7">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;script&gt;
+                  HSCore.components.HSFlatpickr.init('#js-flatpickr-disabling-dates', {
+                    disable: [
+                      function (date) {
+                        // return true to disable
+                        return (date.getDay() === 0 || date.getDay() === 6);
+                      }
+                    ]
+                  })
+                &lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="modal-example" class="hs-docs-heading">
+        Modal example <a class="anchorjs-link" href="#modal-example" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Your can write custom javascript function.</p>
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab8" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab8" data-bs-toggle="pill" href="#nav-result8" role="tab" aria-controls="nav-result8" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab8" data-bs-toggle="pill" href="#nav-html8" role="tab" aria-controls="nav-html8" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent8">
+          <div class="tab-pane fade p-4 show active" id="nav-result8" role="tabpanel" aria-labelledby="nav-resultTab8">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Open modal
+            </button>
+            <!-- End Button trigger modal -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Flatpickr</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- Flatpickr -->
+                    <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                           data-hs-flatpickr-options='{
+                             "dateFormat": "d/m/Y"
+                           }'>
+                    <!-- End Flatpickr -->
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html8" role="tabpanel" aria-labelledby="nav-htmlTab8">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Button trigger modal --&gt;
+                &lt;button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"&gt;
+                  Open modal
+                &lt;/button&gt;
+                &lt;!-- End Button trigger modal --&gt;
+
+                &lt;!-- Modal --&gt;
+                &lt;div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"&gt;
+                  &lt;div class="modal-dialog"&gt;
+                    &lt;div class="modal-content"&gt;
+                      &lt;div class="modal-header"&gt;
+                        &lt;h5 class="modal-title" id="exampleModalLabel"&gt;Flatpickr&lt;/h5&gt;
+                        &lt;button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"&gt;&lt;/button&gt;
+                      &lt;/div&gt;
+                      &lt;div class="modal-body"&gt;
+                        &lt;!-- Flatpickr --&gt;
+                        &lt;input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                               data-hs-flatpickr-options='{
+                                 "dateFormat": "d/m/Y"
+                               }'&gt;
+                        &lt;!-- End Flatpickr --&gt;
+                      &lt;/div&gt;
+                      &lt;div class="modal-footer"&gt;
+                        &lt;button type="button" class="btn btn-secondary" data-bs-dismiss="modal"&gt;Close&lt;/button&gt;
+                        &lt;button type="button" class="btn btn-primary"&gt;Save changes&lt;/button&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Modal --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="methods" class="hs-docs-heading">
+        Methods <a class="anchorjs-link" href="#methods" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-thead-bordered card-table">
+            <thead class="thead-light">
+              <tr>
+                <th>Parameters</th>
+                <th style="width: 50%;">Description</th>
+                <th class="text-nowrap">Default value</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td><code>mode</code></td>
+                <td>Mode of flatpickr.</td>
+                <td><code>single</code></td>
+              </tr>
+
+              <tr>
+                <td><code>dateFormat</code></td>
+                <td>Date format.</td>
+                <td><code>d M Y</code></td>
+              </tr>
+
+              <tr>
+                <td><code>maxDate</code></td>
+                <td>The maximum date that a user can pick to (inclusive).</td>
+                <td><code>false</code></td>
+              </tr>
+
+              <tr>
+                <td><code>locale.firstDayOfWeek</code></td>
+                <td>Day number.</td>
+                <td><code>1</code></td>
+              </tr>
+
+              <tr>
+                <td><code>locale.weekdays.shorthand</code></td>
+                <td>Short day names.</td>
+                <td><code>["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]</code></td>
+              </tr>
+
+              <tr>
+                <td><code>locale.weekdays.longhand: [],</code></td>
+                <td>Longhand names.</td>
+                <td><code>[]</code></td>
+              </tr>
+
+              <tr>
+                <td><code>locale.rangeSeparator</code></td>
+                <td>Range separator in the field.</td>
+                <td><code>-</code></td>
+              </tr>
+
+              <tr>
+                <td><code>nextArrow</code></td>
+                <td>Next arrow template.</td>
+                <td><code>&lt;i class="tio-chevron-right flatpickr-custom-arrow">&lt;/i></code></td>
+              </tr>
+
+              <tr>
+                <td><code>prevArrow</code></td>
+                <td>Previous arrow template.</td>
+                <td><code>&lt;i class="tio-chevron-left flatpickr-custom-arrow">&lt;/i></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- End Table -->
+      </div>
+      <!-- End Card -->
+    </div>
+    <!-- End Content -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Go To -->
+  @@include("@@autopath/partials/layouts-components/go-to.html")
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-header/dist/hs-header.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/node_modules/list.js/dist/list.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
+  <script src="@@autopath/assets/vendor/prism/prism.js"></script>
+  <script src="@@autopath/node_modules/flatpickr/dist/flatpickr.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.list.js"></script>
+  <script src="@@autopath/assets/js/hs.flatpickr.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF HEADER
+      // =======================================================
+      new HSHeader('#header').init()
+
+
+      // INITIALIZATION OF NAV SCROLLER
+      // =======================================================
+      new HsNavScroller('.js-nav-scroller', {
+        delay: 400,
+        offset: 140
+      })
+
+
+      // INITIALIZATION OF LISTJS COMPONENT
+      // =======================================================
+      HSCore.components.HSList.init('#docsSearch');
+      const docsSearch = HSCore.components.HSList.getItem('docsSearch');
+
+
+      // GET JSON FILE RESULTS
+      // =======================================================
+      fetch('@@autopath/assets/json/docs-search.json')
+      .then(response => response.json())
+      .then(data => {
+        docsSearch.add(data)
+      })
+
+
+      // INITIALIZATION OF GO TO
+      // =======================================================
+      new HSGoTo('.js-go-to')
+
+
+      // INITIALIZATION OF FLATPICKR
+      // =======================================================
+      HSCore.components.HSFlatpickr.init('.js-flatpickr')
+
+			HSCore.components.HSFlatpickr.init('#js-flatpickr-disabling-dates', {
+				disable: [
+					function (date) {
+						// return true to disable
+						return (date.getDay() === 0 || date.getDay() === 6);
+					}
+				]
+			})
+    })()
+  </script>
+</body>
+</html>

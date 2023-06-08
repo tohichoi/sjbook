@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Files | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "project",
+      "subcategory": "",
+      "link": "project-files.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "project",
+      "subcategory": "",
+      "link": "project-activity.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end mb-3">
+          <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Project</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Files</li>
+              </ol>
+            </nav>
+
+            <h1 class="page-header-title">Files</h1>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-auto" aria-label="Button group">
+            <!-- Button Group -->
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadFilesModal">
+                <i class="bi-cloud-arrow-up-fill me-1"></i> Upload
+              </button>
+
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" id="uploadGroupDropdown" data-bs-toggle="dropdown" aria-expanded="false"></button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="uploadGroupDropdown">
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> New folder
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-symlink dropdown-item-icon"></i> New shared folder
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#uploadFilesModal">
+                    <i class="bi-file-earmark-arrow-up dropdown-item-icon"></i> Upload files
+                  </a>
+                  <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#uploadFilesModal">
+                    <i class="bi-upload dropdown-item-icon"></i> Upload folder
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- End Button Group -->
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+
+        <!-- Nav -->
+        @@include("@@autopath/partials/layouts-components/nav-menu-project.html", {
+          "link": "project-files.html"
+        })
+        <!-- End Nav -->
+      </div>
+      <!-- End Page Header -->
+
+      <!-- List Group -->
+      <ul class="list-group">
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-docs-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">WordPress contract terms</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 50 min ago</li>
+                <li class="list-inline-item">25kb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown1" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/pdf-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Dashboard layout flow</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 1 hour ago</li>
+                <li class="list-inline-item">1mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown2" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-slides-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">WordPress theme presentation</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 5 hours ago</li>
+                <li class="list-inline-item">3mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown3" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown3" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-docs-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Untitled</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 5 hours ago</li>
+                <li class="list-inline-item">1mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown4" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown4" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-sheets-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Hot startup 2019 - Report</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 3 weeks ago</li>
+                <li class="list-inline-item">3mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown5" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown5" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-docs-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Marketing strategy</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 2 weeks ago</li>
+                <li class="list-inline-item">2mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown6" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown6" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/components/placeholder-img-format.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Past-experience.jpg</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 1 month ago</li>
+                <li class="list-inline-item">15mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown7" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown7" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/components/placeholder-img-format.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Front_2018.jpg</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 1 month ago</li>
+                <li class="list-inline-item">9mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown8" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown8" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/pdf-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Business opportunities</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 2 months ago</li>
+                <li class="list-inline-item">4mb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown9" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown9" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-sheets-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Untitled</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 3 months ago</li>
+                <li class="list-inline-item">3kb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown10" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown10" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/components/placeholder-img-format.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">front-2.9.x.jpg</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 2 months ago</li>
+                <li class="list-inline-item">73kb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown11" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown11" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-docs-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">Untitled</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 4 months ago</li>
+                <li class="list-inline-item">25kb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown12" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown12" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+
+        <!-- Item -->
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img class="avatar avatar-xs avatar-4x3" src="@@autopath/assets/svg/brands/google-slides-icon.svg" alt="Image Description">
+            </div>
+
+            <div class="col">
+              <h5 class="mb-0">
+                <a class="text-dark" href="#">How to improve coding process</a>
+              </h5>
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item">Updated 5 months ago</li>
+                <li class="list-inline-item">5kb</li>
+              </ul>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-white btn-sm" id="filesListDropdown13" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-sm-inline-block me-1">More</span>
+                  <i class="bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filesListDropdown13" style="min-width: 13rem;">
+                  <span class="dropdown-header">Settings</span>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-share dropdown-item-icon"></i> Share file
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-folder-plus dropdown-item-icon"></i> Move to
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-star dropdown-item-icon"></i> Add to stared
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-pencil dropdown-item-icon"></i> Rename
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-download dropdown-item-icon"></i> Download
+                  </a>
+
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                </div>
+              </div>
+              <!-- End Dropdown -->
+            </div>
+          </div>
+          <!-- End Row -->
+        </li>
+        <!-- End Item -->
+      </ul>
+      <!-- End List Group -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+
+  <!-- Upload files Modal -->
+  @@include("@@autopath/partials/modals/upload-files.html")
+  <!-- End Upload files Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/node_modules/dropzone/dist/min/dropzone.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+  <script src="@@autopath/assets/js/hs.dropzone.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF NAV SCROLLER
+        // =======================================================
+        new HsNavScroller('.js-nav-scroller')
+
+
+        // INITIALIZATION OF DROPZONE
+        // =======================================================
+        HSCore.components.HSDropzone.init('.js-dropzone')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

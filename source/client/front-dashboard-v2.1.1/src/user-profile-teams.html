@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Teams | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "user-profile",
+      "subcategory": "",
+      "link": "user-profile-teams.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "user-profile",
+      "subcategory": "",
+      "link": "user-profile-teams.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+          <!-- Profile Cover -->
+          <div class="profile-cover">
+            <div class="profile-cover-img-wrapper">
+              <img class="profile-cover-img" src="@@autopath/assets/img/1920x400/img1.jpg" alt="Image Description">
+            </div>
+          </div>
+          <!-- End Profile Cover -->
+
+          <!-- Profile Header -->
+          <div class="text-center mb-5">
+            <!-- Avatar -->
+            <div class="avatar avatar-xxl avatar-circle profile-cover-avatar">
+              <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+              <span class="avatar-status avatar-status-success"></span>
+            </div>
+            <!-- End Avatar -->
+
+            <h1 class="page-header-title">Ella Lauda <i class="bi-patch-check-fill fs-2 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h1>
+
+            <!-- List -->
+            <ul class="list-inline list-px-2">
+              <li class="list-inline-item">
+                <i class="bi-building me-1"></i>
+                <span>Htmlstream</span>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-geo-alt me-1"></i>
+                <a href="#">San Francisco,</a>
+                <a href="#">US</a>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-calendar-week me-1"></i>
+                <span>Joined March 2017</span>
+              </li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Profile Header -->
+
+          <!-- Nav -->
+          @@include("@@autopath/partials/layouts-components/nav-menu-user-profile.html", {
+            "link": "user-profile-teams.html"
+          })
+          <!-- End Nav -->
+
+          <div class="row align-items-center mb-5">
+            <div class="col">
+              <h3 class="mb-0">7 teams</h3>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+              <!-- Nav -->
+              <ul class="nav nav-segment" id="profileTeamsTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="grid-tab" data-bs-toggle="tab" href="#grid" role="tab" aria-controls="grid" aria-selected="true" title="Column view">
+                    <i class="bi-grid"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="list-tab" data-bs-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false" title="List view">
+                    <i class="bi-view-list"></i>
+                  </a>
+                </li>
+              </ul>
+              <!-- End Nav -->
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+
+          <!-- Tab Content -->
+          <div class="tab-content" id="profileTeamsTabContent">
+            <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="grid-tab">
+              <!-- Teams -->
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#digitalmarketing</a>
+                          </h4>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown1">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Our group promotes and sells products and services by leveraging online marketing tactics</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-primary text-primary p-2" href="#">Marketing team</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Ella Lauda">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Antony Taylor">
+                                  <span class="avatar-initials">A</span>
+                                </span>
+                                <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Sara Iwens">
+                                  <span class="avatar-initials">S</span>
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Finch Hoot">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img5.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Sam Kart, Amanda Harvey and 1 more">
+                                  <span class="avatar-initials">+3</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#ethereum</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown2">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Focusing on innovative and disruptive business models</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-dark text-dark p-2" href="#">Blockchain</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-danger" data-toggle="tooltip" data-placement="top" title="Teresa Eyker">
+                                  <span class="avatar-initials">T</span>
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Amanda Harvey">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img10.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-warning" data-toggle="tooltip" data-placement="top" title="Olivier L.">
+                                  <span class="avatar-initials">O</span>
+                                </span>
+                                <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Brian Halligan, Rachel Doe and 7 more">
+                                  <span class="avatar-initials">+9</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#conference</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown3" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown3">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Online meeting services group</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-info text-info p-2" href="#">Marketing team</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Zack Ins">
+                                  <span class="avatar-initials">Z</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#supportteam</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown5" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown5">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Keep in touch and stay productive with us</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-danger text-danger p-2" href="#">Customer service</a>
+                            </div>
+
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Adam Keep">
+                                  <span class="avatar-initials">A</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#invoices</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown4" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown4">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>This group serves online money transfers as an electronic alternative to paper methods</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-primary text-primary p-2" href="#">Online payment</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Finch Hoot">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img5.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Bob Bardly">
+                                  <span class="avatar-initials">B</span>
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Linda Bates">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img8.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Ella Lauda">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#payments</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown6" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown6">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Our responsibility to manage the money in this organization</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-info text-info p-2" href="#">Finance</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Amanda Harvey">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img10.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Lisa Iston">
+                                  <span class="avatar-initials">L</span>
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Zack Ins">
+                                  <span class="avatar-initials">Z</span>
+                                </span>
+                                <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Lewis Clarke, Chris Mathew and 3 more">
+                                  <span class="avatar-initials">+5</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3 mb-lg-5">
+                  <!-- Card -->
+                  <div class="card h-100">
+                    <!-- Body -->
+                    <div class="card-body pb-0">
+                      <div class="row align-items-center mb-2">
+                        <div class="col-9">
+                          <h4 class="mb-1">
+                            <a href="#">#event</a>
+                          </h4>
+                        </div>
+
+                        <div class="col-3 text-end">
+                          <!-- Dropdown -->
+                          <div class="dropdowm">
+                            <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsDropdown7" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi-three-dots-vertical"></i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsDropdown7">
+                              <a class="dropdown-item" href="#">Rename team</a>
+                              <a class="dropdown-item" href="#">Add to favorites</a>
+                              <a class="dropdown-item" href="#">Archive team</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="#">Delete</a>
+                            </div>
+                          </div>
+                          <!-- End Dropdown -->
+                        </div>
+                        <!-- End Col -->
+                      </div>
+                      <!-- End Row -->
+
+                      <p>Because we love to know what's going on & share great ideas</p>
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer border-0 pt-0">
+                      <div class="list-group list-group-flush list-group-no-gutters">
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Industry:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <a class="badge bg-soft-dark text-dark p-2" href="#">Organizers</a>
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Rated:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Stars -->
+                              <div class="d-flex gap-1">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                                <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                                <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                                <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                              </div>
+                              <!-- End Stars -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+
+                        <!-- List Item -->
+                        <div class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <span class="card-subtitle">Members:</span>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="col-auto">
+                              <!-- Avatar Group -->
+                              <div class="avatar-group avatar-group-xs avatar-circle">
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Bob Bardly">
+                                  <span class="avatar-initials">B</span>
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                                  <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                                </span>
+                                <span class="avatar avatar-soft-primary" data-toggle="tooltip" data-placement="top" title="Daniel Cs.">
+                                  <span class="avatar-initials">D</span>
+                                </span>
+                              </div>
+                              <!-- End Avatar Group -->
+                            </div>
+                            <!-- End Col -->
+                          </div>
+                        </div>
+                        <!-- End List Item -->
+                      </div>
+                    </div>
+                    <!-- End Footer -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+              </div>
+              <!-- End Teams -->
+            </div>
+
+            <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
+              <div class="row row-cols-1">
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#digitalmarketing</a></h4>
+
+                        <a class="badge bg-soft-primary text-primary p-2" href="#">Marketing team</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown1">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Our group promotes and sells products and services by leveraging online marketing tactics</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Ella Lauda">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Antony Taylor">
+                            <span class="avatar-initials">A</span>
+                          </span>
+                          <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Sara Iwens">
+                            <span class="avatar-initials">S</span>
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Finch Hoot">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img5.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Sam Kart, Amanda Harvey and 1 more">
+                            <span class="avatar-initials">+3</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#ethereum</a></h4>
+
+                        <a class="badge bg-soft-dark text-dark p-2" href="#">Blockchain</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown2">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Focusing on innovative and disruptive business models</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-danger" data-toggle="tooltip" data-placement="top" title="Teresa Eyker">
+                            <span class="avatar-initials">T</span>
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Amanda Harvey">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img10.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-warning" data-toggle="tooltip" data-placement="top" title="Olivier L.">
+                            <span class="avatar-initials">O</span>
+                          </span>
+                          <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Brian Halligan, Rachel Doe and 7 more">
+                            <span class="avatar-initials">+9</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#conference</a></h4>
+
+                        <a class="badge bg-soft-info text-info p-2" href="#">Marketing team</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown3">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Online meeting services group</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Zack Ins">
+                            <span class="avatar-initials">Z</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#supportteam</a></h4>
+
+                        <a class="badge bg-soft-danger text-danger p-2" href="#">Customer service</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown4" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown4">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Keep in touch and stay productive with us</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-half.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Adam Keep">
+                            <span class="avatar-initials">A</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#invoices</a></h4>
+
+                        <a class="badge bg-soft-primary text-primary p-2" href="#">Online payment</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown5" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown5">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>This group serves online money transfers as an electronic alternative to paper methods</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Finch Hoot">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img5.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Bob Bardly">
+                            <span class="avatar-initials">B</span>
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Linda Bates">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img8.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Ella Lauda">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#payments</a></h4>
+
+                        <a class="badge bg-soft-info text-info p-2" href="#">Finance</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown6" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown6">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Our responsibility to manage the money in this organization</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Amanda Harvey">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img10.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="David Harrison">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Lisa Iston">
+                            <span class="avatar-initials">L</span>
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-dark" data-toggle="tooltip" data-placement="top" title="Zack Ins">
+                            <span class="avatar-initials">Z</span>
+                          </span>
+                          <span class="avatar avatar-light avatar-circle" data-toggle="tooltip" data-placement="top" title="Lewis Clarke, Chris Mathew and 3 more">
+                            <span class="avatar-initials">+5</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+
+                <div class="col mb-3">
+                  <!-- Card -->
+                  <div class="card card-body">
+                    <div class="row align-items-md-center">
+                      <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
+                        <h4><a href="#">#event</a></h4>
+
+                        <a class="badge bg-soft-dark text-dark p-2" href="#">Organizers</a>
+                      </div>
+
+                      <div class="col-3 col-md-auto order-md-last text-end">
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="teamsListDropdown7" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-three-dots-vertical"></i>
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end" aria-labelledby="teamsListDropdown7">
+                            <a class="dropdown-item" href="#">Rename team</a>
+                            <a class="dropdown-item" href="#">Add to favorites</a>
+                            <a class="dropdown-item" href="#">Archive team</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                          </div>
+                        </div>
+                        <!-- End Dropdown -->
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm mb-2 mb-sm-0">
+                        <p>Because we love to know what's going on &amp; share great ideas</p>
+                      </div>
+                      <!-- End Col -->
+
+                      <div class="col-sm-auto">
+                        <!-- Stars -->
+                        <div class="d-flex gap-1 mb-2">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                          <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                          <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                          <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                        </div>
+                        <!-- End Stars -->
+
+                        <!-- Avatar Group -->
+                        <div class="avatar-group avatar-group-xs avatar-circle">
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Costa Quinn">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-info" data-toggle="tooltip" data-placement="top" title="Bob Bardly">
+                            <span class="avatar-initials">B</span>
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Clarice Boone">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img7.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar" data-toggle="tooltip" data-placement="top" title="Sam Kart">
+                            <img class="avatar-img" src="@@autopath/assets/img/160x160/img4.jpg" alt="Image Description">
+                          </span>
+                          <span class="avatar avatar-soft-primary" data-toggle="tooltip" data-placement="top" title="Daniel Cs.">
+                            <span class="avatar-initials">D</span>
+                          </span>
+                        </div>
+                        <!-- End Avatar Group -->
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+                </div>
+              </div>
+              <!-- End Row -->
+            </div>
+          </div>
+          <!-- End Tab Content -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-sticky-block/dist/hs-sticky-block.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF NAV SCROLLER
+        // =======================================================
+        new HsNavScroller('.js-nav-scroller')
+
+
+        // INITIALIZATION OF STICKY BLOCKS
+        // =======================================================
+        new HSStickyBlock('.js-sticky-block', {
+          targetSelector: document.getElementById('header').classList.contains('navbar-fixed') ? '#header' : null
+        })
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

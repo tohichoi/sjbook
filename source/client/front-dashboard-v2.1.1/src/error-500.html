@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Error 500 | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+</head>
+
+<body>
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="container">
+      <a class="position-absolute top-0 start-0 end-0 py-4" href="@@autopath/index.html">
+        <img class="avatar avatar-xl avatar-4x3 avatar-centered" src="@@autopath/assets/svg/logos/logo.svg" alt="Image Description" data-hs-theme-appearance="default">
+        <img class="avatar avatar-xl avatar-4x3 avatar-centered" src="@@autopath/assets/svg/logos-light/logo.svg" alt="Image Description" data-hs-theme-appearance="dark">
+      </a>
+
+      <div class="footer-height-offset d-flex justify-content-center align-items-center flex-column">
+        <div class="row justify-content-center align-items-sm-center w-100">
+          <div class="col-9 col-sm-6 col-lg-4">
+            <div class="text-center text-sm-end me-sm-4 mb-5 mb-sm-0">
+              <img class="img-fluid" src="@@autopath/assets/svg/illustrations/oc-thinking.svg" alt="Image Description" data-hs-theme-appearance="default">
+              <img class="img-fluid" src="@@autopath/assets/svg/illustrations-light/oc-thinking.svg" alt="Image Description" data-hs-theme-appearance="dark">
+            </div>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 text-center text-sm-start">
+            <h1 class="display-1 mb-0">500</h1>
+            <p class="lead">The server encountered an internal error or misconfiguration and was unable to complete your request.</p>
+            <a class="btn btn-primary" href="@@autopath/error-500.html">Reload page</a>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    <div class="footer text-center">
+      <ul class="list-inline list-separator">
+        <li class="list-inline-item">
+          <a class="list-separator-link" href="#">Front Support</a>
+        </li>
+
+        <li class="list-inline-item">
+          <a class="list-separator-link" href="#">Front Status</a>
+        </li>
+
+        <li class="list-inline-item">
+          <a class="list-separator-link" href="#">Get Help</a>
+        </li>
+      </ul>
+    </div>
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+</body>
+</html>

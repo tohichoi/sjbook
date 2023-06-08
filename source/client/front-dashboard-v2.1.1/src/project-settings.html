@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Settings | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+  <link rel="stylesheet" href="@@autopath/node_modules/tom-select/dist/css/tom-select.bootstrap5.css">
+  <link rel="stylesheet" href="@@autopath/node_modules/quill/dist/quill.snow.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "project",
+      "subcategory": "",
+      "link": "project-settings.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "project",
+      "subcategory": "",
+      "link": "project-settings.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end mb-3">
+          <div class="col-sm">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Projects</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Settings</li>
+              </ol>
+            </nav>
+
+            <h1 class="page-header-title">Settings</h1>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+
+        <!-- Nav -->
+        @@include("@@autopath/partials/layouts-components/nav-menu-project.html", {
+          "link": "project-settings.html"
+        })
+        <!-- End Nav -->
+      </div>
+      <!-- End Page Header -->
+
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-9">
+          <!-- Card -->
+          <div class="card card-lg mb-3 mb-lg-5">
+            <!-- Header -->
+            <div class="card-header">
+              <h4 class="card-header-title">Details</h4>
+            </div>
+            <!-- End Header -->
+
+            <!-- Body -->
+            <div class="card-body">
+              <!-- Form -->
+              <div class="mb-4">
+                <label class="form-label">Project logo</label>
+
+                <div class="d-flex align-items-center">
+                  <!-- Avatar -->
+                  <label class="avatar avatar-xl avatar-circle avatar-uploader me-5" for="avatarUploader">
+                    <img id="avatarProjectSettingsImg" class="avatar-img" src="@@autopath/assets/svg/brands/guideline-icon.svg" alt="Image Description">
+
+                    <input type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader"
+                           data-hs-file-attach-options='{
+                              "textTarget": "#avatarProjectSettingsImg",
+                              "mode": "image",
+                              "targetAttr": "src",
+                              "resetTarget": ".js-file-attach-reset-img",
+                              "resetImg": "@@autopath/assets/img/160x160/img2.jpg",
+                              "allowTypes": [".png", ".jpeg", ".jpg"]
+                           }'>
+
+                    <span class="avatar-uploader-trigger">
+                      <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
+                    </span>
+                  </label>
+                  <!-- End Avatar -->
+
+                  <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                </div>
+              </div>
+              <!-- End Form -->
+
+              <!-- Form -->
+              <div class="mb-4">
+                <label for="projectNameProjectSettingsLabel" class="form-label">Project name <i class="bi-question-circle text-body ms-1" data-bs-oggle="tooltip" data-bs-placement="top" title="Displayed on public forums, such as Front."></i></label>
+
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend input-group-text">
+                    <i class="bi-briefcase"></i>
+                  </div>
+                  <input type="text" class="form-control" name="projectName" id="projectNameProjectSettingsLabel" placeholder="Enter project name here" aria-label="Enter project name here" value="Cloud computing web service">
+                </div>
+              </div>
+              <!-- End Form -->
+
+              <!-- Quill -->
+              <label class="form-label">Project description <span class="form-label-secondary">(Optional)</span></label>
+
+              <!-- Quill -->
+              <div class="quill-custom">
+                <div class="js-quill" style="height: 15rem;"
+                     data-hs-quill-options='{
+                     "placeholder": "Type your message...",
+                      "modules": {
+                        "toolbar": [
+                          ["bold", "italic", "underline", "strike", "link", "image", "blockquote", "code", {"list": "bullet"}]
+                        ]
+                      }
+                     }'>
+                </div>
+              </div>
+              <!-- End Quill -->
+            </div>
+            <!-- End Body -->
+
+            <!-- Footer -->
+            <div class="card-footer d-flex justify-content-end align-items-center gap-3">
+              <button type="button" class="btn btn-white">Cancel</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            <!-- End Footer -->
+          </div>
+          <!-- End Card -->
+
+          <!-- Card -->
+          <div class="card card-lg">
+            <!-- Header -->
+            <div class="card-header">
+              <h4 class="card-header-title">Terms</h4>
+            </div>
+            <!-- End Header -->
+
+            <!-- Body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- Form -->
+                  <div class="mb-4">
+                    <label for="paymentTermsNewProjectLabel" class="form-label">Terms</label>
+
+                    <!-- Select -->
+                    <div class="tom-select-custom">
+                      <select class="js-select form-select" id="paymentTermsNewProjectLabel"
+                              data-hs-tom-select-options='{
+                                "searchInDropdown": false,
+                                "hideSearch": true
+                              }'>
+                        <option value="fixed">Fixed</option>
+                        <option value="Per hour">Per hour</option>
+                        <option value="Per day">Per day</option>
+                        <option value="Per week">Per week</option>
+                        <option value="Per month" selected>Per month</option>
+                        <option value="Per quarter">Per quarter</option>
+                        <option value="Per year">Per year</option>
+                      </select>
+                     </div>
+                    <!-- End Select -->
+                  </div>
+                  <!-- End Form -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-sm-6">
+                  <label for="expectedValueNewProjectLabel" class="form-label">Expected value</label>
+
+                  <!-- Form -->
+                  <div class="mb-4">
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend input-group-text">
+                        <i class="bi-currency-dollar"></i>
+                      </div>
+                      <input type="text" class="form-control" name="expectedValue" id="expectedValueNewProjectLabel" placeholder="Enter value here" aria-label="Enter value here" value="100,000 USD">
+                    </div>
+                  </div>
+                  <!-- End Form -->
+                </div>
+                <!-- End Col -->
+              </div>
+              <!-- End Form Row -->
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <!-- Form -->
+                  <div class="mb-4">
+                    <label for="milestoneNewProjectLabel" class="form-label">Milestone <a class="fs-6 ms-1" href="javascript:;">Change probability</a></label>
+
+                    <!-- Select -->
+                    <div class="tom-select-custom">
+                      <select class="js-select form-select" id="milestoneNewProjectLabel"
+                              data-hs-tom-select-options='{
+                                "searchInDropdown": false,
+                                "hideSearch": true
+                              }'>
+                        <option value="New">New</option>
+                        <option value="Qualified">Qualified</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Proposal" selected>Proposal</option>
+                        <option value="Negotiation">Negotiation</option>
+                        <option value="Contact">Contact</option>
+                      </select>
+                     </div>
+                    <!-- End Select -->
+                  </div>
+                  <!-- End Form -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-lg-6">
+                  <!-- Form -->
+                  <div class="mb-4">
+                    <label for="privacyNewProjectLabel" class="form-label me-2">Privacy</label>
+
+                    <!-- Select -->
+                    <div class="tom-select-custom">
+                      <select class="js-select form-select" id="privacyNewProjectLabel"
+                              data-hs-tom-select-options='{
+                                "searchInDropdown": false,
+                                "hideSearch": true
+                              }'>
+                        <option value="privacy1" selected data-option-template='<span class="d-flex"><i class="bi-people fs2 text-body"></i><span class="flex-grow-1 ms-2"><span class="d-block">Everyone</span><small class="tom-select-custom-hide">Public to Front Dashboard</small></span></span>'>Everyone</option>
+                        <option value="privacy2" disabled data-option-template='<span class="d-flex"><i class="bi-lock fs2 text-body"></i><span class="flex-grow-1 ms-2"><span class="d-block">Private to project members <span class="badge bg-soft-primary text-primary">Upgrade to Premium</span></span><small class="tom-select-custom-hide">Only visible to project members</small></span></span>'>Private to project members</option>
+                        <option value="privacy3" data-option-template='<span class="d-flex"><i class="bi-person fs2 text-body"></i><span class="flex-grow-1 ms-2"><span class="d-block">Private to me</span><small class="tom-select-custom-hide">Only visible to you</small></span></span>'>Private to me</option>
+                      </select>
+                     </div>
+                    <!-- End Select -->
+                  </div>
+                  <!-- End Form -->
+                </div>
+                <!-- End Col -->
+              </div>
+              <!-- End Form Row -->
+
+              <div class="d-grid gap-2">
+                <!-- Check -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="budgetNewProjectCheckbox" checked>
+                  <label class="form-check-label" for="budgetNewProjectCheckbox">
+                    Budget resets every month
+                  </label>
+                </div>
+                <!-- End Check -->
+
+                <!-- Check -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="emailAlertNewProjectCheckbox" checked>
+                  <label class="form-check-label" for="emailAlertNewProjectCheckbox">
+                    Send email alerts if project exceeds <span class="font-weight-bold">50.00%</span> of budget
+                  </label>
+                </div>
+                <!-- End Check -->
+              </div>
+            </div>
+            <!-- End Body -->
+
+            <!-- Footer -->
+            <div class="card-footer d-flex justify-content-end gap-3">
+              <button type="button" class="btn btn-white">Cancel</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            <!-- End Footer -->
+          </div>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+
+  <!-- Share with people Modal -->
+  @@include("@@autopath/partials/modals/share-with-people.html")
+  <!-- End Share with people Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-file-attach/dist/hs-file-attach.min.js"></script>
+  <script src="@@autopath/node_modules/tom-select/dist/js/tom-select.complete.min.js"></script>
+  <script src="@@autopath/node_modules/daterangepicker/moment.min.js"></script>
+  <script src="@@autopath/node_modules/daterangepicker/daterangepicker.js"></script>
+  <script src="@@autopath/node_modules/quill/dist/quill.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+  <script src="@@autopath/assets/js/hs.tom-select.js"></script>
+  <script src="@@autopath/assets/js/hs.quill.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // INITIALIZATION OF DATERANGEPICKER
+      // =======================================================
+      $('.js-daterangepicker').daterangepicker();
+
+      $('.js-daterangepicker-times').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'M/DD hh:mm A'
+        }
+      });
+
+      var start = moment();
+      var end = moment();
+
+      function cb(start, end) {
+        $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
+      }
+
+      $('#js-daterangepicker-predefined').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+
+      cb(start, end);
+    });
+  </script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF NAV SCROLLER
+        // =======================================================
+        new HsNavScroller('.js-nav-scroller')
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select')
+
+
+        // INITIALIZATION OF FILE ATTACHMENT
+        // =======================================================
+        new HSFileAttach('.js-file-attach')
+
+
+        // INITIALIZATION OF QUILLJS EDITOR
+        // =======================================================
+        HSCore.components.HSQuill.init('.js-quill')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

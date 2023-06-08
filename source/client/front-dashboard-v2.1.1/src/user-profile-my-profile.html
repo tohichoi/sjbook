@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>My Profile | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "user-profile",
+      "subcategory": "",
+      "link": "user-profile-my-profile.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "user-profile",
+      "subcategory": "",
+      "link": "user-profile-my-profile.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+          <!-- Profile Cover -->
+          <div class="profile-cover">
+            <div class="profile-cover-img-wrapper">
+              <img id="profileCoverImg" class="profile-cover-img" src="@@autopath/assets/img/1920x400/img2.jpg" alt="Image Description">
+
+              <!-- Custom File Cover -->
+              <div class="profile-cover-content profile-cover-uploader p-3">
+                <input type="file" class="js-file-attach profile-cover-uploader-input" id="profileCoverUplaoder"
+                       data-hs-file-attach-options='{
+                            "textTarget": "#profileCoverImg",
+                            "mode": "image",
+                            "targetAttr": "src",
+                            "allowTypes": [".png", ".jpeg", ".jpg"]
+                         }'>
+                <label class="profile-cover-uploader-label btn btn-sm btn-white" for="profileCoverUplaoder">
+                  <i class="bi-camera-fill"></i>
+                  <span class="d-none d-sm-inline-block ms-1">Upload header</span>
+                </label>
+              </div>
+              <!-- End Custom File Cover -->
+            </div>
+          </div>
+          <!-- End Profile Cover -->
+
+          <!-- Profile Header -->
+          <div class="text-center mb-5">
+            <!-- Avatar -->
+            <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar" for="editAvatarUploaderModal">
+              <img id="editAvatarImgModal" class="avatar-img" src="@@autopath/assets/img/160x160/img6.jpg" alt="Image Description">
+
+              <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
+                     data-hs-file-attach-options='{
+                          "textTarget": "#editAvatarImgModal",
+                          "mode": "image",
+                          "targetAttr": "src",
+                          "allowTypes": [".png", ".jpeg", ".jpg"]
+                       }'>
+
+              <span class="avatar-uploader-trigger">
+                <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
+              </span>
+            </label>
+            <!-- End Avatar -->
+
+            <h1 class="page-header-title">Mark Williams <i class="bi-patch-check-fill fs-2 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h1>
+
+            <!-- List -->
+            <ul class="list-inline list-px-2">
+              <li class="list-inline-item">
+                <i class="bi-building me-1"></i>
+                <span>Pixeel Ltd.</span>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-geo-alt me-1"></i>
+                <a href="#">London,</a>
+                <a href="#">UK</a>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-calendar-week me-1"></i>
+                <span>Joined March 2013</span>
+              </li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Profile Header -->
+
+          <!-- Nav -->
+          <div class="js-nav-scroller hs-nav-scroller-horizontal mb-5">
+            <span class="hs-nav-scroller-arrow-prev" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-left"></i>
+              </a>
+            </span>
+
+            <span class="hs-nav-scroller-arrow-next" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-right"></i>
+              </a>
+            </span>
+
+            <ul class="nav nav-tabs align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active disabled" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Teams</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Projects <span class="badge bg-soft-dark text-dark rounded-circle ms-1">3</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Connections</a>
+              </li>
+
+              <li class="nav-item ms-auto">
+                <div class="d-flex gap-2">
+                  <a class="btn btn-white btn-sm" href="@@autopath/account-settings.html">
+                    <i class="bi-person-plus-fill me-1"></i> Edit profile
+                  </a>
+
+                  <a class="btn btn-white btn-icon btn-sm" href="#">
+                    <i class="bi-list-ul me-1"></i>
+                  </a>
+
+                  <!-- Dropdown -->
+                  <div class="dropdown nav-scroller-dropdown">
+                    <button type="button" class="btn btn-white btn-icon btn-sm" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="profileDropdown">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-share-fill dropdown-item-icon"></i> Share profile
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-slash-circle dropdown-item-icon"></i> Block page and profile
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-flag dropdown-item-icon"></i> Report
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Dropdown -->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- End Nav -->
+
+          <div class="row">
+            <div class="col-lg-4">
+              <!-- Card -->
+              <div class="card card-body mb-3 mb-lg-5">
+                <h5>Complete your profile</h5>
+
+                <!-- Progress -->
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-4">15%</span>
+                </div>
+                <!-- End Progress -->
+              </div>
+              <!-- End Card -->
+
+              <!-- Card -->
+              <div class="card mb-3 mb-lg-5">
+                <!-- Header -->
+                <div class="card-header card-header-content-between">
+                  <h4 class="card-header-title">Profile</h4>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body">
+                  <ul class="list-unstyled list-py-2 text-dark mb-0">
+                    <li class="pb-0"><span class="card-subtitle">About</span></li>
+                    <li><i class="bi-person dropdown-item-icon"></i> Mark Williams</li>
+                    <li><i class="bi-briefcase dropdown-item-icon"></i> No department</li>
+                    <li><i class="bi-building dropdown-item-icon"></i> Pixeel Ltd.</li>
+
+                    <li class="pt-4 pb-0"><span class="card-subtitle">Contacts</span></li>
+                    <li><i class="bi-at dropdown-item-icon"></i> mark@site.com</li>
+                    <li><i class="bi-phone dropdown-item-icon"></i> +1 (555) 752-01-10</li>
+
+                    <li class="pt-4 pb-0"><span class="card-subtitle">Teams</span></li>
+                    <li class="fs-6 text-body"><i class="bi-people dropdown-item-icon"></i> You are not a member of any teams</li>
+                    <li class="fs-6 text-body"><i class="bi-stickies dropdown-item-icon"></i> You are not working on any projects</li>
+                  </ul>
+                </div>
+                <!-- End Body -->
+              </div>
+              <!-- End Card -->
+
+              <!-- Card -->
+              <div class="card card-lg mb-3 mb-lg-5">
+                <!-- Body -->
+                <div class="card-body text-center">
+                  <div class="mb-4">
+                    <img class="avatar avatar-xl avatar-4x3" src="@@autopath/assets/svg/illustrations/oc-unlock.svg" alt="Image Description" data-hs-theme-appearance="default">
+                    <img class="avatar avatar-xl avatar-4x3" src="@@autopath/assets/svg/illustrations-light/oc-unlock.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                  </div>
+
+                  <div class="mb-3">
+                    <h3>2-step verification</h3>
+                    <p>Protect your account now and enable 2-step verification in the settings.</p>
+                  </div>
+
+                  <a class="btn btn-primary" href="@@autopath/account-settings.html#twoStepVerificationSection">Enable now</a>
+                </div>
+                <!-- End Body -->
+              </div>
+              <!-- End Card -->
+            </div>
+            <!-- End Col -->
+
+            <div class="col-lg-8">
+              <!-- Card -->
+              <div class="card card-centered mb-3 mb-lg-5">
+                <!-- Header -->
+                <div class="card-header card-header-content-between">
+                  <h4 class="card-header-title">Activity stream</h4>
+
+                  <!-- Dropdown -->
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="contentActivityStreamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="contentActivityStreamDropdown">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-share-fill dropdown-item-icon"></i> Share connections
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Dropdown -->
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body card-body-height">
+                  <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations/oc-error.svg" alt="Image Description" data-hs-theme-appearance="default">
+                  <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations-light/oc-error.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                  <p class="card-text">No data to show</p>
+                  <a class="btn btn-white btn-sm" href="@@autopath/#">Start your Activity</a>
+                </div>
+                <!-- End Body -->
+              </div>
+              <!-- End Card -->
+
+              <!-- Card -->
+              <div class="card card-centered mb-3 mb-lg-5">
+                <!-- Header -->
+                <div class="card-header card-header-content-between">
+                  <h4 class="card-header-title">Projects</h4>
+
+                  <!-- Dropdown -->
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="projectReportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="projectReportDropdown">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-share-fill dropdown-item-icon"></i> Share connections
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Dropdown -->
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body card-body-height card-body-centered">
+                  <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations/oc-error.svg" alt="Image Description" data-hs-theme-appearance="default">
+                  <img class="avatar avatar-xxl mb-3" src="@@autopath/assets/svg/illustrations-light/oc-error.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                  <p class="card-text">No data to show</p>
+                  <a class="btn btn-white btn-sm" href="@@autopath/projects.html">Start your Projects</a>
+                </div>
+                <!-- End Body -->
+              </div>
+              <!-- End Card -->
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-sticky-block/dist/hs-sticky-block.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-file-attach/dist/hs-file-attach.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF NAV SCROLLER
+        // =======================================================
+        new HsNavScroller('.js-nav-scroller')
+
+
+        // INITIALIZATION OF STICKY BLOCKS
+        // =======================================================
+        new HSStickyBlock('.js-sticky-block', {
+          targetSelector: document.getElementById('header').classList.contains('navbar-fixed') ? '#header' : null
+        })
+
+
+        // INITIALIZATION OF FILE ATTACHMENT
+        // =======================================================
+        new HSFileAttach('.js-file-attach')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>

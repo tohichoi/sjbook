@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Maps (JSVectorMap) - Documentation | Front - Multipurpose Responsive Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="@@autopath/node_modules/jsvectormap/dist/css/jsvectormap.min.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+  <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  <link rel="stylesheet" href="@@autopath/assets/css/docs@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+  <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+  <link rel="preload" href="@@autopath/assets/css/docs.css" data-hs-appearance="default" as="style">
+  <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+  <link rel="preload" href="@@autopath/assets/css/docs-dark.css" data-hs-appearance="dark" as="style">
+
+  <style data-hs-appearance-onload-styles>
+      * {
+          transition: unset !important;
+      }
+
+      body {
+          opacity: 0;
+      }
+  </style>
+  }
+</head>
+
+<body class="navbar-sidebar-aside-lg">
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+  <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@include("@@autopath/partials/docs/docs-navbar.html")
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- Navbar -->
+    @@include("@@autopath/partials/docs/docs-sidebar.html", {
+      "link": "maps-jsvectormap.html"
+    })
+    <!-- End Navbar -->
+
+    <!-- Content -->
+    <div class="navbar-sidebar-aside-content content-space-1 content-space-md-2 px-lg-5 px-xl-10">
+      <!-- Page Header -->
+      <div class="docs-page-header">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <h1 class="docs-page-header-title">Maps (JSVectorMap)</h1>
+            <p class="docs-page-header-text">A lightweight JavaScript library for creating interactive maps and pretty data visualization.</p>
+            <a class="link" href="https://jvm-docs.vercel.app/" target="_blank">JSVectorMap documentation <i class="bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- End Page Header -->
+
+      <!-- Heading -->
+      <h2 id="how-to-use" class="hs-docs-heading">
+        How to use <a class="anchorjs-link" href="#how-to-use" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <p>Copy-paste the stylesheet <code>&lt;link&gt;</code> into your <code>&lt;head&gt;</code> to load the CSS.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;link rel="stylesheet" href="./node_modules/jsvectormap/dist/css/jsvectormap.min.css"&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the following <code>&lt;script&gt;</code> near the end of your pages under <em><u>JS Implementing Plugins</u></em> to enable it.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;script src="@@autopath/node_modules/jsvectormap/dist/js/jsvectormap.min.js"&gt;&lt;/script&gt;
+          &lt;script src="@@autopath/node_modules/jsvectormap/dist/maps/world.js"&gt;&lt;/script&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the following <code>&lt;script&gt;</code> near the end of your pages under <em><u>JS Front</u></em> to enable it.</p>
+
+      <pre class="rounded mb-4">
+        <code class="language-html" data-lang="html">
+          &lt;script src="./assets/js/hs.jsvector-map.js"&gt;&lt;/script&gt;
+        </code>
+      </pre>
+
+      <p>Copy-paste the init function under <em><u>JS Plugins Init.</u></em>, before the closing <code>&lt;/body&gt;</code> tag, to enable it.</p>
+
+      <pre class="rounded">
+        <code class="language-html" data-lang="html">
+          &lt;script&gt;
+            (function() {
+              // INITIALIZATION OF VECTOR MAP
+              // =======================================================
+              HSCore.components.HSJsVectorMap.init('.js-jsvectormap')
+            })();
+          &lt;/script&gt;
+        </code>
+      </pre>
+
+      <!-- Heading -->
+      <h2 id="basic-example" class="hs-docs-heading">
+        Basic example <a class="anchorjs-link" href="#basic-example" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab1" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab1" href="#nav-result1" data-bs-toggle="pill" data-bs-target="#nav-result1" role="tab" aria-controls="nav-result1" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab1" href="#nav-html1" data-bs-toggle="pill" data-bs-target="#nav-html1" role="tab" aria-controls="nav-html1" aria-selected="false">HTML</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent1">
+          <div class="tab-pane fade p-4 show active" id="nav-result1" role="tabpanel" aria-labelledby="nav-resultTab1">
+            <!-- JSVector Map -->
+            <div style="height: 20.5rem;">
+              <div class="js-jsvectormap jsvectormap-custom"
+                  data-hs-js-vector-map-options='{
+                    "regionStyle": {
+                      "initial": {
+                        "fill": "#bdc5d1"
+                      },
+                      "hover": {
+                        "fill": "#77838f"
+                      }
+                    },
+                    "backgroundColor": "#fff",
+                    "markerStyle": {
+                      "initial": {
+                        "stroke-width": 2,
+                        "fill": "@@themeAppearance.styles.colors.primary",
+                        "stroke": "#fff",
+                        "stroke-opacity": 1,
+                        "r": 6
+                      },
+                      "hover": {
+                        "fill": "@@themeAppearance.styles.colors.primary",
+                        "stroke": "@@themeAppearance.styles.colors.primary"
+                      }
+                    }
+                  }'>
+              </div>
+            </div>
+            <!-- End JSVector Map -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html1" role="tabpanel" aria-labelledby="nav-htmlTab1">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- JSVector Map --&gt;
+                &lt;div style="height: 20.5rem;"&gt;
+                  &lt;div class="js-jsvectormap jsvectormap-custom"
+                      data-hs-js-vector-map-options='{
+                        "regionStyle": {
+                          "initial": {
+                            "fill": "#bdc5d1"
+                          },
+                          "hover": {
+                            "fill": "#77838f"
+                          }
+                        },
+                        "backgroundColor": "#fff",
+                        "markerStyle": {
+                          "initial": {
+                            "stroke-width": 2,
+                            "fill": "@@themeAppearance.styles.colors.primary",
+                            "stroke": "#fff",
+                            "stroke-opacity": 1,
+                            "r": 6
+                          },
+                          "hover": {
+                            "fill": "@@themeAppearance.styles.colors.primary",
+                            "stroke": "@@themeAppearance.styles.colors.primary"
+                          }
+                        }
+                      }'&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End JSVector Map --&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="custom-with-tags" class="hs-docs-heading">
+        Custom with tags <a class="anchorjs-link" href="#custom-with-tags" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab2" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab2" href="#nav-result2" data-bs-toggle="pill" data-bs-target="#nav-result2" role="tab" aria-controls="nav-result2" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab2" href="#nav-html2" data-bs-toggle="pill" data-bs-target="#nav-html2" role="tab" aria-controls="nav-html2" aria-selected="false">HTML</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-jsTab2" href="#nav-js2" data-bs-toggle="pill" data-bs-target="#nav-js2" role="tab" aria-controls="nav-js2" aria-selected="false">JS</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent2">
+          <div class="tab-pane fade p-4 show active" id="nav-result2" role="tabpanel" aria-labelledby="nav-resultTab2">
+            <!-- Vector Map -->
+            <div style="height: 30rem;">
+              <div class="js-jsvectormap jsvectormap-custom"
+                    data-hs-js-vector-map-options='{
+                      "focusOn": {
+                        "coords": [25, 12],
+                        "scale": 1.5,
+                        "animate": true
+                      },
+                      "regionStyle": {
+                        "initial": {
+                          "fill": "rgba(55, 125, 255, .3)"
+                        },
+                        "hover": {
+                          "fill": "@@themeAppearance.styles.colors.primary"
+                        }
+                      },
+                      "backgroundColor": "#132144",
+                      "markerStyle": {
+                        "initial": {
+                          "stroke-width": 2,
+                          "fill": "rgba(255,255,255,.5)",
+                          "stroke": "rgba(255,255,255,.5)",
+                          "r": 6
+                        },
+                        "hover": {
+                          "fill": "#fff",
+                          "stroke": "#fff"
+                        }
+                      }
+                    }'>
+              </div>
+            </div>
+            <!-- End Vector Map -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html2" role="tabpanel" aria-labelledby="nav-htmlTab2">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Vector Map --&gt;
+                &lt;div style="height: 30rem;"&gt;
+                  &lt;div class="js-jsvectormap jsvectormap-custom"
+                        data-hs-js-vector-map-options='{
+                          "focusOn": {
+                            "coords": [25, 12],
+                            "scale": 1.5,
+                            "animate": true
+                          },
+                          "regionStyle": {
+                            "initial": {
+                              "fill": "rgba(55, 125, 255, .3)"
+                            },
+                            "hover": {
+                              "fill": "@@themeAppearance.styles.colors.primary"
+                            }
+                          },
+                          "backgroundColor": "#132144",
+                          "markerStyle": {
+                            "initial": {
+                              "stroke-width": 2,
+                              "fill": "rgba(255,255,255,.5)",
+                              "stroke": "rgba(255,255,255,.5)",
+                              "r": 6
+                            },
+                            "hover": {
+                              "fill": "#fff",
+                              "stroke": "#fff"
+                            }
+                          }
+                        }'&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Vector Map --&gt;
+              </code>
+            </pre>
+          </div>
+
+          <div class="tab-pane fade" id="nav-js2" role="tabpanel" aria-labelledby="nav-jsTab2">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- JS Plugins Init. --&gt;
+                &lt;script&gt;
+                  (function() {
+                    // INITIALIZATION OF VECTOR MAP
+                    // =======================================================
+                    const markers = [
+                      {
+                        "coords": [38, -97],
+                        "name": "United States",
+                        "active": 200,
+                        "new": 40,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/us.svg",
+                        "code": "US"
+                      },
+                      {
+                        "coords": [20, 77],
+                        "name": "India",
+                        "active": 300,
+                        "new": 100,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/in.svg",
+                        "code": "IN"
+                      },
+                      {
+                        "coords": [60, -105],
+                        "name": "Canada",
+                        "active": 400,
+                        "new": 500,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ca.svg",
+                        "code": "CA"
+                      },
+                      {
+                        "coords": [51, 9],
+                        "name": "Germany",
+                        "active": 120,
+                        "new": 600,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/de.svg",
+                        "code": "DE"
+                      },
+                      {
+                        "coords": [54, -2],
+                        "name": "United Kingdom",
+                        "active": 140,
+                        "new": 100,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/gb.svg",
+                        "code": "GB"
+                      },
+                      {
+                        "coords": [1.3, 103.8],
+                        "name": "Singapore",
+                        "active": 56,
+                        "new": 0,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/sg.svg",
+                        "code": "SG"
+                      },
+                      {
+                        "coords": [9.0, 8.6],
+                        "name": "Nigeria",
+                        "active": 34,
+                        "new": 2,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ng.svg",
+                        "code": "NG"
+                      },
+                      {
+                        "coords": [61.5, 105.3],
+                        "name": "Russia",
+                        "active": 135,
+                        "new": 46,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ru.svg",
+                        "code": "RU"
+                      },
+                      {
+                        "coords": [35.8, 104.1],
+                        "name": "China",
+                        "active": 325,
+                        "new": 75,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/cn.svg",
+                        "code": "CN"
+                      },
+                      {
+                        "coords": [-10, -51],
+                        "name": "Brazil",
+                        "active": 242,
+                        "new": 17,
+                        "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/br.svg",
+                        "code": "BR"
+                      }
+                    ];
+                    const tooltipTemplate = function(marker) {
+                      return `
+                        &lt;span class="d-flex align-items-center mb-2"&gt;
+                          &lt;img class="avatar avatar-xss avatar-circle" src="${marker.flag}" alt="Flag"&gt;
+                          &lt;span class="h5 ms-2 mb-0"&gt;${marker.name}&lt;/span&gt;
+                        &lt;/span&gt;
+                        &lt;div class="d-flex justify-content-between" style="max-width: 10rem;"&gt;
+                          &lt;strong&gt;Active:&lt;/strong&gt;
+                          &lt;span class="ms-2"&gt;${marker.active}&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class="d-flex justify-content-between" style="max-width: 10rem;"&gt;
+                          &lt;strong&gt;New:&lt;/strong&gt;
+                          &lt;span class="ms-2"&gt;${marker.new}&lt;/span&gt;
+                        &lt;/div&gt;
+                      `;
+                    };
+
+                    HSCore.components.HSJsVectorMap.init('.js-jsvectormap', {
+                      markers,
+                      onRegionTooltipShow(map, tooltip, code) {
+                        let marker = markers.find(function (marker) {
+                          return marker.code === code;
+                        });
+
+                        if (marker) {
+                          tooltip._tooltip.style.display = null;
+                          tooltip._tooltip.innerHTML = tooltipTemplate(marker);
+                        } else {
+                          tooltip._tooltip.style.display = 'none';
+                        }
+                      },
+                      onMarkerTooltipShow: function (map, tooltip, code) {
+                        tooltip._tooltip.style.display = null;
+                        tooltip._tooltip.innerHTML = tooltipTemplate(markers[code]);
+                      },
+                      backgroundColor: HSThemeAppearance.getAppearance() === 'dark' ? '#25282a' : '#132144'
+                    })
+                  })()
+                &lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+    </div>
+    <!-- End Content -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Go To -->
+  @@include("@@autopath/partials/layouts-components/go-to.html")
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-header/dist/hs-header.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="@@autopath/node_modules/list.js/dist/list.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
+  <script src="@@autopath/assets/vendor/prism/prism.js"></script>
+  <script src="@@autopath/node_modules/jsvectormap/dist/js/jsvectormap.min.js"></script>
+  <script src="@@autopath/node_modules/jsvectormap/dist/maps/world.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.list.js"></script>
+  <script src="@@autopath/assets/js/hs.leaflet.js"></script>
+  <script src="@@autopath/assets/js/hs.jsvector-map.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF HEADER
+      // =======================================================
+      new HSHeader('#header').init()
+
+
+      // INITIALIZATION OF NAV SCROLLER
+      // =======================================================
+      new HsNavScroller('.js-nav-scroller', {
+        delay: 400,
+        offset: 140
+      })
+
+
+      // INITIALIZATION OF LISTJS COMPONENT
+      // =======================================================
+      HSCore.components.HSList.init('#docsSearch');
+      const docsSearch = HSCore.components.HSList.getItem('docsSearch');
+
+
+      // GET JSON FILE RESULTS
+      // =======================================================
+      fetch('@@autopath/assets/json/docs-search.json')
+      .then(response => response.json())
+      .then(data => {
+        docsSearch.add(data)
+      })
+
+
+      // INITIALIZATION OF GO TO
+      // =======================================================
+      new HSGoTo('.js-go-to')
+
+
+      // INITIALIZATION OF VECTOR MAP
+      // =======================================================
+      const markers = [
+        {
+          "coords": [38, -97],
+          "name": "United States",
+          "active": 200,
+          "new": 40,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/us.svg",
+          "code": "US"
+        },
+        {
+          "coords": [20, 77],
+          "name": "India",
+          "active": 300,
+          "new": 100,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/in.svg",
+          "code": "IN"
+        },
+        {
+          "coords": [60, -105],
+          "name": "Canada",
+          "active": 400,
+          "new": 500,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ca.svg",
+          "code": "CA"
+        },
+        {
+          "coords": [51, 9],
+          "name": "Germany",
+          "active": 120,
+          "new": 600,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/de.svg",
+          "code": "DE"
+        },
+        {
+          "coords": [54, -2],
+          "name": "United Kingdom",
+          "active": 140,
+          "new": 100,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/gb.svg",
+          "code": "GB"
+        },
+        {
+          "coords": [1.3, 103.8],
+          "name": "Singapore",
+          "active": 56,
+          "new": 0,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/sg.svg",
+          "code": "SG"
+        },
+        {
+          "coords": [9.0, 8.6],
+          "name": "Nigeria",
+          "active": 34,
+          "new": 2,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ng.svg",
+          "code": "NG"
+        },
+        {
+          "coords": [61.5, 105.3],
+          "name": "Russia",
+          "active": 135,
+          "new": 46,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/ru.svg",
+          "code": "RU"
+        },
+        {
+          "coords": [35.8, 104.1],
+          "name": "China",
+          "active": 325,
+          "new": 75,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/cn.svg",
+          "code": "CN"
+        },
+        {
+          "coords": [-10, -51],
+          "name": "Brazil",
+          "active": 242,
+          "new": 17,
+          "flag": "@@autopath/node_modules/flag-icon-css/flags/1x1/br.svg",
+          "code": "BR"
+        }
+      ];
+      const tooltipTemplate = function(marker) {
+        return `
+          <span class="d-flex align-items-center mb-2">
+            <img class="avatar avatar-xss avatar-circle" src="${marker.flag}" alt="Flag">
+            <span class="h5 ms-2 mb-0">${marker.name}</span>
+          </span>
+          <div class="d-flex justify-content-between" style="max-width: 10rem;">
+            <strong>Active:</strong>
+            <span class="ms-2">${marker.active}</span>
+          </div>
+          <div class="d-flex justify-content-between" style="max-width: 10rem;">
+            <strong>New:</strong>
+            <span class="ms-2">${marker.new}</span>
+          </div>
+        `;
+      };
+
+      HSCore.components.HSJsVectorMap.init('.js-jsvectormap', {
+        markers,
+        onRegionTooltipShow(map, tooltip, code) {
+          let marker = markers.find(function (marker) {
+            return marker.code === code;
+          });
+
+          if (marker) {
+            tooltip._tooltip.style.display = null;
+            tooltip._tooltip.innerHTML = tooltipTemplate(marker);
+          } else {
+            tooltip._tooltip.style.display = 'none';
+          }
+        },
+        onMarkerTooltipShow: function (map, tooltip, code) {
+          tooltip._tooltip.style.display = null;
+          tooltip._tooltip.innerHTML = tooltipTemplate(markers[code]);
+        },
+        backgroundColor: HSThemeAppearance.getAppearance() === 'dark' ? '#25282a' : '#132144'
+      })
+    })()
+  </script>
+</body>
+</html>

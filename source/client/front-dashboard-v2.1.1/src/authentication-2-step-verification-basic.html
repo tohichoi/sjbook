@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Basic 2-step Verification | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+</head>
+
+<body>
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main" class="main">
+    <div class="position-fixed top-0 end-0 start-0 bg-img-start" style="height: 32rem; background-image: url(@@autopath/assets/svg/components/card-6.svg);">
+      <!-- Shape -->
+      <div class="shape shape-bottom zi-1">
+        <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1921 273">
+          <polygon fill="#fff" points="0,273 1921,273 1921,0 "/>
+        </svg>
+      </div>
+      <!-- End Shape -->
+    </div>
+
+    <!-- Content -->
+    <div class="container py-5 py-sm-7">
+      <a class="d-flex justify-content-center mb-5" href="@@autopath/index.html">
+        <img class="zi-2" src="@@autopath/assets/svg/logos/logo.svg" alt="Image Description" style="width: 8rem;">
+      </a>
+
+      <div class="mx-auto" style="max-width: 30rem;">
+        <!-- Card -->
+        <div class="card card-lg mb-5">
+          <div class="card-body text-center">
+            <div class="mb-4">
+              <img class="avatar avatar-xxl avatar-4x3" src="@@autopath/assets/svg/illustrations/oc-unlock.svg" alt="Image Description" data-hs-theme-appearance="default">
+              <img class="avatar avatar-xxl avatar-4x3" src="@@autopath/assets/svg/illustrations-light/oc-unlock.svg" alt="Image Description" data-hs-theme-appearance="dark">
+            </div>
+
+            <div class="mb-5">
+              <h1 class="display-5">2-step Verification</h1>
+              <p class="mb-0">We sent a verification code to your email.</p>
+              <p>Enter the code from the email in the field below.</p>
+            </div>
+
+            <div class="row gx-2 gx-sm-3">
+              <div class="col">
+                <!-- Form -->
+                <div class="mb-4">
+                  <input type="text" class="form-control form-control-single-number" name="code1" id="twoStepVerificationSrCodeInput1" placeholder="" aria-label="" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+                </div>
+                <!-- End Form -->
+              </div>
+
+              <div class="col">
+                <!-- Form -->
+                <div class="mb-4">
+                  <input type="text" class="form-control form-control-single-number" name="code2" id="twoStepVerificationSrCodeInput2" placeholder="" aria-label="" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false">
+                </div>
+                <!-- End Form -->
+              </div>
+
+              <div class="col">
+                <!-- Form -->
+                <div class="mb-4">
+                  <input type="text" class="form-control form-control-single-number" name="code3" id="twoStepVerificationSrCodeInput3" placeholder="" aria-label="" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false">
+                </div>
+                <!-- End Form -->
+              </div>
+
+              <div class="col">
+                <!-- Form -->
+                <div class="mb-4">
+                  <input type="text" class="form-control form-control-single-number" name="code4" id="twoStepVerificationSrCodeInput4" placeholder="" aria-label="" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false">
+                </div>
+                <!-- End Form -->
+              </div>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Verify my account</button>
+            </div>
+
+            <div class="text-center">
+              <p>Haven't received it? <a href="#">Resend a new code.</a></p>
+            </div>
+          </div>
+        </div>
+        <!-- End Card -->
+
+        <!-- Footer -->
+        <div class="text-center">
+          <small class="text-cap text-body mb-4">Trusted by the world's best teams</small>
+
+          <div class="w-85 mx-auto">
+            <div class="row justify-content-between">
+              <div class="col">
+                <img class="img-fluid" src="@@autopath/assets/svg/brands/gitlab-gray.svg" alt="Logo">
+              </div>
+              <!-- End Col -->
+
+              <div class="col">
+                <img class="img-fluid" src="@@autopath/assets/svg/brands/fitbit-gray.svg" alt="Logo">
+              </div>
+              <!-- End Col -->
+
+              <div class="col">
+                <img class="img-fluid" src="@@autopath/assets/svg/brands/flow-xo-gray.svg" alt="Logo">
+              </div>
+              <!-- End Col -->
+
+              <div class="col">
+                <img class="img-fluid" src="@@autopath/assets/svg/brands/layar-gray.svg" alt="Logo">
+              </div>
+              <!-- End Col -->
+            </div>
+            <!-- End Row -->
+          </div>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+    <!-- End Content -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-validation.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        // INITIALIZATION OF BOOTSTRAP VALIDATION
+        // =======================================================
+        HSBsValidation.init('.js-validate', {
+          onSubmit: data => {
+            data.event.preventDefault()
+            alert('Submited')
+          }
+        })
+
+
+        // INITIALIZATION OF TOGGLE PASSWORD
+        // =======================================================
+        new HSTogglePassword('.js-toggle-password')
+      }
+    })()
+  </script>
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="@@languageDirection.lang">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Manage Reviews | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="@@autopath/favicon.ico">
+
+  <!-- Font -->
+  <link href="@@vars.themeFont" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <!-- bundlecss:vendor [@@autopath] -->
+  <link rel="stylesheet" href="@@autopath/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
+  }
+  <link rel="stylesheet" href="@@autopath/node_modules/tom-select/dist/css/tom-select.bootstrap5.css">
+
+  <!-- CSS Front Template -->
+  <!-- bundlecss:theme [@@autopath] @@vars.version -->
+  @@if(layoutBuilder.extend.switcherSupport === false) {
+    <link rel="stylesheet" href="@@autopath/assets/css/theme@@if(themeAppearance.layoutSkin === 'dark'){-dark}.css">
+  }
+
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    <link rel="preload" href="@@autopath/assets/css/theme.css" data-hs-appearance="default" as="style">
+    <link rel="preload" href="@@autopath/assets/css/theme-dark.css" data-hs-appearance="dark" as="style">
+
+    <style data-hs-appearance-onload-styles>
+        * {
+            transition: unset !important;
+        }
+
+        body {
+            opacity: 0;
+        }
+    </style>
+  }
+
+  </head>
+
+<body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
+    @@if(layoutBuilder.extend.switcherSupport === true) {
+    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  }
+
+    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  }
+
+  <!-- ========== HEADER ========== -->
+  @@if(layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/navbar/main.html")
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'single') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/main-container.html")
+    }
+  }
+
+  @@if(layoutBuilder.header.layoutMode === 'double') {
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/navbar/double-line-container.html")
+    }
+  }
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/main.html", {
+      "category": "ecommerce",
+      "subcategory": "",
+      "link": "ecommerce-manage-reviews.html"
+    })
+  }
+
+  @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
+    @@include("@@autopath/partials/sidebar/compact.html", {
+      "category": "ecommerce",
+      "subcategory": "",
+      "link": "ecommerce-manage-reviews.html"
+    })
+  }
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content @@layoutBuilder.header.containerMode">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-header-title">Manage reviews</h1>
+
+        <!-- Nav -->
+        <ul class="nav nav-tabs page-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              Published
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Pending <span class="badge bg-soft-dark text-dark rounded-pill ms-1">2</span>
+            </a>
+          </li>
+        </ul>
+        <!-- End Nav -->
+      </div>
+      <!-- End Page Header -->
+
+      <!-- Card -->
+      <div class="card mb-3 mb-lg-5">
+        <!-- Body -->
+        <div class="card-body">
+          <div class="row align-items-md-center gx-md-5">
+            <div class="col-md-auto mb-3 mb-md-0">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img class="avatar avatar-xl avatar-4x3" src="@@autopath/assets/svg/illustrations/oc-review.svg" alt="Image Description" data-hs-theme-appearance="default">
+                  <img class="avatar avatar-xl avatar-4x3" src="@@autopath/assets/svg/illustrations-light/oc-review.svg" alt="Image Description" data-hs-theme-appearance="dark">
+                </div>
+
+                <div class="flex-grow-1 ms-5">
+                  <h4 class="display-3 text-dark mb-0">4.84</h4>
+                  <p>&mdash; of 7 reviews <span class="badge bg-soft-dark text-dark rounded-pill ms-1">+1 this week</span></p>
+                </div>
+              </div>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-md">
+              <!-- List -->
+              <ul class="list-unstyled list-py-1 mb-0">
+                <!-- Review Ratings -->
+                <li class="d-flex align-items-center fs-6">
+                  <span class="me-3">5 star</span>
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar" role="progressbar" style="width: 82%;" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-3">4</span>
+                </li>
+                <!-- End Review Ratings -->
+
+                <!-- Review Ratings -->
+                <li class="d-flex align-items-center fs-6">
+                  <span class="me-3">4 star</span>
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar" role="progressbar" style="width: 18%;" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-3">3</span>
+                </li>
+                <!-- End Review Ratings -->
+
+                <!-- Review Ratings -->
+                <li class="d-flex align-items-center fs-6">
+                  <span class="me-3">3 star</span>
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-3">0</span>
+                </li>
+                <!-- End Review Ratings -->
+
+                <!-- Review Ratings -->
+                <li class="d-flex align-items-center fs-6">
+                  <span class="me-3">2 star</span>
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-3">0</span>
+                </li>
+                <!-- End Review Ratings -->
+
+                <!-- Review Ratings -->
+                <li class="d-flex align-items-center fs-6">
+                  <span class="me-3">1 star</span>
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="ms-3">0</span>
+                </li>
+                <!-- End Review Ratings -->
+              </ul>
+              <!-- End List -->
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Body -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header card-header-content-md-between">
+          <div class="mb-2 mb-md-0">
+            <form>
+              <!-- Search -->
+              <div class="input-group input-group-merge input-group-flush">
+                <div class="input-group-prepend input-group-text">
+                  <i class="bi-search"></i>
+                </div>
+                <input id="datatableSearch" type="search" class="form-control" placeholder="Search reviews" aria-label="Search reviews">
+              </div>
+              <!-- End Search -->
+            </form>
+          </div>
+
+          <div class="d-grid d-sm-flex justify-content-md-end align-items-sm-center gap-2">
+            <!-- Datatable Info -->
+            <div id="datatableCounterInfo" style="display: none;">
+              <div class="d-flex align-items-center">
+                <span class="fs-5 me-3">
+                  <span id="datatableCounter">0</span>
+                  Selected
+                </span>
+                <a class="btn btn-outline-danger btn-sm" href="javascript:;">
+                  <i class="bi-trash"></i> Delete
+                </a>
+              </div>
+            </div>
+            <!-- End Datatable Info -->
+
+            <!-- Dropdown -->
+            <div class="dropdown">
+              <button type="button" class="btn btn-white btn-sm dropdown-toggle w-100" id="usersExportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi-download me-2"></i> Export
+              </button>
+
+              <div class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="usersExportDropdown">
+                <span class="dropdown-header">Options</span>
+                <a id="export-copy" class="dropdown-item" href="javascript:;">
+                  <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/illustrations/copy-icon.svg" alt="Image Description">
+                  Copy
+                </a>
+                <a id="export-print" class="dropdown-item" href="javascript:;">
+                  <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/illustrations/print-icon.svg" alt="Image Description">
+                  Print
+                </a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-header">Download options</span>
+                <a id="export-excel" class="dropdown-item" href="javascript:;">
+                  <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/brands/excel-icon.svg" alt="Image Description">
+                  Excel
+                </a>
+                <a id="export-csv" class="dropdown-item" href="javascript:;">
+                  <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/components/placeholder-csv-format.svg" alt="Image Description">
+                  .CSV
+                </a>
+                <a id="export-pdf" class="dropdown-item" href="javascript:;">
+                  <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/brands/pdf-icon.svg" alt="Image Description">
+                  PDF
+                </a>
+              </div>
+            </div>
+            <!-- End Dropdown -->
+
+            <!-- Select -->
+            <div class="tom-select-custom tom-select-custom-end">
+              <select class="js-select js-datatable-filter form-select form-select-sm" data-target-column-index="5"
+                      data-hs-tom-select-options='{
+                        "searchInDropdown": false,
+                        "hideSearch": true,
+                        "dropdownWidth": "11rem",
+                        "placeholder": "Filters",
+                        "dropdownWrapperClass": "tom-select-custom tom-select-custom-end"
+                      }'>
+                <option value="null" selected>All</option>
+                <option value="Published">Published</option>
+                <option value="Pending">Pending</option>
+              </select>
+            </div>
+            <!-- End Select -->
+          </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Table -->
+        <div class="table-responsive datatable-custom">
+          <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap card-table"
+                 data-hs-datatables-options='{
+                   "columnDefs": [{
+                      "targets": [0, 3, 6],
+                      "orderable": false
+                    }],
+                   "order": [],
+                   "info": {
+                     "totalQty": "#datatableWithPaginationInfoTotalQty"
+                   },
+                   "search": "#datatableSearch",
+                   "entries": "#datatableEntries",
+                   "pageLength": 5,
+                   "isResponsive": false,
+                   "isShowPaging": false,
+                   "pagination": "datatablePagination"
+                 }'>
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="datatableCheckAll">
+                    <label class="form-check-label" for="datatableCheckAll"></label>
+                  </div>
+                </th>
+                <th>Product</th>
+                <th>Reviewer</th>
+                <th>Review</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck2">
+                    <label class="form-check-label" for="usersDataCheck2"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img18.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Brown Hat</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-circle">
+                      <img class="avatar-img" src="@@autopath/assets/img/160x160/img10.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-inherit">Amanda Harvey <i class="bi-patch-check-fill text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Verified purchase"></i></span>
+                      <span class="d-block fs-6 text-body">amanda@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                    </div>
+
+                    <h4 class="mb-1">I just love it!</h4>
+                    <p>I bought this hat for my boyfriend, but then i found out he cheated on me so I kept it and I love it!! I wear it all the time and there is no problem with the fit even though its a mens" hat.</p>
+                  </div>
+                </td>
+                <td>Aug 17, 2020, 5:48</td>
+                <td><span class="badge bg-soft-success text-success ms-2">Published</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown1">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck3">
+                    <label class="form-check-label" for="usersDataCheck3"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img3.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Calvin Klein t-shirts</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-soft-dark avatar-circle">
+                      <span class="avatar-initials">A</span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Anne Richard</span>
+                      <span class="d-block fs-6 text-body">anne@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                    </div>
+
+                    <h4 class="mb-1">Really nice</h4>
+                    <p>Material is great and very comfortable and stylish.</p>
+                  </div>
+                </td>
+                <td>Aug 04, 2020, 3:17</td>
+                <td><span class="badge bg-soft-warning text-warning ms-2">Pending</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown2">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck4">
+                    <label class="form-check-label" for="usersDataCheck4"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img24.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Clarks shoes</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-circle">
+                      <img class="avatar-img" src="@@autopath/assets/img/160x160/img3.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">David Harrison</span>
+                      <span class="d-block fs-6 text-body">david@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                      <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                    </div>
+
+                    <h4 class="mb-1">Good product</h4>
+                    <p>A really well built shoe. It looks great and wears just as well. A great staple in ball caps.</p>
+                  </div>
+                </td>
+                <td>June 18, 2020, 09:19</td>
+                <td><span class="badge bg-soft-success text-success ms-2">Published</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown3">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck5">
+                    <label class="form-check-label" for="usersDataCheck5"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img19.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Levis women's jeans</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-circle">
+                      <img class="avatar-img" src="@@autopath/assets/img/160x160/img5.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">David Harrison</span>
+                      <span class="d-block fs-6 text-body">david@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                    </div>
+
+                    <h4 class="mb-1">Buy the product, you will not regret it!</h4>
+                    <p>Don't let this merchandise get away! It's a must buy and you will look good in it while working out.</p>
+                  </div>
+                </td>
+                <td>June 08, 2020, 07:22</td>
+                <td><span class="badge bg-soft-success text-success ms-2">Published</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown4" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown4">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck6">
+                    <label class="form-check-label" for="usersDataCheck6"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img11.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Asos t-shirts</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-soft-dark avatar-circle">
+                      <span class="avatar-initials">B</span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Bob Dean</span>
+                      <span class="d-block fs-6 text-body">bob@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                      <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                    </div>
+
+                    <h4 class="mb-1">Ready for the heat!</h4>
+                    <p>As good as the heat Rdy T-shirt but without the sleeves. Love the stripes on the back.</p>
+                  </div>
+                </td>
+                <td>May 27, 2020, 04:01</td>
+                <td><span class="badge bg-soft-warning text-warning ms-2">Pending</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown5" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown5">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck7">
+                    <label class="form-check-label" for="usersDataCheck7"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img7.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Tiro track jacket</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-circle">
+                      <img class="avatar-img" src="@@autopath/assets/img/160x160/img9.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Ella Lauda <i class="bi-patch-check-fill text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></span>
+                      <span class="d-block fs-6 text-body">ella@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="default">
+                      <img src="@@autopath/assets/svg/illustrations-light/star-muted.svg" alt="Review rating" width="14" data-hs-theme-appearance="dark">
+                    </div>
+
+                    <h4 class="mb-1">Very nice</h4>
+                    <p>Great quality, it is a loose fitting but I would recommend going one size smaller as normal. I always prefer bigger size so bought large for me. Love the pride vibes!!!</p>
+                  </div>
+                </td>
+                <td>June 08, 2020, 07:22</td>
+                <td><span class="badge bg-soft-success text-success ms-2">Published</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown6" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown6">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+
+              <tr>
+                <td class="table-column-pe-0">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="usersDataCheck8">
+                    <label class="form-check-label" for="usersDataCheck8"></label>
+                  </div>
+                </td>
+                <th>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar">
+                      <img class="avatar-img" src="@@autopath/assets/img/400x400/img14.jpg" alt="Image Description">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Air Jordan 1</span>
+                    </div>
+                  </a>
+                </th>
+                <td>
+                  <a class="d-flex align-items-center" href="@@autopath/user-profile.html">
+                    <div class="avatar avatar-soft-info avatar-circle">
+                      <span class="avatar-initials">L</span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <span class="card-title h5 text-dark text-inherit">Lori Hunter <i class="bi-patch-check-fill text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></span>
+                      <span class="d-block fs-6 text-body">lori@site.com</span>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <div class="text-wrap" style="width: 18rem;">
+                    <div class="d-flex gap-1 mb-2">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                      <img src="@@autopath/assets/svg/illustrations/star.svg" alt="Review rating" width="14">
+                    </div>
+
+                    <h4 class="mb-1">The hype is real!</h4>
+                    <p>I am very pleased with my purchase. I have started to have my friends become addicted to Air Jordans also.</p>
+                  </div>
+                </td>
+                <td>May 01, 2020, 01:36</td>
+                <td><span class="badge bg-soft-success text-success ms-2">Published</span></td>
+                <td>
+                  <!-- Unfold -->
+                  <div class="hs-unfold">
+                    <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle" id="settingsDropdown7" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi-three-dots-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="settingsDropdown7">
+                      <span class="dropdown-header">Settings</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-pencil-fill dropdown-item-icon"></i> Edit
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-upload dropdown-item-icon"></i> Publish
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-trash dropdown-item-icon"></i> Delete
+                      </a>
+
+                      <div class="dropdown-divider"></div>
+
+                      <span class="dropdown-header">Feedback</span>
+
+                      <a class="dropdown-item" href="#">
+                        <i class="bi-reply dropdown-item-icon"></i> Reply
+                      </a>
+                    </div>
+                  </div>
+                  <!-- End Unfold -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- End Table -->
+
+        <!-- Footer -->
+        <div class="card-footer">
+          <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+            <div class="col-sm mb-2 mb-sm-0">
+              <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                <span class="me-2">Showing:</span>
+
+                <!-- Select -->
+                <div class="tom-select-custom">
+                  <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                          data-hs-tom-select-options='{
+                            "searchInDropdown": false,
+                            "hideSearch": true
+                          }'>
+                    <option value="5">5</option>
+                    <option value="7" selected>7</option>
+                    <option value="12">12</option>
+                  </select>
+                </div>
+                <!-- End Select -->
+
+                <span class="text-secondary me-2">of</span>
+
+                <!-- Pagination Quantity -->
+                <span id="datatableWithPaginationInfoTotalQty"></span>
+              </div>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-sm-auto">
+              <div class="d-flex justify-content-center justify-content-sm-end">
+                <!-- Pagination -->
+                <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+              </div>
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Footer -->
+      </div>
+      <!-- End Card -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    @@if(layoutBuilder.header.containerMode === 'container-fluid') {
+      @@include("@@autopath/partials/footer/main.html")
+    }
+
+    @@if(layoutBuilder.header.containerMode === 'container') {
+      @@include("@@autopath/partials/footer/container.html")
+    }
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Keyboard Shortcuts -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
+  <!-- End Keyboard Shortcuts -->
+
+  <!-- Activity -->
+  @@include("@@autopath/partials/layouts-components/offcanvas-activity.html")
+  <!-- End Activity -->
+
+  <!-- Welcome Message Modal -->
+  @@include("@@autopath/partials/modals/welcome-message.html")
+  <!-- End Welcome Message Modal -->
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory @@deleteLine:build -->
+  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <!-- bundlejs:vendor [@@autopath] -->
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-form-search/dist/hs-form-search.min.js"></script>
+  @@if(layoutBuilder.header.layoutMode !== 'default') {
+    <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  }
+  <script src="@@autopath/node_modules/tom-select/dist/js/tom-select.complete.min.js"></script>
+  <script src="@@autopath/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="@@autopath/assets/vendor/datatables.net.extensions/select/select.min.js"></script>
+  <script src="@@autopath/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="@@autopath/node_modules/jszip/dist/jszip.min.js"></script>
+  <script src="@@autopath/node_modules/pdfmake/build/pdfmake.min.js"></script>
+  <script src="@@autopath/node_modules/pdfmake/build/vfs_fonts.js"></script>
+  <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+  <!-- JS Front -->
+  <!-- bundlejs:theme [@@autopath] -->
+  <script src="@@autopath/assets/js/hs.core.js"></script>
+  <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+  <script src="@@autopath/assets/js/hs.datatables.js"></script>
+  <script src="@@autopath/assets/js/hs.tom-select.js"></script>
+
+
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // INITIALIZATION OF DATATABLES
+      // =======================================================
+      HSCore.components.HSDatatables.init($('#datatable'), {
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'copy',
+            className: 'd-none'
+          },
+          {
+            extend: 'excel',
+            className: 'd-none'
+          },
+          {
+            extend: 'csv',
+            className: 'd-none'
+          },
+          {
+            extend: 'pdf',
+            className: 'd-none'
+          },
+          {
+            extend: 'print',
+            className: 'd-none'
+          },
+        ],
+        select: {
+          style: 'multi',
+          selector: 'td:first-child input[type="checkbox"]',
+          classMap: {
+            checkAll: '#datatableCheckAll',
+            counter: '#datatableCounter',
+            counterInfo: '#datatableCounterInfo'
+          }
+        },
+        language: {
+          zeroRecords: `<div class="text-center p-4">
+              <img class="mb-3" src="@@autopath/assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+              <img class="mb-3" src="@@autopath/assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+            <p class="mb-0">No data to show</p>
+            </div>`
+        }
+      });
+
+      const datatable = HSCore.components.HSDatatables.getItem(0)
+
+      $('#export-copy').click(function() {
+        datatable.button('.buttons-copy').trigger()
+      });
+
+      $('#export-excel').click(function() {
+        datatable.button('.buttons-excel').trigger()
+      });
+
+      $('#export-csv').click(function() {
+        datatable.button('.buttons-csv').trigger()
+      });
+
+      $('#export-pdf').click(function() {
+        datatable.button('.buttons-pdf').trigger()
+      });
+
+      $('#export-print').click(function() {
+        datatable.button('.buttons-print').trigger()
+      });
+
+      $('.js-datatable-filter').on('change', function() {
+        var $this = $(this),
+          elVal = $this.val(),
+          targetColumnIndex = $this.data('target-column-index');
+
+        if (elVal === 'null') elVal = ''
+
+        datatable.column(targetColumnIndex).search(elVal).draw();
+      });
+    });
+  </script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        @@if(layoutBuilder.header.layoutMode !== 'default') {
+          // INITIALIZATION OF MEGA MENU
+          // =======================================================
+          new HSMegaMenu('.js-mega-menu', {
+            desktop: {
+              position: 'left'
+            }
+          })
+        }
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+    @@include("@@autopath/partials/layouts-components/darkmode-switcher-js.html")
+  }
+  <!-- End Style Switcher JS -->
+</body>
+</html>
