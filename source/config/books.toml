@@ -1,22 +1,10 @@
 [data]
-root = '/home/x/Workspace/sjbook/data/input/bank_ledgers'
+root = '/home/x/Workspace/sjbook/data/books/일계표'
 rglob_pattern = '*.xls*'
 ledger_types = ['kb1', 'nh1']
 
 
 [constants]
-bankaccount.status.ACTIVE = 1
-bankaccount.status.DEACTIVE = 2
-bankaccount.status.REVOKED = 3
-transaction.remove_patterns = [
-    # to_find, with_replace
-    # 21년2월
-#    ['[0-9]+년{0,1}+[0-9]*월{0,1}', ''],
-    ['[\(\<].[\>\)]', ''],
-    ['(이자세금)([:0-9,]+원)', '\1'],
-    ['[㈜ _\-\(\)（]+', ''],
-    ['[0-9,]+', '']
-]
 
 
 [kb1]

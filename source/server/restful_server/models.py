@@ -78,6 +78,9 @@ class FAccountSubCategory(models.Model):
     class Meta:
         db_table = 'FAccountSubCategoryType'
 
+    def __str__(self):
+        return self.name
+
 
 class FAccountCategory(models.Model):
     # 계정명
@@ -91,6 +94,9 @@ class FAccountCategory(models.Model):
         db_table = 'FAccountCategory'
         constraints = [models.UniqueConstraint(fields=['name', 'norm_name', 'minor_category'], name='core_major')]
 
+    def __str__(self):
+        return self.norm_name
+
 
 class FAccountMinorCategory(models.Model):
     # 중분류
@@ -101,17 +107,23 @@ class FAccountMinorCategory(models.Model):
     class Meta:
         db_table = 'FAccountMinorCategory'
 
+    def __str__(self):
+        return self.name
+
 
 class FAccountMajorCategory(models.Model):
     # 대분류
     name = models.CharField('대분류계정', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None)
     note = models.TextField(verbose_name='메모', max_length=MAX_NOTE_FIELD_LENGTH, blank=True, null=True)
-    account_type = models.ForeignKey('FAccountCategoryType', verbose_name='계정유형', on_delete=models.DO_NOTHING,
-                                     blank=False, default=None)
+    category_type = models.ForeignKey('FAccountCategoryType', verbose_name='계정유형', on_delete=models.DO_NOTHING,
+                                      blank=False, default=None)
 
     class Meta:
         db_table = 'FAccountMajorCategory'
-        constraints = [models.UniqueConstraint(fields=['name', 'account_type'], name='name_account_type')]
+        constraints = [models.UniqueConstraint(fields=['name', 'category_type'], name='name_account_type')]
+
+    def __str__(self):
+        return self.name
 
 
 class FAccountMajorMinorCategoryLink(models.Model):
@@ -124,6 +136,9 @@ class FAccountMajorMinorCategoryLink(models.Model):
     class Meta:
         db_table = 'FAccountMajorMinorCategoryLink'
         constraints = [models.UniqueConstraint(fields=['major_category', 'minor_category'], name='major_minor')]
+
+    def __str__(self):
+        return self.name
 
 
 class FAccountCategoryType(models.Model):
@@ -144,12 +159,18 @@ class FAccountCategoryType(models.Model):
     class Meta:
         db_table = 'FAccountCategoryType'
 
+    def __str__(self):
+        return self.name
+
 
 class Counterpart(models.Model):
     name = models.CharField('거래처', max_length=MAX_CHAR_FIELD_LENGTH, blank=False, default=None)
 
     class Meta:
         db_table = 'Counterpart'
+
+    def __str__(self):
+        return self.name
 
 
 class Book(models.Model):
@@ -161,3 +182,6 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'Book'
+
+    def __str__(self):
+        return f'{self.account_category}/{self.counterpart}'

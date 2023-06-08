@@ -25,6 +25,12 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'bankaccount', views.BankAccountViewSet)
 router.register(r'transaction', views.TransactionViewSet)
+router.register(r'faccount/categorytype', views.FAccountCategoryTypeViewSet)
+router.register(r'faccount/majorcategory', views.FAccountMajorCategoryViewSet)
+router.register(r'faccount/minorcategory', views.FAccountMinorCategoryViewSet)
+router.register(r'faccount/majorminorcategorylink', views.FAccountMajorMinorCategoryLinkViewSet)
+router.register(r'faccount/category', views.FAccountCategoryViewSet)
+router.register(r'faccount/subcategory', views.FAccountSubCategoryViewSet)
 
 urlpatterns = [
 

@@ -109,15 +109,15 @@ def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
         warnings.warn(f'{td.bank_name} : {len(dup_record_iloc)} / {nrecords} transactions dropped')
 
     if td.dataframe.shape[0] > 0:
-        td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.tz_convert('UTC'))
+        # td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.tz_convert('UTC'))
         datetime_format = None
-        if database_conf['database']['engine'] == 'sqlite':
-            warnings.warn('SQLite does not support timezone-aware datetime. Data saved as UTC time.')
-            # YYYY-MM-DDTHH:MM:SS
-            # sqlite : https://www.sqlite.org/lang_datefunc.html
-            # python : https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
-            datetime_format = '%Y-%m-%dT%H:%M:%S'
-            td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.strftime(datetime_format))
+        # if database_conf['database']['engine'] == 'sqlite':
+        #     warnings.warn('SQLite does not support timezone-aware datetime. Data saved as UTC time.')
+        #     # YYYY-MM-DDTHH:MM:SS
+        #     # sqlite : https://www.sqlite.org/lang_datefunc.html
+        #     # python : https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+        #     datetime_format = '%Y-%m-%dT%H:%M:%S'
+        td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.isoformat())
         td.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
 
 

@@ -9,8 +9,11 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from restful_server.models import BankAccount, Transaction
-from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer
+from restful_server.models import BankAccount, Transaction, FAccountCategoryType, FAccountMajorCategory, \
+    FAccountMinorCategory, FAccountCategory, FAccountMajorMinorCategoryLink, FAccountSubCategory
+from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer, \
+    FAccountCategoryTypeSerializer, FAccountMajorCategorySerializer, FAccountMinorCategorySerializer, \
+    FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer
 
 
 # from django_filters import rest_framework as filters
@@ -82,7 +85,114 @@ class TransactionViewSet(viewsets.ModelViewSet):
         'datetime': ['gte', 'lte', 'exact', 'gt', 'lt'],
         'recipient': ['icontains'],
         'user_note': ['icontains'],
-        'category': ['icontains'],
         'bank_note': ['icontains'],
         'bank__bank_name': ['icontains'],
     }
+
+
+class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountCategoryType.objects.all()
+    serializer_class = FAccountCategoryTypeSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = ['name', 'note']
+    filterset_fields = {
+        'name': ['icontains'],
+        'note': ['icontains'],
+    }
+
+
+class FAccountMajorCategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountMajorCategory.objects.all()
+    serializer_class = FAccountMajorCategorySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = ['name', 'note']
+    filterset_fields = {
+        'name': ['icontains'],
+        'note': ['icontains'],
+    }
+
+
+class FAccountMinorCategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountMinorCategory.objects.all()
+    serializer_class = FAccountMinorCategorySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = ['name', 'note']
+    filterset_fields = {
+        'name': ['icontains'],
+        'note': ['icontains'],
+    }
+
+
+class FAccountCategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountCategory.objects.all()
+    serializer_class = FAccountCategorySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = ['name', 'note']
+    filterset_fields = {
+        'name': ['icontains'],
+        'note': ['icontains'],
+    }
+
+
+class FAccountSubCategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountSubCategory.objects.all()
+    serializer_class = FAccountSubCategorySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = ['name', 'note']
+    filterset_fields = {
+        'name': ['icontains'],
+        'note': ['icontains'],
+    }
+
+
+class FAccountMajorMinorCategoryLinkViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Transaction to be viewed or edited.
+
+    list, retrieve, ... 기능 변경은 method 를 overwriting 해서 사용한다.
+    """
+    queryset = FAccountMajorMinorCategoryLink.objects.all()
+    serializer_class = FAccountMajorMinorCategoryLinkSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # filter_backends = [DjangoFilterBackend]
+    # search_fields = ['name', 'note']
+    # filterset_fields = {
+    #     'name': ['icontains'],
+    #     'note': ['icontains'],
+    # }
