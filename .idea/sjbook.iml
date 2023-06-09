@@ -19,6 +19,14 @@
       <excludeFolder url="file://$MODULE_DIR$/source/venv" />
       <excludeFolder url="file://$MODULE_DIR$/src" />
       <excludeFolder url="file://$MODULE_DIR$/src/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea-backup/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/data-backup" />
+      <excludeFolder url="file://$MODULE_DIR$/source/client/front-dashboard-v2.1.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/source/client/front-dashboard-v2.1.1/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/source/client/front-dashboard-v2.1.1/src/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/source/server/restful_server/migrations" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

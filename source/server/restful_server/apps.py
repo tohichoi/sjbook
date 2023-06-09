@@ -15,7 +15,9 @@ class CustomPagination(pagination.PageNumberPagination):
                 'next': self.get_next_link(),
                 'previous': self.get_previous_link()
             },
-            'page_count': self.max_page_size,
-            'count': self.page.paginator.count,
-            'results': data
+            'current_page': self.page.number,
+            'num_pages': self.page.paginator.num_pages,
+            'item_count_per_page': self.max_page_size,
+            'item_count': self.page.paginator.count,
+            'data': data
         })

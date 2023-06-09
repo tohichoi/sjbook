@@ -667,15 +667,15 @@
 
         <!-- Table -->
         <div class="table-responsive datatable-custom position-relative">
-          <table id="datatable" class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+          <table id="datatable" class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
                  data-hs-datatables-options='{
                    "info": {
                      "totalQty": "#datatableWithPaginationInfoTotalQty"
                    },
                    "search": "#datatableSearch",
                    "entries": "#datatableEntries",
-                   "pageLength": 15,
-                   "isResponsive": false,
+                   "pageLength": 10,
+                   "isResponsive": true,
                    "isShowPaging": false,
                    "pagination": "datatablePagination"
                  }'>
@@ -844,35 +844,91 @@
 
   <!-- JS Plugins Init. -->
   <script>
+    function convert_to_number(value) {
+      return Intl.NumberFormat().format(parseInt(value));
+    }
+
     $(document).on('ready', function () {
       // INITIALIZATION OF DATATABLES
       // =======================================================
       HSCore.components.HSDatatables.init($('#datatable'), {
         dom: 'Bfrtip',
+        serverSide: true,
+        processing: true,
+        search: {
+            return: true,
+        },
         ajax: {
-          url: 'http://0.0.0.0:8000/transaction/?format=json',
+          url: 'http://0.0.0.0:8000/transaction/?format=datatables',
           dataSrc: function(json) {
-            return json['results'];
-          }
+            return json['data'];
+          },
         },
         columns: [
-          { data: 'bank_alias' },
-          { data: 'faccount_category' },
-          { data: 'recipient' },
-          { data: 'datetime' },
-          { data: 'withdraw' },
-          { data: 'saving' },
-          { data: 'balance' },
+          { data: 'bank_alias',
+            render: function (data, type, row, meta) {
+              let logo = null;
+              if (row.bank_name.search(/^국민.*/g) >= 0)
+                logo = 'KB_logo.png';
+              else if (row.bank_name.search(/^농협.*/g) >= 0)
+                logo = 'NH_logo.png';
+              return `
+              <div class="d-flex align-items-center" href="#">
+                <div class="avatar avatar-circle">
+                  <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
+                </div>
+                <div class="ms-3">
+                  <a href="#"><span class="d-block h4 text-inherit mb-2">${row.bank_alias}</span></a>
+                  <span class="d-block fs-5 text-body">${row.bank_account_name}</span>
+                  <span class="d-block fs-5 text-body">${row.bank_account_number}</span>
+                </div>
+              </div>`;
+            }          
+          },
+          { data: 'faccount_category', name: 'faccount_category.norm_name',
+            render: function (data, type, row, meta) {
+              return (data) ? `<h4>${data.norm_name}</h4>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
+            }
+          },
+          { data: 'recipient',
+            render: function (data, type, row, meta) {
+              return (data) ? `<h4>${data}</h4>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
+            }
+          },
+          { data: 'datetime',
+            render: function (data, type, row, meta) {
+              return `<b>${new Date(data).toLocaleDateString()}</b>`;
+            }
+          },
+          { data: 'withdraw',
+            className: 'text-end', 
+            render: function (data, type, row, meta) {
+              return `<b class="text-end text-danger">${convert_to_number(data)}</b>`;
+            }
+          },
+          { data: 'saving',
+            className: 'text-end', 
+            render: function (data, type, row, meta) {
+              return `<b class="text-end text-success">${convert_to_number(data)}</b>`;
+            }
+          },
+          { data: 'balance',
+            className: 'text-end', 
+            render: function (data, type, row, meta) {
+              return `<b class="text-end">${convert_to_number(data)}</b>`;
+            }
+          },
+
           { data: 'bank_note' },
           { data: 'user_note' },
-          { data: 'bank_name' },
-          { data: 'bank_account_name' },
-          { data: 'bank_account_number' },
-          { data: 'handler' },
-          { data: 'url' },
-          { data: 'transaction_order' },
-          { data: 'pk' },
-          { data: 'transaction_id' },
+          { data: 'bank_name', visible:false },
+          { data: 'bank_account_name', visible:false },
+          { data: 'bank_account_number', visible:false },
+          { data: 'handler', visible:false },
+          { data: 'url', visible:false },
+          { data: 'transaction_order', visible:false },
+          { data: 'pk', visible:false },
+          { data: 'transaction_id', visible:false },
         ],
         buttons: [
           {

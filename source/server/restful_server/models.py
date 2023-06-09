@@ -65,7 +65,7 @@ class Transaction(TransactionBase):
     class Meta:
         managed = True
         db_table = 'Transaction'
-        ordering = ['datetime', 'transaction_order', 'bank']
+        ordering = ['-datetime', '-transaction_order', 'bank']
 
 
 class FAccountSubCategory(models.Model):

@@ -16,44 +16,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 
-class BankAccountSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = BankAccount
-        # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
-        fields = ['pk', 'url', 'bank_name', 'account_name', 'account_number', 'alias', 'status', 'note']
-
-
-class TransactionSerializer(serializers.HyperlinkedModelSerializer):
-    bank_name = serializers.ReadOnlyField(source='bank.bank_name')
-    bank_account_name = serializers.ReadOnlyField(source='bank.account_name')
-    bank_account_number = serializers.ReadOnlyField(source='bank.account_number')
-    bank_alias = serializers.ReadOnlyField(source='bank.alias')
-    faccount_category = serializers.ReadOnlyField(source='faccount_category.name')
-
-    class Meta:
-        model = Transaction
-        fields = [
-            'bank_alias',
-            'faccount_category',
-            'recipient',
-            'datetime',
-            'withdraw',
-            'saving',
-            'balance',
-            'bank_note',
-            'user_note',
-            'bank_name',
-            'bank_account_name',
-            'bank_account_number',
-            'handler',
-            'url',
-            'transaction_order',
-            'pk',
-            'transaction_id',
-        ]
-        # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
-
-
 class FAccountMinorCategorySerializer(serializers.HyperlinkedModelSerializer):
     # category_type = FAccountMinorCategorySerializer(many=True, read_only=True)
 
@@ -126,4 +88,43 @@ class FAccountMajorMinorCategoryLinkSerializer(serializers.HyperlinkedModelSeria
             'major_category',
         ]
 
+
+class BankAccountSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = BankAccount
+        # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
+        fields = ['pk', 'url', 'bank_name', 'account_name', 'account_number', 'alias', 'status', 'note']
+
+
+class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+    bank_alias = serializers.ReadOnlyField(source='bank.alias')
+    faccount_category = FAccountCategorySerializer(many=False, read_only=True)
+    # faccount_category = serializers.ReadOnlyField(source='faccount_category.norm_name')
+    bank_name = serializers.ReadOnlyField(source='bank.bank_name')
+    bank_account_name = serializers.ReadOnlyField(source='bank.account_name')
+    bank_account_number = serializers.ReadOnlyField(source='bank.account_number')
+
+    class Meta:
+        model = Transaction
+        fields = [
+            'bank_alias',
+            'faccount_category',
+            'recipient',
+            'datetime',
+            'withdraw',
+            'saving',
+            'balance',
+            'bank_note',
+            'user_note',
+            'bank_name',
+            'bank_account_name',
+            'bank_account_number',
+            'handler',
+            'url',
+            'transaction_order',
+            'pk',
+            'transaction_id',
+        ]
+        # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
+        datatables_always_serialize = ('pk',)
 
