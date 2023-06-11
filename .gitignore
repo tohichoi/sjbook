@@ -10,3 +10,4 @@ source/client/front-dashboard-v2.1.1/dist
 __pycache__/
 .gitignore
 source/config/books.toml
+/data-backup/

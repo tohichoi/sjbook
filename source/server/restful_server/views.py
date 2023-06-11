@@ -9,11 +9,16 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
+
+from restful_server.datamodels import TransactionStat
 from restful_server.models import BankAccount, Transaction, FAccountCategoryType, FAccountMajorCategory, \
     FAccountMinorCategory, FAccountCategory, FAccountMajorMinorCategoryLink, FAccountSubCategory
 from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer, \
     FAccountCategoryTypeSerializer, FAccountMajorCategorySerializer, FAccountMinorCategorySerializer, \
-    FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer
+    FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer, \
+    TransactionFilter, TransactionStatSerializer, UploadLedgerSerializer
 
 
 # from django_filters import rest_framework as filters
@@ -79,15 +84,24 @@ class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     # permission_classes = [permissions.IsAuthenticated]
     # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filter_backends = [DjangoFilterBackend]
-    search_fields = ['datetime', 'recipient', 'user_note', 'category', 'bank_note', 'bank__bank_name']
-    filterset_fields = {
-        'datetime': ['gte', 'lte', 'exact', 'gt', 'lt'],
-        'recipient': ['icontains'],
-        'user_note': ['icontains'],
-        'bank_note': ['icontains'],
-        'bank__bank_name': ['icontains'],
-    }
+    # filter_backends = (DatatablesFilterBackend,)
+    # filterset_class = TransactionFilter
+    #
+    # search_fields = ['datetime', 'recipient', 'user_note', 'category', 'bank_note', 'bank__bank_name']
+    # filterset_fields = {
+    #     'datetime': ['gte', 'lte', 'exact', 'gt', 'lt'],
+    #     'recipient': ['icontains'],
+    #     'user_note': ['icontains'],
+    #     'bank_note': ['icontains'],
+    #     'bank__bank_name': ['icontains'],
+    # }
+
+
+class TransactionStatAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        trs = Transaction.objects.all()
+        stat = TransactionStat(trs)
+        return Response(stat.get_stat())
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
@@ -196,3 +210,16 @@ class FAccountMajorMinorCategoryLinkViewSet(viewsets.ModelViewSet):
     #     'name': ['icontains'],
     #     'note': ['icontains'],
     # }
+
+
+class UploadLedgerAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = UploadLedgerSerializer(data=request.data, request=request)
+        if serializer.is_valid():
+            # file_uploaded = request.FILES.get('file_uploaded')
+            # content_type = file_uploaded.content_type
+            # response = "POST API and you have uploaded a {} file".format(content_type)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+

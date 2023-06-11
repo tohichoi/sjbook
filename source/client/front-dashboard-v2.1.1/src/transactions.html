@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>Transactions | Front - Admin &amp; Dashboard Template</title>
+  <title>은행거래내역</title>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="@@autopath/favicon.ico">
@@ -42,6 +42,9 @@
         }
     </style>
   }
+
+  <!-- plugin CSS -->
+  <link rel="stylesheet" href="@@autopath/node_modules/daterangepicker/daterangepicker.css">
 
   </head>
 
@@ -100,21 +103,16 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb breadcrumb-no-gutter">
                 <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Users</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">은행거래내역</a></li>
+                <li class="breadcrumb-item active" aria-current="page">전체내역</li>
               </ol>
             </nav>
 
-            <h1 class="page-header-title">Transactions</h1>
+            <h1 class="page-header-title">전체내역<span class="ml-5"><small class="ml-5 text-muted">All transactions</small></span></h1>
+            
           </div>
           <!-- End Col -->
 
-          <div class="col-sm-auto">
-            <a class="btn btn-primary" href="@@autopath/users-add-user.html">
-              <i class="bi-person-plus-fill me-1"></i> Add user
-            </a>
-          </div>
-          <!-- End Col -->
         </div>
         <!-- End Row -->
       </div>
@@ -126,11 +124,11 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">Total users</h6>
+              <h6 class="card-subtitle mb-2">운영 이익</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
-                  <span class="js-counter display-4 text-dark">24</span>
+                  <span class="js-counter display-4 text-dark">250000000</span>
                   <span class="text-body fs-5 ms-1">from 22</span>
                 </div>
                 <!-- End Col -->
@@ -152,7 +150,7 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">Active members</h6>
+              <h6 class="card-subtitle mb-2">입금 금액</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
@@ -176,7 +174,7 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">New/returning</h6>
+              <h6 class="card-subtitle mb-2">출금 금액</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
@@ -201,7 +199,7 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">Active members</h6>
+              <h6 class="card-subtitle mb-2">입금건수</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
@@ -226,22 +224,62 @@
       <div class="card">
         <!-- Header -->
         <div class="card-header card-header-content-md-between">
+          <!-- Search -->
           <div class="mb-2 mb-md-0">
             <form>
-              <!-- Search -->
               <div class="input-group input-group-merge input-group-flush">
                 <div class="input-group-prepend input-group-text">
                   <i class="bi-search"></i>
                 </div>
-                <input id="datatableSearch" type="search" class="form-control" placeholder="거래내역 검색" aria-label="Search users">
+                <input id="datatableSearch" type="search" class="form-control" placeholder="거래내역 검색">
               </div>
-              <!-- End Search -->
             </form>
           </div>
+          <!-- End Search -->
+
+          <!-- Pagination Quantity -->
+          <span class="me-1">검색결과:&nbsp;<span id="datatableWithPaginationInfoTotalQty" class="text-info me-1"></span>건</span>
+          <!-- End Pagination Quantity -->
 
           <div class="d-grid d-sm-flex justify-content-md-end align-items-sm-center gap-2">
+            <!-- Date range -->
+            <div class="row">
+              <div class="col-sm-12 text-center">
+                  <!-- date picker -->
+                <input type="text" class="js-daterangepicker-clear form-control daterangepicker-custom-input" placeholder="검색할 기간을 선택하세요"
+                    data-hs-daterangepicker-options='{
+                    "autoUpdateInput": true,
+                    "locale": {
+                      "cancelLabel": "취소"
+                    }
+                  }'>
+              </div>
+            </div>
+            <!-- End Date range -->
+
+            <!-- Decade -->
+            <div class="row">
+              <div class="col-sm-12 text-center">
+                <!-- <h4 class="bg-primary text-white p-2" style="margin: 15px;">(AlbumViewSet) Full example with foreign key and many to many relation</h4> -->
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear0" autocomplete="off" checked>
+                  <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear0">전체기간</label>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear1" autocomplete="off" checked>
+                  <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear1" rel="2020">2020년</label>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear2" autocomplete="off" checked>
+                  <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear2" rel="2021">2021년</label>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear3" autocomplete="off" checked>
+                  <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear3" rel="2022">2022년</label>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear4" autocomplete="off" checked>
+                  <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear4" rel="2023">2023년</label>
+                </div>
+              </div>
+            </div>
+            <!-- End Decade -->
+
             <!-- Datatable Info -->
-            <div id="datatableCounterInfo" style="display: none;">
+            <!-- <div id="datatableCounterInfo" style="display: none;"> -->
+            <!-- <div id="datatableCounterInfo">
               <div class="d-flex align-items-center">
                 <span class="fs-5 me-3">
                   <span id="datatableCounter">0</span>
@@ -251,7 +289,7 @@
                   <i class="bi-trash"></i> Delete
                 </a>
               </div>
-            </div>
+            </div> -->
             <!-- End Datatable Info -->
 
             <!-- Dropdown -->
@@ -665,36 +703,43 @@
         </div>
         <!-- End Header -->
 
+        <!-- <div class="d-flex justify-content-center" id="processingIndicator">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div> -->
+
         <!-- Table -->
         <div class="table-responsive datatable-custom position-relative">
           <table id="datatable" class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
                  data-hs-datatables-options='{
-                   "info": {
-                     "totalQty": "#datatableWithPaginationInfoTotalQty"
-                   },
-                   "search": "#datatableSearch",
-                   "entries": "#datatableEntries",
-                   "pageLength": 10,
-                   "isResponsive": true,
-                   "isShowPaging": false,
-                   "pagination": "datatablePagination"
+                    "info": {
+                      "totalQty": "#datatableWithPaginationInfoTotalQty"
+                    },
+                    "scrollY": 500,
+                    "search": "#datatableSearch",
+                    "entries": "#datatableEntries",
+                    "pageLength": 10,
+                    "isResponsive": false,
+                    "isShowPaging": false,
+                    "pagination": "datatablePagination"
                  }'>
             <thead class="thead-light">
               <tr>
-                <th>별칭</th>
+                <th>은행</th>
                 <th>계정</th>
                 <th>송수신인</th>
-                <th>거래시각</th>
+                <th>거래일</th>
                 <th>출금</th>
                 <th>입금</th>
                 <th>잔액</th>
                 <th>적요</th>
                 <th>메모</th>
-                <th>은행</th>
+                <!-- <th>은행</th>
                 <th>계좌명</th>
-                <th>계좌번호</th>
+                <th>계좌번호</th> -->
                 <th>처리점</th>
-                <th>세부정보</th>
+                <!-- <th>세부정보</th> -->
                 <th>순번</th>
                 <th>pk</th>
                 <th>거래ID</th>
@@ -736,7 +781,7 @@
 
                 <!-- Select -->
                 <div class="tom-select-custom">
-                  <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                  <select id="datatableEntries" class="js-select form-select form-select-borderless w-100" autocomplete="off"
                           data-hs-tom-select-options='{
                             "searchInDropdown": false,
                             "hideSearch": true
@@ -748,10 +793,8 @@
                 </div>
                 <!-- End Select -->
 
-                <span class="text-secondary me-2">of</span>
+                <!-- <span class="text-secondary me-2">of</span> -->
 
-                <!-- Pagination Quantity -->
-                <span id="datatableWithPaginationInfoTotalQty"></span>
               </div>
             </div>
             <!-- End Col -->
@@ -832,6 +875,8 @@
   <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
   <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
   <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+  <script src="@@autopath/node_modules/daterangepicker/moment.min.js"></script>
+  <script src="@@autopath/node_modules/daterangepicker/daterangepicker.js"></script>
 
   <!-- JS Front -->
   <!-- bundlejs:theme [@@autopath] -->
@@ -840,6 +885,7 @@
   <script src="@@autopath/assets/js/hs.imask.js"></script>
   <script src="@@autopath/assets/js/hs.tom-select.js"></script>
   <script src="@@autopath/assets/js/hs.datatables.js"></script>
+  <script src="@@autopath/assets/js/hs.daterangepicker.js"></script>
 
 
   <!-- JS Plugins Init. -->
@@ -854,45 +900,52 @@
       HSCore.components.HSDatatables.init($('#datatable'), {
         dom: 'Bfrtip',
         serverSide: true,
-        processing: true,
-        search: {
-            return: true,
-        },
+        // processing: true,
+        // search: {
+        //     return: true,
+        // },
+        // "language": {"searchPlaceholder": "regular expression"},
         ajax: {
           url: 'http://0.0.0.0:8000/transaction/?format=datatables',
-          dataSrc: function(json) {
-            return json['data'];
-          },
+          // dataSrc: function(json) {
+          //   return json['result'];
+          // },
         },
         columns: [
-          { data: 'bank_alias',
+          { data: 'bank', name: 'bank.alias',
             render: function (data, type, row, meta) {
               let logo = null;
-              if (row.bank_name.search(/^국민.*/g) >= 0)
+              if (data.bank_name.search(/^국민.*/g) >= 0)
                 logo = 'KB_logo.png';
-              else if (row.bank_name.search(/^농협.*/g) >= 0)
+              else if (data.bank_name.search(/^농협.*/g) >= 0)
                 logo = 'NH_logo.png';
+
               return `
-              <div class="d-flex align-items-center" href="#">
-                <div class="avatar avatar-circle">
-                  <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
-                </div>
-                <div class="ms-3">
-                  <a href="#"><span class="d-block h4 text-inherit mb-2">${row.bank_alias}</span></a>
-                  <span class="d-block fs-5 text-body">${row.bank_account_name}</span>
-                  <span class="d-block fs-5 text-body">${row.bank_account_number}</span>
-                </div>
-              </div>`;
+                <div class="d-flex align-items-center" href="#">
+                  <div class="avatar avatar-circle">
+                    <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
+                  </div>
+                  <div class="ms-3">
+                    <a class="btn btn-default" data-bs-toggle="collapse" href="#collapseDiv_${row.pk}" role="button">
+                      <b>${data.alias}</b></a>
+                    <div class="collapse" id="collapseDiv_${row.pk}">
+                      <div class="card card-body">
+                        <span class="d-block fs-5 text-body">${data.account_name}</span>
+                        <span class="d-block fs-5 text-body">${data.account_number}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
             }          
           },
-          { data: 'faccount_category', name: 'faccount_category.norm_name',
+          { data: 'faccount_category.norm_name', name: 'faccount_category.norm_name',
             render: function (data, type, row, meta) {
-              return (data) ? `<h4>${data.norm_name}</h4>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
+              return (data) ? `<b class="text-dark">${data.norm_name}</b>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
             }
           },
           { data: 'recipient',
             render: function (data, type, row, meta) {
-              return (data) ? `<h4>${data}</h4>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
+              return (data) ? `<b class="text-dark">${data}</b>` : '<span class="text-dark"><i class="bi bi-pencil-square"></i> 편집</span>';
             }
           },
           { data: 'datetime',
@@ -921,11 +974,11 @@
 
           { data: 'bank_note' },
           { data: 'user_note' },
-          { data: 'bank_name', visible:false },
-          { data: 'bank_account_name', visible:false },
-          { data: 'bank_account_number', visible:false },
+          // { data: 'bank_name', visible:false },
+          // { data: 'bank_account_name', visible:false },
+          // { data: 'bank_account_number', visible:false },
           { data: 'handler', visible:false },
-          { data: 'url', visible:false },
+          // { data: 'url', visible:false },
           { data: 'transaction_order', visible:false },
           { data: 'pk', visible:false },
           { data: 'transaction_id', visible:false },
@@ -961,13 +1014,13 @@
         //     counterInfo: '#datatableCounterInfo'
         //   }
         // },
-        language: {
-          zeroRecords: `<div class="text-center p-4">
-              <img class="mb-3" src="@@autopath/assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
-              <img class="mb-3" src="@@autopath/assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
-            <p class="mb-0">No data to show</p>
-            </div>`
-        }
+        // language: {
+        //   zeroRecords: `<div class="text-center p-4">
+        //       <img class="mb-3" src="@@autopath/assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+        //       <img class="mb-3" src="@@autopath/assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+        //     <p class="mb-0">No data to show</p>
+        //     </div>`
+        // }
       })
 
       const datatable = HSCore.components.HSDatatables.getItem(0)
@@ -992,14 +1045,83 @@
         datatable.button('.buttons-print').trigger()
       });
 
-      $('.js-datatable-filter').on('change', function() {
-        var $this = $(this),
-          elVal = $this.val(),
-          targetColumnIndex = $this.data('target-column-index');
+      $('.btn-decade').on('click', function() {
+        datatable.columns().search('');
+        var rel = $(this).attr('rel');
+        if (rel) {
+            datatable.columns(3).search('^' + rel + '.*$', true).draw();
+        } else {
+            datatable.draw();
+        }
+      });
 
-        if (elVal === 'null') elVal = ''
+      // $('.js-datatable-filter').on('change', function() {
+      //   var $this = $(this),
+      //     elVal = $this.val(),
+      //     targetColumnIndex = $this.data('target-column-index');
 
-        datatable.column(targetColumnIndex).search(elVal).draw();
+      //   if (elVal === 'null') elVal = ''
+
+      //   datatable.column(targetColumnIndex).search(elVal).draw();
+      // });
+
+      // datatable.on('processing.dt', function (e, settings, processing) {
+      //     $('#processingIndicator').css('display', 'none');
+      //     if (processing) {
+      //       $(e.currentTarget).LoadingOverlay("show");
+      //     } else {
+      //       $(e.currentTarget).LoadingOverlay("hide", true);
+      //     }
+      // });
+
+      // INITIALIZATION OF FLATPICKR
+      // =======================================================
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function daterangepicker_renderer(start, end) {
+        // window.alert(start)
+        $('.js-daterangepicker-clear').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
+      }
+      HSCore.components.HSDaterangepicker.init('.js-daterangepicker-clear', {
+        startDate: start,
+        endDate: end,
+        ranges: {
+          '오늘': [moment(), moment()],
+          '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '지난 7일': [moment().subtract(6, 'days'), moment()],
+          '지난 30일': [moment().subtract(29, 'days'), moment()],
+          '이번 달': [moment().startOf('month'), moment().endOf('month')],
+          '지난 달': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, daterangepicker_renderer);
+
+      daterangepicker_renderer(start, end)
+
+      $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+          s = $('.js-daterangepicker-clear').value.split('~')
+          var min = s[0].trim();
+          var max = s[1].trim();
+          var date = new Date( data[3] );
+  
+          if (
+              ( min === null && max === null ) ||
+              ( min === null && date <= max ) ||
+              ( min <= date   && max === null ) ||
+              ( min <= date   && date <= max )
+          ) {
+              return true;
+          }
+          return false;
+        }
+      );
+      // // // const datarangepicker = HSCore.components.HSDaterangepicker.getItem(0)
+      // $('.js-daterangepicker-clear').on('apply.daterangepicker', (event) => {
+      // })
+
+      $('.js-daterangepicker-clear').on('change', (event) => {
+        datatable.draw();
       });
     });
   </script>
@@ -1062,6 +1184,8 @@
         // INITIALIZATION OF FILE ATTACHMENT
         // =======================================================
         new HSFileAttach('.js-file-attach')
+
+
       }
     })()
   </script>
