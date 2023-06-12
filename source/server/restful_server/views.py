@@ -2,6 +2,7 @@ from code import interact
 
 import pendulum
 from django.db.models import Min, QuerySet
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django_filters.rest_framework import DjangoFilterBackend
@@ -128,13 +129,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return get_daterange_queryset(self.request, Transaction)
 
     # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
-    def get_stat(self):
+    def stat(self):
         ts = TransactionStat(self.get_queryset())
-        trs = TransactionStatSerializer(data=ts)
-        return trs
+        return ts.get_stat()
 
     class Meta:
-        datatables_extra_json = ('get_stat',)
+        datatables_extra_json = ('stat',)
 
 
 class TransactionStatAPIView(APIView):
@@ -144,7 +144,7 @@ class TransactionStatAPIView(APIView):
     def get(self, request, *args, **kwargs):
         qs = self.get_queryset()
         stat = TransactionStat(qs)
-        return Response(stat.get_stat())
+        return JsonResponse(stat.get_stat(), safe=True)
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):

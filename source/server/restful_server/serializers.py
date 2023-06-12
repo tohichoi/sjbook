@@ -214,8 +214,9 @@ class TransactionStatSerializer(serializers.BaseSerializer):
     sum_saving = serializers.IntegerField(read_only=True)
 
     def to_representation(self, instance):
+        data = super(TransactionStatSerializer, self).to_representation(instance)
         # return super().to_representation(instance)
-        return instance.get_stat()
+        return {'data': data}
 
     def to_internal_value(self, data):
         pass

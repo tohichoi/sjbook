@@ -2,7 +2,27 @@
   File for your custom SCSS style
 ------------------------------------*/
 .navbar-brand-logo {
-  width: 100%;
+  min-width: 100%;
   // min-width: $navbar-brand-default-width;
   max-width: $navbar-brand-default-width;
+}
+
+.digit-withdraw {
+  @extend .text-danger;
+}
+
+.digit-saving {
+  @extend .text-success;
+}
+
+.digit-normal {
+  @extend .text-dark;
+}
+
+.digit-balance {
+  @extend .digit-normal;
+}
+
+.digit-profit {
+  @extend .digit-balance;
 }

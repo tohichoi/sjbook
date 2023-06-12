@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>은행거래내역</title>
+  <title>결산 내역</title>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="@@autopath/favicon.ico">
@@ -79,17 +79,17 @@
   <!-- Navbar Vertical -->
   @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
     @@include("@@autopath/partials/sidebar/main.html", {
-      "category": "transactions",
+      "category": "books",
       "subcategory": "",
-      "link": "transactions.html"
+      "link": "books.html"
     })
   }
 
   @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
     @@include("@@autopath/partials/sidebar/compact.html", {
-      "category": "transactions",
+      "category": "books",
       "subcategory": "",
-      "link": "transactions.html"
+      "link": "books.html"
     })
   }
 
@@ -119,19 +119,17 @@
       <!-- End Page Header -->
 
       <!-- Stats -->
-      <!-- HSCounter : buggy -->
       <div class="row">
         <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">계좌수</h6>
+              <h6 class="card-subtitle mb-2">운영 이익</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
-                  <span class="display-4 text-dark" id="sum_accounts" 
-                    data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>24</span>
-                  <span class="text-body fs-5 ms-1">은행</span>
+                  <span class="js-counter display-4 text-dark">250000000</span>
+                  <span class="text-body fs-5 ms-1">from 22</span>
                 </div>
                 <!-- End Col -->
 
@@ -152,14 +150,12 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">출금</h6>
+              <h6 class="card-subtitle mb-2">입금 금액</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
-                  <span class="display-4 digit-withdraw" id="sum_withdraw"
-                  data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'
-                    >12</span>
-                  <span class="text-body fs-5 ms-1">원</span>
+                  <span class="js-counter display-4 text-dark">12</span>
+                  <span class="text-body fs-5 ms-1">from 11</span>
                 </div>
 
                 <div class="col-auto">
@@ -178,14 +174,13 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">입금</h6>
+              <h6 class="card-subtitle mb-2">출금 금액</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
-                  <span class="display-4 digit-saving" id="sum_saving"
-                    data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>56</span>
-                  <!-- <span class="display-4 text-dark">%</span> -->
-                  <span class="text-body fs-5 ms-1">원</span>
+                  <span class="js-counter display-4 text-dark">56</span>
+                  <span class="display-4 text-dark">%</span>
+                  <span class="text-body fs-5 ms-1">from 48.7</span>
                 </div>
 
                 <div class="col-auto">
@@ -204,14 +199,13 @@
           <!-- Card -->
           <div class="card h-100">
             <div class="card-body">
-              <h6 class="card-subtitle mb-2">이익</h6>
+              <h6 class="card-subtitle mb-2">입금건수</h6>
 
               <div class="row align-items-center gx-2">
                 <div class="col">
-                  <span class="display-4 " id="sum_profit"
-                    data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>28.6</span>
-                  <!-- <span class="display-4 text-dark">%</span> -->
-                  <span class="text-body fs-5 ms-1">원</span>
+                  <span class="js-counter display-4 text-dark">28.6</span>
+                  <span class="display-4 text-dark">%</span>
+                  <span class="text-body fs-5 ms-1">from 28.6%</span>
                 </div>
 
                 <div class="col-auto">
@@ -223,40 +217,6 @@
           </div>
           <!-- End Card -->
         </div>
-      </div>
-      <!-- End Stats -->
-
-
-      <!-- Stats -->
-      <div class="card">
-        <!-- Table -->
-        <div class="table-responsive datatable-custom position-relative">
-          <table id="datatablestat" class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                 data-hs-datatables-options='{
-                 }'>
-            <thead class="thead-light">
-              <tr>
-                <th>PK</th>
-                <th>은행</th>
-                <th>출금</th>
-                <th>입금</th>
-                <th>이익</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot class="tfoot-light">
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <!-- End Table -->
       </div>
       <!-- End Stats -->
 
@@ -787,27 +747,27 @@
             </thead>
             <tbody>
             </tbody>
-            <tfoot class="tfoot-light">
+            <!-- <tfoot class="tfoot-light">
               <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <!-- <th>은행</th>
+                <th>별칭</th>
+                <th>계정</th>
+                <th>송수신인</th>
+                <th>거래시각</th>
+                <th>출금</th>
+                <th>입금</th>
+                <th>잔액</th>
+                <th>적요</th>
+                <th>메모</th>
+                <th>은행</th>
                 <th>계좌명</th>
-                <th>계좌번호</th> -->
-                <th></th>
-                <!-- <th>세부정보</th> -->
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>계좌번호</th>
+                <th>처리점</th>
+                <th>세부정보</th>
+                <th>순번</th>
+                <th>pk</th>
+                <th>거래ID</th>
               </tr>
-            </tfoot>
+            </tfoot> -->
           </table>
         </div>
         <!-- End Table -->
@@ -935,94 +895,6 @@
     }
 
     $(document).on('ready', function () {
-      // INITIALIZATION OF FLATPICKR
-      // =======================================================
-      // 데이터테이블보다 먼저 초기화 되어야 한다.
-      var start = moment().subtract(29, 'days');
-      var end = moment();
-
-      // function daterangepicker_renderer(start, end) {
-      //   // .val(value)
-      //   // damn jquery!
-      //   $('.js-daterangepicker-clear').val(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
-      // }
-      HSCore.components.HSDaterangepicker.init('.js-daterangepicker-clear', {
-        startDate: start,
-        endDate: end,
-        ranges: {
-          '오늘': [moment(), moment()],
-          '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          // '지난 7일': [moment().subtract(6, 'days'), moment()],
-          // '지난 30일': [moment().subtract(29, 'days'), moment()],
-          '이번 달': [moment().startOf('month'), moment().endOf('month')],
-          '지난 달': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        "locale": {
-          "format": "YYYY-MM-DD",
-          "separator": " ~ ",
-          "applyLabel": "적용",
-          "cancelLabel": "취소",
-          "fromLabel": "시작",
-          "toLabel": "종료",
-          "customRangeLabel": "직접 설정",
-          "weekLabel": "주",
-          "daysOfWeek": [
-              "일",
-              "월",
-              "화",
-              "수",
-              "목",
-              "금",
-              "토"
-          ],
-          "monthNames": [
-              "1월",
-              "2월",
-              "3월",
-              "4월",
-              "5월",
-              "6월",
-              "7월",
-              "8월",
-              "9월",
-              "10월",
-              "11월",
-              "12월",
-          ],
-          "firstDay": 1
-        }
-      });
-
-      // daterangepicker_renderer(start, end)
-
-      // serverside 에서는 동작하지 않음 
-      // $.fn.dataTable.ext.search.push(
-      //   function( settings, data, dataIndex ) {
-      //     s = $('.js-daterangepicker-clear').value.split('~')
-      //     var min = s[0].trim();
-      //     var max = s[1].trim();
-      //     var date = new Date( data[3] );
-  
-      //     if (
-      //         ( min === null && max === null ) ||
-      //         ( min === null && date <= max ) ||
-      //         ( min <= date   && max === null ) ||
-      //         ( min <= date   && date <= max )
-      //     ) {
-      //         return true;
-      //     }
-      //     return false;
-      //   }
-      // );
-
-      // // // // const datarangepicker = HSCore.components.HSDaterangepicker.getItem(0)
-      // $('.js-daterangepicker-clear').on('apply.daterangepicker', (event) => {
-      // })
-
-      function render_bank_name(data, type, row, meta) {
-
-      }
-      
       // INITIALIZATION OF DATATABLES
       // =======================================================
       HSCore.components.HSDatatables.init($('#datatable'), {
@@ -1035,34 +907,9 @@
         // "language": {"searchPlaceholder": "regular expression"},
         ajax: {
           url: 'http://0.0.0.0:8000/transaction/?format=datatables',
-          // type: 'POST',
-          data: function(dtParms){
-            s = $('.js-daterangepicker-clear').val().split('~')
-            var min_date = s[0].trim();
-            var max_date = s[1].trim();
-            dtParms.min_date = min_date;
-            dtParms.max_date = max_date;
-            return dtParms
-          }
-        },
-        footerCallback: function (row, data, start, end, display) {
-          var api = this.api(), data;
-
-          var calcTotal = function (col_index) {
-              var col;
-              col = api.column(col_index);
-              const g_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
-              // col = api.column(col_index, {page: 'current'});
-              // const p_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
-              $(col.footer()).html(`${Intl.NumberFormat().format(parseInt(g_total))}`);
-
-              return g_total;
-          }
-
-          // quantity, rebate, total_price
-          for (let i of [4, 5, 6]) {
-              const total = calcTotal(i);
-          }
+          // dataSrc: function(json) {
+          //   return json['result'];
+          // },
         },
         columns: [
           { data: 'bank', name: 'bank.alias',
@@ -1109,19 +956,19 @@
           { data: 'withdraw',
             className: 'text-end', 
             render: function (data, type, row, meta) {
-              return `<b class="digit-withdraw">${convert_to_number(data)}</b>`;
+              return `<b class="text-end text-danger">${convert_to_number(data)}</b>`;
             }
           },
           { data: 'saving',
             className: 'text-end', 
             render: function (data, type, row, meta) {
-              return `<b class="digit-saving">${convert_to_number(data)}</b>`;
+              return `<b class="text-end text-success">${convert_to_number(data)}</b>`;
             }
           },
           { data: 'balance',
             className: 'text-end', 
             render: function (data, type, row, meta) {
-              return `<b class="digit-balance">${convert_to_number(data)}</b>`;
+              return `<b class="text-end">${convert_to_number(data)}</b>`;
             }
           },
 
@@ -1176,7 +1023,7 @@
         // }
       })
 
-      const datatable = HSCore.components.HSDatatables.getItem('datatable')
+      const datatable = HSCore.components.HSDatatables.getItem(0)
 
       $('#export-copy').click(function() {
         datatable.button('.buttons-copy').trigger()
@@ -1201,17 +1048,11 @@
       $('.btn-decade').on('click', function() {
         datatable.columns().search('');
         var rel = $(this).attr('rel');
-        // if (!rel) {
-        //   // datatable.columns(3).search('^' + rel + '.*$', true).draw();
-        //   rel="2023";
-        // } else {
-        //   ;
-        // }
-        let start_date = moment(rel ? rel : '2020').startOf('year');
-        let end_date = moment(rel ? rel : '2023').endOf('year');
-        $('.js-daterangepicker-clear').data('daterangepicker').setStartDate(start_date);
-        $('.js-daterangepicker-clear').data('daterangepicker').setEndDate(end_date);
-        datatable.draw();
+        if (rel) {
+            datatable.columns(3).search('^' + rel + '.*$', true).draw();
+        } else {
+            datatable.draw();
+        }
       });
 
       // $('.js-datatable-filter').on('change', function() {
@@ -1233,146 +1074,54 @@
       //     }
       // });
 
-      // $('.js-daterangepicker-clear').on('change', (event) => {
-      //   if (datatable)
-      //     datatable.draw();
-      // });
-      function update_stat(stat) {
-        /*
-        (5) [{…}, {…}, {…}, {…}, {…}]
-        0
-        :
-        {bank: 2, bank__alias: '국민환전', sum_withdraw: 0, sum_saving: 1050, sum_profit: 1050}
-        1
-        :
-        {bank: 4, bank__alias: '농협스위칭 2021', sum_withdraw: 5999887, sum_saving: 12392731, sum_profit: 6392844}
-        2
-        :
-        {bank: 5, bank__alias: '농협일반경비 2021', sum_withdraw: 67624141, sum_saving: 20000000, sum_profit: -47624141}
-        3
-        :
-        {bank: 6, bank__alias: '농협관리 2203-2302', sum_withdraw: 200000000, sum_saving: 2309593, sum_profit: -197690407}
-        4
-        :
-        {bank: 7, bank__alias: '농협원자재 2020', sum_withdraw: 148458000, sum_saving: 203010000, sum_profit: 54552000}
-        length
-        :
-        5
-        [[Prototype]]
-        */
-        let sum_saving=0, sum_withdraw=0, sum_profit=0;
-        for (let s of stat) {
-          sum_saving += parseInt(s.sum_saving);
-          sum_withdraw += parseInt(s.sum_withdraw);
-          sum_profit += parseInt(s.sum_profit);
-        }
-        $('#sum_withdraw').text(convert_to_number(sum_withdraw));
-        $('#sum_saving').text(convert_to_number(sum_saving));
-        $('#sum_profit').text(convert_to_number(sum_profit));
-        let elm = $('#sum_profit');
-        if (sum_profit > 0) {
-          elm.removeClass('text-danger');
-          elm.addClass('text-primary');
-        } else {
-          elm.removeClass('text-primary');
-          elm.addClass('text-danger');
-        }
-        // $('#sum_withdraw').text(sum_withdraw);
-        // $('#sum_saving').text(sum_saving);
-        // $('#sum_profit').text(sum_profit);
+      // INITIALIZATION OF FLATPICKR
+      // =======================================================
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function daterangepicker_renderer(start, end) {
+        // window.alert(start)
+        $('.js-daterangepicker-clear').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
       }
-
-      HSCore.components.HSDatatables.init($('#datatablestat'), {
-        // dom: 'Bfrtip',
-        // serverSide: true,
-        // processing: true,
-        // search: {
-        //     return: true,
-        // },
-        // "language": {"searchPlaceholder": "regular expression"},
-        // ajax: {
-        //   url: 'http://0.0.0.0:8000/transaction/stat',
-        //   // type: 'POST',
-        //   data: function(dtParms){
-        //     s = $('.js-daterangepicker-clear').val().split('~')
-        //     var min_date = s[0].trim();
-        //     var max_date = s[1].trim();
-        //     dtParms.min_date = min_date;
-        //     dtParms.max_date = max_date;
-        //     return dtParms
-        //   }
-        // },
-        footerCallback: function (row, data, start, end, display) {
-          var api = this.api(), data;
-
-          var calcTotal = function (col_index, style) {
-            var col;
-            col = api.column(col_index);
-            const g_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
-            // col = api.column(col_index, {page: 'current'});
-            // const p_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
-            $(col.footer()).html(`<b class="${style}">${Intl.NumberFormat().format(parseInt(g_total))}</b>`);
-
-            return g_total;
-          }
-
-          // quantity, rebate, total_price
-          for (let i of [[2, 'digit-withdraw'], [3, 'digit-saving'], [4, 'digit-profit']]) {
-            calcTotal(i[0], i[1]);
-          }
-        },
-        columns : [
-          {data: 'bank', visible:false},
-          {data: 'bank__alias',
-            render: function (data, type, row, meta) {
-              let logo = null;
-              if (data.search(/^국민.*/g) >= 0)
-                logo = 'KB_logo.png';
-              else if (data.search(/^농협.*/g) >= 0)
-                logo = 'NH_logo.png';
-
-              return `
-                <div class="d-flex align-items-center" href="#">
-                  <div class="avatar avatar-circle">
-                    <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
-                  </div>
-                  <div class="ms-3">
-                    <b>${data}</b>
-                  </div>
-                </div>`;
-            }
-          },
-          {data: 'sum_withdraw', className: 'text-end',
-            render: function (data, type, row, meta) {
-              return `<b class="digit-withdraw">${convert_to_number(data)}</b>`;
-            }},
-          {data: 'sum_saving', className: 'text-end',
-            render: function (data, type, row, meta) {
-              return `<b class="digit-saving">${convert_to_number(data)}</b>`;
-            }},
-          {data: 'sum_profit', className: 'text-end',
-            render: function (data, type, row, meta) {
-              return `<b class="digit-balance">${convert_to_number(data)}</b>`;
-            }},
-        ]
-      });
-
-      const datatablestat = HSCore.components.HSDatatables.getItem('datatablestat')
-
-      $("#datatable").on('xhr.dt', function ( e, settings, json, xhr ) {
-        // console.log(json)
-        datatablestat.clear();
-        datatablestat.rows.add(json.stat);
-        datatablestat.draw();
-        update_stat(json.stat);
-      });
-
-      $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
-        // daterangepicker_renderer(picker.startDate, picker.endDate);
-        if (datatable) {
-          datatable.draw();
-          datatablestat.data = datatable.data['stat'];
+      HSCore.components.HSDaterangepicker.init('.js-daterangepicker-clear', {
+        startDate: start,
+        endDate: end,
+        ranges: {
+          '오늘': [moment(), moment()],
+          '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '지난 7일': [moment().subtract(6, 'days'), moment()],
+          '지난 30일': [moment().subtract(29, 'days'), moment()],
+          '이번 달': [moment().startOf('month'), moment().endOf('month')],
+          '지난 달': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
+      }, daterangepicker_renderer);
+
+      daterangepicker_renderer(start, end)
+
+      $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+          s = $('.js-daterangepicker-clear').value.split('~')
+          var min = s[0].trim();
+          var max = s[1].trim();
+          var date = new Date( data[3] );
+  
+          if (
+              ( min === null && max === null ) ||
+              ( min === null && date <= max ) ||
+              ( min <= date   && max === null ) ||
+              ( min <= date   && date <= max )
+          ) {
+              return true;
+          }
+          return false;
+        }
+      );
+      // // // const datarangepicker = HSCore.components.HSDaterangepicker.getItem(0)
+      // $('.js-daterangepicker-clear').on('apply.daterangepicker', (event) => {
+      // })
+
+      $('.js-daterangepicker-clear').on('change', (event) => {
+        datatable.draw();
       });
     });
   </script>

@@ -9833,7 +9833,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-success {
+.text-success, .digit-saving {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
 }
@@ -9848,7 +9848,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-warning-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-danger {
+.text-danger, .digit-withdraw {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
@@ -9858,7 +9858,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-dark {
+.text-dark, .digit-normal, .digit-balance, .digit-profit {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
 }
@@ -29021,10 +29021,10 @@ label.form-control,
 /*------------------------------------
   Text Colors
 ------------------------------------*/
-.text-dark {
+.text-dark, .digit-normal, .digit-balance, .digit-profit {
   color: #1e2022 !important;
 }
-.text-dark[href]:hover {
+.text-dark[href]:hover, [href].digit-normal:hover, [href].digit-balance:hover, [href].digit-profit:hover {
   color: white !important;
 }
 
@@ -31021,7 +31021,7 @@ select:-webkit-autofill:focus {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.text-dark {
+.text-dark, .digit-normal, .digit-balance, .digit-profit {
   color: #fff !important;
 }
 
@@ -31206,6 +31206,6 @@ select:-webkit-autofill:focus {
   File for your custom SCSS style
 ------------------------------------*/
 .navbar-brand-logo {
-  width: 100%;
+  min-width: 100%;
   max-width: 6.5rem;
 }
