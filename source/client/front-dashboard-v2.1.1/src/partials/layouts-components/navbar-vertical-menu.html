@@ -23,19 +23,53 @@
   <div id="navbarVerticalMenuPagesMenu">
     <!-- Collapse -->
     <div class="nav-item">
-      <a class="nav-link dropdown-toggle @@if(category=='transactions'){active}" href="#navbarVerticalMenuPagesUsersMenu" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesUsersMenu" aria-expanded="@@if(category=='transactions'){true}@@if(category!=='transactions'){false}" aria-controls="navbarVerticalMenuPagesUsersMenu">
-        <i class="bi-people nav-icon"></i>
-        <span class="nav-link-title">Transactions</span>
+      <a class="nav-link dropdown-toggle @@if(category=='transactions'){active}"
+        href="#navbarVerticalMenuPagesTransactionsMenu" role="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarVerticalMenuPagesTransactionsMenu"
+        aria-expanded="@@if(category=='transactions'){true}@@if(category!=='transactions'){false}"
+        aria-controls="navbarVerticalMenuPagesTransactionsMenu">
+        <i class="bi-journal-text nav-icon"></i>
+        <span class="nav-link-title">은행거래내역</span>
       </a>
 
-      <div id="navbarVerticalMenuPagesUsersMenu" class="nav-collapse collapse @@if(category=='transactions'){show}" data-bs-parent="#navbarVerticalMenuPagesMenu">
-        <a class="nav-link @@if(link=='transactions.html'){active}" href="@@autopath/transactions.html">Overview</a>
-        <a class="nav-link @@if(link=='users-leaderboard.html'){active}" href="@@autopath/users-leaderboard.html">Leaderboard</a>
-        <a class="nav-link @@if(link=='users-add-user.html'){active}" href="@@autopath/users-add-user.html">Add User <span class="badge bg-info rounded-pill ms-1">Hot</span></a>
+      <div id="navbarVerticalMenuPagesTransactionsMenu" class="nav-collapse collapse @@if(category=='transactions'){show}" data-bs-parent="#navbarVerticalMenuPagesMenu">
+        <a class="nav-link @@if(link=='transactions.html'){active}" href="@@autopath/transactions.html">전체내역</a>
+        <a class="nav-link @@if(link=='transactions-upload.html'){active}" href="@@autopath/transactions-upload.html">파일 업로드</a>
       </div>
     </div>
     <!-- End Collapse -->
 
+    <!-- Collapse -->
+    <div class="nav-item">
+      <a class="nav-link dropdown-toggle @@if(category=='books'){active}"
+        href="#navbarVerticalMenuPagesBooksMenu" role="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarVerticalMenuPagesBooksMenu"
+        aria-expanded="@@if(category=='books'){true}@@if(category!=='books'){false}"
+        aria-controls="navbarVerticalMenuPagesBooksMenu">
+        <i class="bi-journal-text nav-icon"></i>
+        <span class="nav-link-title">기간결산</span>
+      </a>
+
+      <div id="navbarVerticalMenuPagesBooksMenu"
+        class="nav-collapse collapse @@if(category=='books'){show}"
+        data-bs-parent="#navbarVerticalMenuPagesMenu">
+        <a class="nav-link @@if(link=='books.html'){active}" href="@@autopath/books.html">전체결산</a>
+        <a class="nav-link @@if(link=='books-day.html'){active}" href="@@autopath/books.html">일일결산</a>
+        <a class="nav-link @@if(link=='books-week.html'){active}"
+          href="@@autopath/books.html">주간결산</a>
+        <a class="nav-link @@if(link=='books-month.html'){active}"
+          href="@@autopath/books.html">월간결산</a>
+        <a class="nav-link @@if(link=='books-quarter.html'){active}"
+          href="@@autopath/books.html">분기결산</a>
+        <a class="nav-link @@if(link=='books-halfyear.html'){active}"
+          href="@@autopath/books.html">반기결산</a>
+        <a class="nav-link @@if(link=='books-year.html'){active}"
+          href="@@autopath/books.html">연간결산</a>
+      </div>
+    </div>
+    <!-- End Collapse -->
+
+    
     <!-- Collapse -->
     <div class="nav-item">
       <a class="nav-link dropdown-toggle @@if(category=='users'){active}" href="#navbarVerticalMenuPagesUsersMenu"
