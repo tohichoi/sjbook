@@ -210,12 +210,15 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
 
 class TransactionStatSerializer(serializers.BaseSerializer):
     sum_profit = serializers.IntegerField(read_only=True)
-    sum_withdraw = serializers.IntegerField()
-    sum_saving = serializers.IntegerField()
+    sum_withdraw = serializers.IntegerField(read_only=True)
+    sum_saving = serializers.IntegerField(read_only=True)
 
     def to_representation(self, instance):
         # return super().to_representation(instance)
         return instance.get_stat()
+
+    def to_internal_value(self, data):
+        pass
 
     class Meta:
         model = TransactionStat

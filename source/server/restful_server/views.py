@@ -1,4 +1,7 @@
 from code import interact
+
+import pendulum
+from django.db.models import Min, QuerySet
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
+from data_importer.common import TIMEZONE
 from restful_server.datamodels import TransactionStat
 from restful_server.models import BankAccount, Transaction, FAccountCategoryType, FAccountMajorCategory, \
     FAccountMinorCategory, FAccountCategory, FAccountMajorMinorCategoryLink, FAccountSubCategory
@@ -73,6 +77,24 @@ class TransactionListAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['datetime', 'recipient', 'user_note', 'category', 'bank_note', 'bank']
 
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+def get_daterange_queryset(request, cls):
+    now = pendulum.now(tz=TIMEZONE)
+
+    min_idate = request.query_params.get('min_date', now.start_of('month').to_date_string())
+    max_idate = request.query_params.get('max_date', now.to_date_string())
+
+    try:
+        min_date = pendulum.parse(min_idate).start_of('day').in_tz(TIMEZONE)
+        max_date = pendulum.parse(max_idate).end_of('day').in_tz(TIMEZONE)
+    except Exception:
+        return QuerySet()
+
+    return cls.objects.filter(datetime__gte=min_date, datetime__lte=max_date)
+
 
 class TransactionViewSet(viewsets.ModelViewSet):
     """
@@ -96,11 +118,32 @@ class TransactionViewSet(viewsets.ModelViewSet):
     #     'bank__bank_name': ['icontains'],
     # }
 
+    def list(self, request, *args, **kwargs):
+        # queryset = User.objects.all()
+        # serializer = UserSerializer(queryset, many=True)
+        # return Response(serializer.data)
+        return super().list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return get_daterange_queryset(self.request, Transaction)
+
+    # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
+    def get_stat(self):
+        ts = TransactionStat(self.get_queryset())
+        trs = TransactionStatSerializer(data=ts)
+        return trs
+
+    class Meta:
+        datatables_extra_json = ('get_stat',)
+
 
 class TransactionStatAPIView(APIView):
+    def get_queryset(self):
+        return get_daterange_queryset(self.request, Transaction)
+
     def get(self, request, *args, **kwargs):
-        trs = Transaction.objects.all()
-        stat = TransactionStat(trs)
+        qs = self.get_queryset()
+        stat = TransactionStat(qs)
         return Response(stat.get_stat())
 
 

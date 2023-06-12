@@ -6,6 +6,7 @@ from django.db.models import QuerySet, Sum, F
 class TransactionStat:
     def __init__(self, queryset):
         self.qs: QuerySet = queryset
+        self.get_stat()
 
     def get_stat(self):
         stat = OrderedDict()
