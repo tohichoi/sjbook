@@ -134,7 +134,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
     def stat(self):
-        ts = TransactionStat(self.get_queryset())
+        ts = TransactionStat(self.get_queryset(), self.min_date, self.max_date, False)
         if self.request.query_params.get('format') == 'datatables':
             return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': ts.calc_stat()}
         return ts.calc_stat()
@@ -159,15 +159,15 @@ class TransactionStatViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         qs = self.get_queryset()
-        stat = TransactionStat(qs, self.min_date, self.max_date, True)
-        serializer = TransactionStatSerializer(stat, many=False, )
+        ts = TransactionStat(qs, self.min_date, self.max_date, True)
+        serializer = TransactionStatSerializer(ts, many=False)
         return Response(serializer.data)
 
     def retrieve(self, request, format=None):
         qs = self.get_queryset()
-        stat = TransactionStat(qs, self.min_date, self.max_date)
+        ts = TransactionStat(qs, self.min_date, self.max_date)
         # resp = stat.get_stat()
-        return Response(stat)
+        return Response(ts)
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
