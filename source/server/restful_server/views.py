@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, pagination
+from rest_framework import viewsets, pagination, mixins
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import permissions
@@ -83,10 +83,13 @@ class TransactionListAPIView(generics.ListCreateAPIView):
 
 
 def get_daterange_queryset(request, cls):
-    now = pendulum.now(tz=TIMEZONE)
+    # default
+    # 최근 trans. 이 속한 달
+    max_db_date = pendulum.instance(Transaction.objects.order_by('-datetime').first().datetime)
+    min_db_date = max_db_date.start_of('month')
 
-    min_idate = request.query_params.get('min_date', now.start_of('month').to_date_string())
-    max_idate = request.query_params.get('max_date', now.to_date_string())
+    min_idate = request.query_params.get('min_date', min_db_date.to_date_string())
+    max_idate = request.query_params.get('max_date', max_db_date.to_date_string())
 
     try:
         min_date = pendulum.parse(min_idate).start_of('day').in_tz(TIMEZONE)
@@ -94,7 +97,7 @@ def get_daterange_queryset(request, cls):
     except Exception:
         return QuerySet()
 
-    return cls.objects.filter(datetime__gte=min_date, datetime__lte=max_date)
+    return cls.objects.filter(datetime__gte=min_date, datetime__lte=max_date), min_date, max_date
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -105,6 +108,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
     """
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.min_date = None
+        self.max_date = None
+
     # permission_classes = [permissions.IsAuthenticated]
     # filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     # filter_backends = (DatatablesFilterBackend,)
@@ -119,32 +128,46 @@ class TransactionViewSet(viewsets.ModelViewSet):
     #     'bank__bank_name': ['icontains'],
     # }
 
-    def list(self, request, *args, **kwargs):
-        # queryset = User.objects.all()
-        # serializer = UserSerializer(queryset, many=True)
-        # return Response(serializer.data)
-        return super().list(request, *args, **kwargs)
-
     def get_queryset(self):
-        return get_daterange_queryset(self.request, Transaction)
+        qs, self.min_date, self.max_date = get_daterange_queryset(self.request, Transaction)
+        return qs
 
     # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
     def stat(self):
         ts = TransactionStat(self.get_queryset())
-        return ts.get_stat()
+        if self.request.query_params.get('format') == 'datatables':
+            return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': ts.calc_stat()}
+        return ts.calc_stat()
 
     class Meta:
+        # TransactionStat 은 Transaction 에서 serializer 를 사용하지 않고
+        # 직접 데이터를 생성한다 (self.stat())
         datatables_extra_json = ('stat',)
 
 
-class TransactionStatAPIView(APIView):
-    def get_queryset(self):
-        return get_daterange_queryset(self.request, Transaction)
+class TransactionStatViewSet(viewsets.ViewSet):
+    serializer_class = TransactionStatSerializer
 
-    def get(self, request, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.min_date = None
+        self.max_date = None
+
+    def get_queryset(self):
+        qs, self.min_date, self.max_date = get_daterange_queryset(self.request, Transaction)
+        return qs
+
+    def list(self, request, format=None):
         qs = self.get_queryset()
-        stat = TransactionStat(qs)
-        return JsonResponse(stat.get_stat(), safe=False)
+        stat = TransactionStat(qs, self.min_date, self.max_date, True)
+        serializer = TransactionStatSerializer(stat, many=False, )
+        return Response(serializer.data)
+
+    def retrieve(self, request, format=None):
+        qs = self.get_queryset()
+        stat = TransactionStat(qs, self.min_date, self.max_date)
+        # resp = stat.get_stat()
+        return Response(stat)
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):

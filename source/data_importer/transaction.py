@@ -36,14 +36,14 @@ def swap_columns(df, col1, col2):
 def convert_datetime_kb1(v):
     # 2023.03.02 20:43:37
     # return pendulum.from_format(v, 'YYYY.MM.DD HH:mm:ss', tz=TIMEZONE)
-    dt = pendulum.from_format(v.strip(), 'YYYY.MM.DD HH:mm:ss', tz=TIMEZONE)
-    return datetime.datetime.fromisoformat(dt.to_iso8601_string())
+    dt = pendulum.from_format(v.strip(), 'YYYY.MM.DD HH:mm:ss', tz=TIMEZONE).in_tz('UTC')
+    return datetime.datetime.fromisoformat(dt.to_rfc3339_string())
 
 
 def convert_datetime_nh1(v):
     # 2023/05/26
     # return pendulum.from_format(v, 'YYYY.MM.DD HH:mm:ss', tz=TIMEZONE)
-    dt = pendulum.from_format(v.strip(), 'YYYY/MM/DD', tz=TIMEZONE)
+    dt = pendulum.from_format(v.strip(), 'YYYY/MM/DD', tz=TIMEZONE).in_tz('UTC')
     return datetime.datetime.fromisoformat(dt.to_iso8601_string())
 
 
@@ -79,7 +79,7 @@ def read_account_info(fn: Path, ac) -> TransactionData:
 
 
 def verify_transaction_data(df: pd.DataFrame):
-    df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize(TIMEZONE) if pd.isnull(x.tz) else x)
+    df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize(TIMEZONE).tz_convert('UTC') if pd.isnull(x.tz) else x)
 
     # try:
     #     df['datetime'] = df['datetime'].apply(lambda x: x.isoformat())

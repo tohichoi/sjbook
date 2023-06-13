@@ -1,5 +1,5 @@
 [data]
-root = '/home/dev/Workspace/sjbook/data/books/'
+root = 'data/books/'
 rglob_pattern = '*.xls*'
 faccount_types = ['withdraw1', 'withdraw2', 'saving1']
 

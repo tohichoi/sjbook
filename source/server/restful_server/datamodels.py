@@ -3,14 +3,23 @@ from collections import OrderedDict
 from django.db.models import QuerySet, Sum, F
 
 
+class TransactionBankStat:
+    def __init__(self, bank, bank__alias, sum_withdraw, sum_saving, sum_profit):
+        self.bank = bank
+        self.bank__alias = bank__alias
+        self.sum_withdraw = sum_withdraw
+        self.sum_saving = sum_saving
+        self.sum_profit = sum_profit
+
+
 class TransactionStat:
-    def __init__(self, queryset):
-        self.qs: QuerySet = queryset
-        self.get_stat()
+    def __init__(self, queryset, min_date, max_date, calc_stat=True):
+        # self.qs: QuerySet = queryset
+        self.min_date = min_date
+        self.max_date = max_date
+        self.stat = self.calc_stat(queryset) if calc_stat else None
 
-    def get_stat(self):
-        qs = self.qs
-
+    def calc_stat(self, qs):
         # 은행 계좌별로 합계를 구한다
         stat = qs.values('bank', 'bank__alias').order_by('bank').annotate(
             sum_withdraw=Sum('withdraw'),
@@ -22,5 +31,8 @@ class TransactionStat:
         # stat['sum_withdraw'] = qs.aggregate(sum=Sum('withdraw'))['sum']
         # stat['sum_saving'] = qs.aggregate(sum=Sum('saving'))['sum']
         # stat['sum_profit'] = stat['sum_saving'] - stat['sum_withdraw']
-
-        return 'stat', list(stat.values('bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit'))
+        l = list(stat.values('bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit'))
+        stat = []
+        for i in l:
+            stat.append(TransactionBankStat(i['bank'], i['bank__alias'], i['sum_withdraw'], i['sum_saving'], i['sum_profit']))
+        return stat

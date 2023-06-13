@@ -11,3 +11,4 @@ __pycache__/
 .gitignore
 source/config/books.toml
 /data-backup/
+/source/client/vanillajs/

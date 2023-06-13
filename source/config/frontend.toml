@@ -1,5 +1,5 @@
 [path]
-result='/home/dev/Workspace/sjbook/data/books'
+result='data/books'
 
 [auth]
 api_token='ef7ca06a65dc6636e55d427cef58abadf205582a'

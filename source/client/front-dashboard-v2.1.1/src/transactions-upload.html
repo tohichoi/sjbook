@@ -128,9 +128,9 @@
                 <div class="dz-message">
                   <img class="avatar avatar-xl avatar-4x3 mb-3" src="@@autopath/assets/svg/illustrations/oc-browse.svg" alt="Image Description">
 
-                  <h5>파일을 드래그 & 드롭 하세요</h5>
+                  <h5>파일을 여기에 끌어다 놓거나 아래 버튼을 눌러 파일을 선택하세요</h5>
 
-                  <p class="mb-2">or</p>
+                  <p class="mb-2">파일이 선택되면 자동으로 은행거래내역을 해석합니다.</p>
 
                   <span class="btn btn-white btn-sm">파일 찾아보기 ...</span>
                   <!-- <input type="file" name="ledgers" /> -->
@@ -238,12 +238,13 @@
       // INITIALIZATION OF DROPZONE
       // =======================================================
       HSCore.components.HSDropzone.init('.js-dropzone', {
-        url: 'http://localhost:8000/transaction/upload-ledgers'
+        url: 'http://localhost:8000/transaction/upload-ledgers',
+        autoProcessQueue: false
       })
       
-      const dropzone = HSCore.components.HSDropzone.getItem(0)
+      var dropzone = HSCore.components.HSDropzone.getItem(0)
 
-      let submit = document.querySelector("button[type=submit]");
+      let submit = document.querySelector("input[type=submit]");
       submit.addEventListener("click", function(e) {
             // Make sure that the form isn't actually being sent.
             e.preventDefault();
@@ -257,13 +258,29 @@
         // Gets triggered when the form is actually being sent.
         // Hide the success button or the complete form.
       });
+      
+      dropzone.on("success", function(file) {
+      // Gets triggered when the files have successfully been sent.
+      // Redirect user or notify of success.
+        console.log(file);
+      });
+
+      dropzone.on("error", function(file, message) {
+      // Gets triggered when the files have successfully been sent.
+      // Redirect user or notify of success.
+        console.log(file);
+        console.log(message);
+      });
+
       dropzone.on("successmultiple", function(files, response) {
         // Gets triggered when the files have successfully been sent.
         // Redirect user or notify of success.
+        console.log(response);
       });
       dropzone.on("errormultiple", function(files, response) {
         // Gets triggered when there was an error sending the files.
         // Maybe show form again, and notify user of error
+        console.log(response);
       });
 
     });

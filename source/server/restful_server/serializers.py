@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from zoneinfo import ZoneInfo
 from django.contrib.auth.models import User, Group
 from django.core.files.uploadedfile import UploadedFile
 from django_filters import widgets, fields, filters
@@ -11,6 +11,7 @@ from rest_framework_datatables.django_filters.filterset import DatatablesFilterS
 from xlrd import open_workbook
 
 from config import banks_conf
+from data_importer.common import TIMEZONE
 from restful_server.datamodels import TransactionStat
 from restful_server.models import BankAccount, Transaction, FAccountCategory, FAccountMajorCategory, \
     FAccountCategoryType, FAccountMinorCategory, FAccountSubCategory, FAccountMajorMinorCategoryLink
@@ -208,22 +209,34 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
         datatables_always_serialize = ('pk',)
 
 
-class TransactionStatSerializer(serializers.BaseSerializer):
-    sum_profit = serializers.IntegerField(read_only=True)
-    sum_withdraw = serializers.IntegerField(read_only=True)
-    sum_saving = serializers.IntegerField(read_only=True)
+class TransactionBankStatSerializer(serializers.Serializer):
+    bank = serializers.IntegerField()
+    bank__alias = serializers.CharField()
+    sum_withdraw = serializers.IntegerField()
+    sum_saving = serializers.IntegerField()
+    sum_profit = serializers.IntegerField()
 
-    def to_representation(self, instance):
-        data = super(TransactionStatSerializer, self).to_representation(instance)
-        # return super().to_representation(instance)
-        return {'data': data}
+    class Meta:
+        fields = ['bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit']
+
+
+class TransactionStatSerializer(serializers.Serializer):
+    min_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
+    max_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
+    # sum_profit = serializers.IntegerField(read_only=True)
+    # sum_withdraw = serializers.IntegerField(read_only=True)
+    # sum_saving = serializers.IntegerField(read_only=True)
+    stat = TransactionBankStatSerializer(many=True, read_only=True)
+
+    def get_min_date(self, obj):
+        print(obj)
 
     def to_internal_value(self, data):
-        pass
+        return super().to_internal_value(data)
 
     class Meta:
         model = TransactionStat
-        fields = ['sum_profit', 'sum_withdraw', 'sum_saving']
+        fields = ['min_date', 'max_date', 'stat']
 
 
 def validate_excel_file(value):

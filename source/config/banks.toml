@@ -1,5 +1,5 @@
 [data]
-root = '/home/dev/Workspace/sjbook/data/input/bank_ledgers'
+root = 'data/input/bank_ledgers/queue/anonymous'
 rglob_pattern = '*.xls*'
 ledger_types = ['kb1', 'nh1']
 
@@ -21,7 +21,7 @@ transaction.remove_patterns = [
 
 [kb1]
 # 국민은행
-excel.path_pattern = '.*/bank_ledgers/국민(?!외환).*xlsx?$'
+excel.path_pattern = '.*/국민(?!외환).*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]
 
@@ -49,7 +49,7 @@ transaction.column_names = ["transaction_order", "datetime", "recipient", "withd
 
 [nh1]
 # 농협은행
-excel.path_pattern = '.*/bank_ledgers/농협.*xlsx?$'
+excel.path_pattern = '.*/농협.*xlsx?$'
 excel.engine = 'xlrd'
 excel.sheet_name = [0]
 

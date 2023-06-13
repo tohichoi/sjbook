@@ -1,5 +1,5 @@
 [data]
-root = '/home/x/Workspace/sjbook/data/books/일계표'
+root = 'data/books/일계표'
 rglob_pattern = '*.xls*'
 ledger_types = ['kb1', 'nh1']
 

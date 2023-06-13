@@ -24,7 +24,8 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'bankaccount', views.BankAccountViewSet)
-router.register(r'transaction', views.TransactionViewSet)
+router.register(r'transaction/transactions', views.TransactionViewSet)
+router.register(r'transaction/stat', views.TransactionStatViewSet, basename='transactionstat')
 router.register(r'faccount/categorytype', views.FAccountCategoryTypeViewSet)
 router.register(r'faccount/majorcategory', views.FAccountMajorCategoryViewSet)
 router.register(r'faccount/minorcategory', views.FAccountMinorCategoryViewSet)
@@ -37,7 +38,7 @@ urlpatterns = [
     # path('unicode/', views.UnicodeListAPIView.as_view()),
     # path('unicode/<int:pk>/', views.UnicodeRetrieveAPIView.as_view(), name='unicode-detail'),
     path('', include(router.urls)),
-    path('transaction/stat', views.TransactionStatAPIView.as_view(), name='transactionstat-detail'),
+    # path('transaction/stat', views.TransactionStatAPIView.as_view(), name='transactionstat-detail'),
     path('transaction/upload-ledgers', views.UploadLedgerAPIView.as_view(), name='transaction-upload-ledgers'),
 
     path('admin/', admin.site.urls),

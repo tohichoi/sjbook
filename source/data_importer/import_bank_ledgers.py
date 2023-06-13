@@ -33,8 +33,8 @@ def main():
     filelist = set(data_root.rglob(banks_conf['data']['rglob_pattern']))
     trs = load_transaction_data(filelist)
     import_transaction_data(trs)
-    export_data('html')
-    export_data('excel')
+    # export_data('html')
+    # export_data('excel')
 
 
 if __name__ == '__main__':

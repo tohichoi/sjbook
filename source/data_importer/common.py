@@ -3,7 +3,8 @@ import hashlib
 import re
 
 
-TIMEZONE = 'Asia/Seoul'
+# TIMEZONE = 'Asia/Seoul'
+TIMEZONE = 'UTC'
 
 
 def generate_transaction_hash(row):
