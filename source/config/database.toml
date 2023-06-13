@@ -2,7 +2,7 @@
 engine='sqlite'
 
 [sqlite]
-file="/home/x/Workspace/sjbook/data/db/sjbook.db"
+file="/home/dev/Workspace/sjbook/data/db/sjbook.db"
 
 [table]
 [table.columns]

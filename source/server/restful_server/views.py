@@ -144,7 +144,7 @@ class TransactionStatAPIView(APIView):
     def get(self, request, *args, **kwargs):
         qs = self.get_queryset()
         stat = TransactionStat(qs)
-        return JsonResponse(stat.get_stat(), safe=True)
+        return JsonResponse(stat.get_stat(), safe=False)
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
