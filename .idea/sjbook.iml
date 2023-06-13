@@ -27,6 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/source/client/front-dashboard-v2.1.1/dist" />
       <excludeFolder url="file://$MODULE_DIR$/source/client/front-dashboard-v2.1.1/src/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/source/server/restful_server/migrations" />
+      <excludeFolder url="file://$MODULE_DIR$/source/client/vanillajs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
