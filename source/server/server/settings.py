@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'restful_server',
     'django_filters',
+    'django_extensions',
     'rest_framework_datatables'
 ]
 

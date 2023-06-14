@@ -15,7 +15,8 @@ windows:
     focus: True
     panes:
       - shell_command:
-          -
+          - 'until nc -vz `echo $SJBOOK_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
+          - curl "http://$SJBOOK_HOST?format=json" | jq
   - window_name: ranger
     panes:
       - shell_command:
@@ -31,11 +32,20 @@ windows:
       - shell_command:
 #          - 'until nc -vz $NEXTSJ_SERVER 33306; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
           - cd www
-          - python manage.py shell_plus
+          - PYTHONPATH="$HOME/Workspace/sjbook/source/" python manage.py shell_plus
   - window_name: data_imp
     panes:
       - shell_command:
           - cd source/data_importer
+  - window_name: rest
+    panes:
+      - shell_command:
+          - cd source/server
+          - PYTHONPATH="$HOME/Workspace/sjbook/source/" python manage.py runserver "$SJBOOK_HOST"
+  - window_name: gulp
+    panes:
+      - shell_command:
+          - cd source/client/front-dashboard-v2.1.1/
   - window_name: editor
     panes:
       - shell_command:
