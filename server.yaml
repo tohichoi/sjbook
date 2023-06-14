@@ -15,7 +15,7 @@ windows:
     focus: True
     panes:
       - shell_command:
-          - 'until nc -vz `echo $SJBOOK_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
+          - until nc -vz `echo $SJBOOK_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done
           - curl "http://$SJBOOK_HOST?format=json" | jq
   - window_name: ranger
     panes:
@@ -31,7 +31,7 @@ windows:
     panes:
       - shell_command:
 #          - 'until nc -vz $NEXTSJ_SERVER 33306; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
-          - cd www
+          - cd source/server
           - PYTHONPATH="$HOME/Workspace/sjbook/source/" python manage.py shell_plus
   - window_name: data_imp
     panes:
