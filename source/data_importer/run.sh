@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PYTHONPATH='/home/x/Workspace/sjbook'
+export PYTHONPATH="$HOME/Workspace/sjbook"
 
 ./import_bank_ledgers.py
 
