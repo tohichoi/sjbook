@@ -1,0 +1,49 @@
+session_name: sjbook
+
+start_directory: .
+
+#environment:
+#  TERM: xterm-256color
+options:
+  status-style: fg=white,bg=blue
+shell_command_before:
+  - if hostname | grep "samjungenr.com" ; then tmux set status-style "fg=white,bg=red" ; fi
+  - export SJBOOK_ROOT=$(pwd)
+  - source source/venv/bin/activate
+windows:
+  - window_name: shell
+    focus: True
+    panes:
+      - shell_command:
+          -
+  - window_name: ranger
+    panes:
+      - shell_command:
+          - ranger
+  - window_name: sqlite
+    panes:
+      - shell_command:
+          #- docker-compose --verbose up -d nextsj_master nextsj_slave nginx nginx-public adminer
+          - cd data/db
+          - sqlite3 sjbook.db
+  - window_name: django-shell
+    panes:
+      - shell_command:
+#          - 'until nc -vz $NEXTSJ_SERVER 33306; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
+          - cd www
+          - python manage.py shell_plus
+  - window_name: data_imp
+    panes:
+      - shell_command:
+          - cd source/data_importer
+  - window_name: editor
+    panes:
+      - shell_command:
+          - hx .
+#  - window_name: wireframe
+#    panes:
+#      - shell_command:
+#          - cd nextsj_site/nextsj/wireframe
+#          - nohup python -m http.server --bind 0.0.0.0 --directory . 11002
+
+
