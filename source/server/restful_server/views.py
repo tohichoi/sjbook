@@ -23,7 +23,7 @@ from restful_server.models import BankAccount, Transaction, FAccountCategoryType
 from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer, \
     FAccountCategoryTypeSerializer, FAccountMajorCategorySerializer, FAccountMinorCategorySerializer, \
     FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer, \
-    TransactionFilter, TransactionStatSerializer, UploadLedgerSerializer
+    TransactionFilter, TransactionStatSerializer, UploadLedgerSerializer, TransactionBankStatSerializer
 
 
 # from django_filters import rest_framework as filters
@@ -135,8 +135,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
     # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
     def stat(self):
         ts = TransactionStat(self.get_queryset(), self.min_date, self.max_date, False)
-        if self.request.query_params.get('format') == 'datatables':
-            return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': ts.calc_stat()}
+        if self.request.query_params.get('format') == 'datatables' or self.format_kwarg == 'datatables':
+            stat_list = ts.calc_stat()
+            stat_ser_list = []
+            for stat in stat_list:
+                serializer = TransactionBankStatSerializer(data=stat)
+                if serializer.is_valid():
+                    stat_ser_list.append(serializer.validated_data)
+            return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': stat_ser_list}
         return ts.calc_stat()
 
     class Meta:
@@ -157,17 +163,18 @@ class TransactionStatViewSet(viewsets.ViewSet):
         qs, self.min_date, self.max_date = get_daterange_queryset(self.request, Transaction)
         return qs
 
-    def list(self, request, format=None):
-        qs = self.get_queryset()
-        ts = TransactionStat(qs, self.min_date, self.max_date, True)
-        serializer = TransactionStatSerializer(ts, many=False)
-        return Response(serializer.data)
+    # def list(self, request, format=None):
+    #     qs = self.get_queryset()
+    #     ts = TransactionStat(qs, self.min_date, self.max_date, True)
+    #     serializer = TransactionStatSerializer(data=ts, many=False)
+    #     serializer.is_valid(raise_exception=True)
+    #     return Response(serializer.validated_data)
 
-    def retrieve(self, request, format=None):
-        qs = self.get_queryset()
-        ts = TransactionStat(qs, self.min_date, self.max_date)
-        # resp = stat.get_stat()
-        return Response(ts)
+    # def retrieve(self, request, format=None):
+    #     qs = self.get_queryset()
+    #     ts = TransactionStat(qs, self.min_date, self.max_date)
+    #     # resp = stat.get_stat()
+    #     return Response(ts)
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
