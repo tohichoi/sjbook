@@ -1,6 +1,7 @@
 from pathlib import Path
 from zoneinfo import ZoneInfo
 from django.contrib.auth.models import User, Group
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import UploadedFile
 from django_filters import widgets, fields, filters
 from openpyxl.reader.excel import load_workbook
@@ -12,7 +13,7 @@ from xlrd import open_workbook
 
 from config import banks_conf
 from data_importer.common import TIMEZONE
-from restful_server.datamodels import TransactionStat
+from restful_server.datamodels import TransactionStat, TransactionBankStat
 from restful_server.models import BankAccount, Transaction, FAccountCategory, FAccountMajorCategory, \
     FAccountCategoryType, FAccountMinorCategory, FAccountSubCategory, FAccountMajorMinorCategoryLink
 
@@ -219,6 +220,13 @@ class TransactionBankStatSerializer(serializers.Serializer):
     class Meta:
         fields = ['bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit']
 
+    def validate(self, data):
+        try:
+            BankAccount.objects.get(pk=data['bank'])
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError(f"bank {data['bank']} not found")
+        return data
+
 
 class TransactionStatSerializer(serializers.Serializer):
     min_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
@@ -228,14 +236,11 @@ class TransactionStatSerializer(serializers.Serializer):
     # sum_saving = serializers.IntegerField(read_only=True)
     stat = TransactionBankStatSerializer(many=True, read_only=True)
 
-    def get_min_date(self, obj):
-        print(obj)
-
-    def to_internal_value(self, data):
-        return super().to_internal_value(data)
+    def validate(self, attrs):
+        return super().validate(attrs)
 
     class Meta:
-        model = TransactionStat
+        model = TransactionBankStat
         fields = ['min_date', 'max_date', 'stat']
 
 
