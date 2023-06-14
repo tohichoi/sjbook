@@ -547,8 +547,8 @@
       // INITIALIZATION OF FLATPICKR
       // =======================================================
       // 데이터테이블보다 먼저 초기화 되어야 한다.
-      let min_date = window.localStorage.getItem('transactions.min_date');
-      let max_date = window.localStorage.getItem('transactions.max_date');
+      let min_date = window.localStorage.getItem('sjbook.transactions.min_date');
+      let max_date = window.localStorage.getItem('sjbook.transactions.max_date');
       var start = (min_date) ? moment(min_date) : moment().startOf('year');
       var end = (max_date) ? moment(max_date) : moment();
       var restful_server_address = localStorage.getItem('sjbook.restful_server_address') ?
@@ -562,52 +562,52 @@
         startDate: start,
         endDate: end,
         ranges: { 
-          // '오늘': [moment(), moment()],
-          // '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          // // '지난 7일': [moment().subtract(6, 'days'), moment()],
-          // // '지난 30일': [moment().subtract(29, 'days'), moment()],
-          // '이번 달': [moment().startOf('month'), moment().endOf('month')],
-          'Today': [moment(), moment()],
-          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '오늘': [moment(), moment()],
+          '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
           // '지난 7일': [moment().subtract(6, 'days'), moment()],
           // '지난 30일': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Previous Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          '이번 달': [moment().startOf('month'), moment().endOf('month')],
+          // 'Today': [moment(), moment()],
+          // 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          // // '지난 7일': [moment().subtract(6, 'days'), moment()],
+          // // '지난 30일': [moment().subtract(29, 'days'), moment()],
+          // 'This Month': [moment().startOf('month'), moment().endOf('month')],
+          // 'Previous': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         },
-        // "locale": {
-        //   "format": "YYYY-MM-DD",
-        //   "separator": " ~ ",
-        //   "applyLabel": "적용",
-        //   "cancelLabel": "취소",
-        //   "fromLabel": "시작",
-        //   "toLabel": "종료",
-        //   "customRangeLabel": "직접 설정",
-        //   "weekLabel": "주",
-        //   "daysOfWeek": [
-        //       "일",
-        //       "월",
-        //       "화",
-        //       "수",
-        //       "목",
-        //       "금",
-        //       "토"
-        //   ],
-        //   "monthNames": [
-        //       "1월",
-        //       "2월",
-        //       "3월",
-        //       "4월",
-        //       "5월",
-        //       "6월",
-        //       "7월",
-        //       "8월",
-        //       "9월",
-        //       "10월",
-        //       "11월",
-        //       "12월",
-        //   ],
-        //   "firstDay": 1
-        // }
+        "locale": {
+          "format": "YYYY-MM-DD",
+          "separator": " ~ ",
+          "applyLabel": "적용",
+          "cancelLabel": "취소",
+          "fromLabel": "시작",
+          "toLabel": "종료",
+          "customRangeLabel": "직접 설정",
+          "weekLabel": "주",
+          "daysOfWeek": [
+              "일",
+              "월",
+              "화",
+              "수",
+              "목",
+              "금",
+              "토"
+          ],
+          "monthNames": [
+              "1월",
+              "2월",
+              "3월",
+              "4월",
+              "5월",
+              "6월",
+              "7월",
+              "8월",
+              "9월",
+              "10월",
+              "11월",
+              "12월",
+          ],
+          "firstDay": 1
+        }
       });
 
       // daterangepicker_renderer(start, end)
@@ -651,8 +651,8 @@
           // type: 'POST',
           data: function(dtParms){
             s = $('.js-daterangepicker-clear').val().split('~')
-            var min_date = s[0].trim();
-            var max_date = s[1].trim();
+            let min_date = s[0].trim();
+            let max_date = s[1].trim();
             dtParms.min_date = min_date;
             dtParms.max_date = max_date;
             return dtParms
@@ -983,8 +983,8 @@
 
       $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
         // daterangepicker_renderer(picker.startDate, picker.endDate);
-        window.localStorage.setItem('transaction.min_date', picker.startDate.format());
-        window.localStorage.setItem('transaction.max_date', picker.endDate.format());
+        window.localStorage.setItem('sjbook.transaction.min_date', picker.startDate.format());
+        window.localStorage.setItem('sjbook.transaction.max_date', picker.endDate.format());
         if (datatable) {
           datatable.draw();
           // datatablestat.data = datatable.data['stat'];
