@@ -1,0 +1,16 @@
+--- ../../venv/lib/python3.10/site-packages/django_pivot/pivot.py	2022-08-20 00:08:53.692656332 +0900
++++ ./pivot.py	2022-08-19 23:39:56.257611126 +0900
+@@ -1,4 +1,4 @@
+-from django.db.models import Case, When, Q, F, Sum, CharField, Value
++from django.db.models import Case, When, Q, F, Sum, CharField, Value, FloatField
+ from django.db.models.functions import Coalesce
+ from django.shortcuts import _get_queryset
+ 
+@@ -51,6 +51,6 @@
+     if hasattr(data, 'output_field'):
+         kwargs['output_field'] = data.output_field
+     return {
+-        display_transform(display_value): Coalesce(aggregation(Case(When(Q(**{column: column_value}), then=value))), default, **kwargs)
++        display_transform(display_value): Coalesce(aggregation(Case(When(Q(**{column: column_value}), then=value)), output_field=FloatField()), default, **kwargs)
+         for column_value, display_value in column_values
+     }
