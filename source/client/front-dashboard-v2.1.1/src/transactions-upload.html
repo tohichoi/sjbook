@@ -120,7 +120,7 @@
       <!-- End Page Header -->
 
       <!-- File Upload -->
-      <form id="file_upload_form" action="http://localhost:8000/transaction/upload-ledgers" enctype="multipart/form-data" method="POST">
+      <form id="file_upload_form" enctype="multipart/form-data" method="POST">
         <div class="row">
           <div class="col-12 mb-1 mb-lg-3">
               <!-- Dropzone -->
@@ -233,17 +233,21 @@
       return Intl.NumberFormat().format(parseInt(value));
     }
 
+    var restful_server_address = localStorage.getItem('sjbook.restful_server_address') ?
+        localStorage.getItem('sjbook.restful_server_address') : 'http://10.8.0.1'
 
     $(document).on('ready', function () {
       // INITIALIZATION OF DROPZONE
       // =======================================================
       HSCore.components.HSDropzone.init('.js-dropzone', {
-        url: 'http://localhost:8000/transaction/upload-ledgers',
+        url: `${restful_server_address}/transaction/upload-ledgers`,
         autoProcessQueue: false
       })
       
       var dropzone = HSCore.components.HSDropzone.getItem(0)
 
+      // http://localhost:8000/transaction/upload-ledgers
+      // document.getElementById('file_upload_form').attributes.action='';
       let submit = document.querySelector("input[type=submit]");
       submit.addEventListener("click", function(e) {
             // Make sure that the form isn't actually being sent.

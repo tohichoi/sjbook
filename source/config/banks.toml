@@ -1,5 +1,5 @@
 [data]
-root = 'data/input/bank_ledgers/queue/anonymous'
+root = 'data/input/bank_ledgers/'
 rglob_pattern = '*.xls*'
 ledger_types = ['kb1', 'nh1']
 
