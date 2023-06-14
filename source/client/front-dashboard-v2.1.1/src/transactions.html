@@ -551,7 +551,8 @@
       let max_date = window.localStorage.getItem('transactions.max_date');
       var start = (min_date) ? moment(min_date) : moment().startOf('year');
       var end = (max_date) ? moment(max_date) : moment();
-
+      var restful_server_address = localStorage.getItem('sjbook.restful_server_address') ?
+        localStorage.getItem('sjbook.restful_server_address') : 'http://10.8.0.1'
       // function daterangepicker_renderer(start, end) {
       //   // .val(value)
       //   // damn jquery!
@@ -641,7 +642,7 @@
         // },
         // "language": {"searchPlaceholder": "regular expression"},
         ajax: {
-          url: 'http://0.0.0.0:8000/transaction/transactions/?format=datatables',
+          url: `${restful_server_address}/transaction/transactions.datatables`,
           // type: 'POST',
           data: function(dtParms){
             s = $('.js-daterangepicker-clear').val().split('~')
@@ -844,7 +845,7 @@
       //   if (datatable)
       //     datatable.draw();
       // });
-      function update_stat(stat) {
+      function update_stat(bank_stats) {
         /*
         (5) [{…}, {…}, {…}, {…}, {…}]
         0
@@ -868,7 +869,8 @@
         [[Prototype]]
         */
         let sum_saving=0, sum_withdraw=0, sum_profit=0;
-        for (let s of stat) {
+        let stats = bank_stats.stat;
+        for (let s of stats) {
           sum_saving += parseInt(s.sum_saving);
           sum_withdraw += parseInt(s.sum_withdraw);
           sum_profit += parseInt(s.sum_profit);
@@ -969,9 +971,9 @@
       $("#datatable").on('xhr.dt', function ( e, settings, json, xhr ) {
         // console.log(json)
         datatablestat.clear();
-        datatablestat.rows.add(json.stat);
+        datatablestat.rows.add(json.bank_stats.stat);
         datatablestat.draw();
-        update_stat(json.stat);
+        update_stat(json.bank_stats);
       });
 
       $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
@@ -980,7 +982,7 @@
         window.localStorage.setItem('transaction.max_date', picker.endDate.format());
         if (datatable) {
           datatable.draw();
-          datatablestat.data = datatable.data['stat'];
+          // datatablestat.data = datatable.data['stat'];
         }
       });
 

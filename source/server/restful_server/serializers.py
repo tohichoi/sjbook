@@ -163,6 +163,33 @@ class BankAccountSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['pk', 'url', 'bank_name', 'account_name', 'account_number', 'alias', 'status', 'note']
 
 
+class TransactionBankStatSerializer(serializers.Serializer):
+    bank = serializers.IntegerField()
+    bank__alias = serializers.CharField()
+    sum_withdraw = serializers.IntegerField()
+    sum_saving = serializers.IntegerField()
+    sum_profit = serializers.IntegerField()
+
+    class Meta:
+        fields = ['bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit']
+
+    def validate(self, data):
+        try:
+            BankAccount.objects.get(pk=data['bank'])
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError(f"bank {data['bank']} not found")
+        return data
+
+
+class TransactionStatSerializer(serializers.Serializer):
+    min_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
+    max_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
+    stat = TransactionBankStatSerializer(many=True, read_only=False)
+
+    class Meta:
+        fields = ['min_date', 'max_date', 'stat']
+
+
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     bank = BankAccountSerializer(many=False, read_only=True)
     # bank_alias = serializers.ReadOnlyField(source='bank.alias')
@@ -208,40 +235,6 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
         ]
         # serialized 결과에 url 을 포함하려면 명시적으로 'url' 추가해야함
         datatables_always_serialize = ('pk',)
-
-
-class TransactionBankStatSerializer(serializers.Serializer):
-    bank = serializers.IntegerField()
-    bank__alias = serializers.CharField()
-    sum_withdraw = serializers.IntegerField()
-    sum_saving = serializers.IntegerField()
-    sum_profit = serializers.IntegerField()
-
-    class Meta:
-        fields = ['bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit']
-
-    def validate(self, data):
-        try:
-            BankAccount.objects.get(pk=data['bank'])
-        except ObjectDoesNotExist:
-            raise serializers.ValidationError(f"bank {data['bank']} not found")
-        return data
-
-
-class TransactionStatSerializer(serializers.Serializer):
-    min_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
-    max_date = serializers.DateTimeField(default_timezone=ZoneInfo(TIMEZONE))
-    # sum_profit = serializers.IntegerField(read_only=True)
-    # sum_withdraw = serializers.IntegerField(read_only=True)
-    # sum_saving = serializers.IntegerField(read_only=True)
-    stat = TransactionBankStatSerializer(many=True, read_only=True)
-
-    def validate(self, attrs):
-        return super().validate(attrs)
-
-    class Meta:
-        model = TransactionBankStat
-        fields = ['min_date', 'max_date', 'stat']
 
 
 def validate_excel_file(value):

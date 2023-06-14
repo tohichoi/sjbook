@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>Welcome Page | Front - Admin &amp; Dashboard Template</title>
+  <title>Calendar | Front - Admin &amp; Dashboard Template</title>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="@@autopath/favicon.ico">
@@ -20,6 +20,9 @@
   @@if(layoutBuilder.header.layoutMode !== 'default') {
     <link rel="stylesheet" href="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
   }
+  <link rel="stylesheet" href="@@autopath/node_modules/tom-select/dist/css/tom-select.bootstrap5.css">
+  <link rel="stylesheet" href="@@autopath/node_modules/fullcalendar/main.min.css">
+  <link rel="stylesheet" href="@@autopath/node_modules/flatpickr/dist/flatpickr.min.css">
 
   <!-- CSS Front Template -->
   <!-- bundlecss:theme [@@autopath] @@vars.version -->
@@ -41,15 +44,16 @@
         }
     </style>
   }
-</head>
+
+  </head>
 
 <body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
-    @@if(layoutBuilder.extend.switcherSupport === true) {
-    <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
+  @@if(layoutBuilder.extend.switcherSupport === true) {
+  <script src="@@autopath/assets/js/hs.theme-appearance.js"></script>
   }
 
-    @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
-    <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.sidebarLayout !== 'mini') {
+  <script src="@@autopath/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
   }
 
   <!-- ========== HEADER ========== -->
@@ -74,35 +78,58 @@
   <!-- Navbar Vertical -->
   @@if(layoutBuilder.sidebarLayout !== 'compact' && layoutBuilder.header.layoutMode === 'default') {
     @@include("@@autopath/partials/sidebar/main.html", {
-      "category": "",
+      "category": "settings",
       "subcategory": "",
-      "link": "welcome-page.html"
+      "link": "settings.html"
     })
   }
 
   @@if(layoutBuilder.sidebarLayout === 'compact' && layoutBuilder.header.layoutMode === 'default') {
     @@include("@@autopath/partials/sidebar/compact.html", {
-      "category": "",
+      "category": "settings",
       "subcategory": "",
-      "link": "welcome-page.html"
+      "link": "settings.html"
     })
   }
 
   <main id="content" role="main" class="main">
     <!-- Content -->
     <div class="content @@layoutBuilder.header.containerMode">
-      <div class="row justify-content-sm-center text-center py-10">
-        <div class="col-sm-7 col-md-5">
-          <img class="img-fluid mb-5" src="@@autopath/assets/svg/illustrations/oc-collaboration.svg" alt="Image Description" data-hs-theme-appearance="default">
-          <img class="img-fluid mb-5" src="@@autopath/assets/svg/illustrations-light/oc-collaboration.svg" alt="Image Description" data-hs-theme-appearance="dark">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end">
+          <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <!-- <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">설정</a></li> -->
+                <li class="breadcrumb-item active" aria-current="page">설정</li>
+              </ol>
+            </nav>
 
-          <h1>Hello, nice to see you!</h1>
-          <p>You are now minutes away from creativity than ever before. Enjoy!</p>
-
-          <!-- <a class="btn btn-primary" href="@@autopath/layouts/index.html">Create my first campaign</a> -->
+            <h1 class="page-header-title">설정</h1>
+          </div>
+          <!-- End Col -->
         </div>
       </div>
-      <!-- End Row -->
+      <!-- End Page Header -->
+
+      <form id="form">
+        <row class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label class="form-label" for="restful_server_address">서버 주소 </label>
+              <input type="text" id="restful_server_address" class="form-control form-control-title"
+                placeholder="http://10.8.0.1" value="http://10.8.0.1">
+              <span class="form-text">서버 주소를 입력하세요</span>
+            </div>
+          </div>
+        </row>
+        <row class="row">
+          <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="저장">
+          </div>
+        </row>
+      </form>
     </div>
     <!-- End Content -->
 
@@ -118,7 +145,6 @@
   </main>
   <!-- ========== END MAIN CONTENT ========== -->
 
-
   <!-- ========== SECONDARY CONTENTS ========== -->
   <!-- Keyboard Shortcuts -->
   @@include("@@autopath/partials/layouts-components/offcanvas-shortcuts.html")
@@ -131,11 +157,13 @@
   <!-- Welcome Message Modal -->
   @@include("@@autopath/partials/modals/welcome-message.html")
   <!-- End Welcome Message Modal -->
+
+  <!-- Modal -->
+  @@include("@@autopath/partials/modals/add-events-to-calendar.html")
+  <!-- End Modal -->
   <!-- ========== END SECONDARY CONTENTS ========== -->
 
   <!-- JS Global Compulsory @@deleteLine:build -->
-  <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
   <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- JS Implementing Plugins -->
@@ -145,11 +173,19 @@
   @@if(layoutBuilder.header.layoutMode !== 'default') {
     <script src="@@autopath/assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
   }
+  <script src="@@autopath/node_modules/tom-select/dist/js/tom-select.complete.min.js"></script>
+  <script src="@@autopath/node_modules/fullcalendar/main.min.js"></script>
+  <script src="@@autopath/assets/vendor/hs-fullcalendar-filter/dist/hs-fullcalendar-filter.min.js"></script>
+  <script src="@@autopath/node_modules/daterangepicker/moment.min.js"></script>
+  <script src="@@autopath/node_modules/flatpickr/dist/flatpickr.min.js"></script>
 
   <!-- JS Front -->
   <!-- bundlejs:theme [@@autopath] -->
   <script src="@@autopath/assets/js/hs.core.js"></script>
   <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
+  <script src="@@autopath/assets/js/hs.tom-select.js"></script>
+  <script src="@@autopath/assets/js/hs.fullcalendar.js"></script>
+  <script src="@@autopath/assets/js/hs.flatpickr.js"></script>
 
 
   <!-- JS Plugins Init. -->
@@ -166,19 +202,25 @@
           })
         }
 
-        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
-        // =======================================================
-        new HSSideNav('.js-navbar-vertical-aside').init()
+        let addr = localStorage.getItem('sjbook.restful_server_address');
+        if (addr)
+          document.getElementById('restful_server_address').value = addr;
 
-
-        // INITIALIZATION OF FORM SEARCH
-        // =======================================================
-        new HSFormSearch('.js-form-search')
-
-
-        // INITIALIZATION OF BOOTSTRAP DROPDOWN
-        // =======================================================
-        HSBsDropdown.init()
+        document.getElementById('form').onsubmit = (event) => {
+          event.preventDefault();
+          let addr = event.currentTarget[0].value;
+          fetch(addr)
+            .then(res => res.json())
+            .then((out) => {
+              if (out.hasOwnProperty('transaction/transactions')) {
+                window.alert('성공적으로 접속하였습니다.')
+                localStorage.setItem('sjbook.restful_server_address', addr);
+              } else {
+                throw new Error("서버가 올바른 응답을 하지 않았습니다.");
+              }
+            })
+            .catch(err => window.alert(err));
+        }
       }
     })()
   </script>

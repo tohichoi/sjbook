@@ -133,22 +133,24 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return qs
 
     # https://django-rest-framework-datatables.readthedocs.io/en/latest/tutorial.html#backend-code
-    def stat(self):
-        ts = TransactionStat(self.get_queryset(), self.min_date, self.max_date, False)
+    def bank_stats(self):
+        ts = TransactionStat(self.get_queryset(), self.min_date, self.max_date, True)
         if self.request.query_params.get('format') == 'datatables' or self.format_kwarg == 'datatables':
-            stat_list = ts.calc_stat()
-            stat_ser_list = []
-            for stat in stat_list:
-                serializer = TransactionBankStatSerializer(data=stat)
-                if serializer.is_valid():
-                    stat_ser_list.append(serializer.validated_data)
-            return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': stat_ser_list}
+            # stat_list = ts.calc_stat()
+            # stat_ser_list = []
+            # for stat in stat_list:
+            #     serializer = TransactionBankStatSerializer(data=stat)
+            #     if serializer.is_valid():
+            #         stat_ser_list.append(serializer.validated_data)
+            # return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': stat_ser_list}
+            serializer = TransactionStatSerializer(ts)
+            return 'bank_stats', serializer.data
         return ts.calc_stat()
 
     class Meta:
         # TransactionStat 은 Transaction 에서 serializer 를 사용하지 않고
         # 직접 데이터를 생성한다 (self.stat())
-        datatables_extra_json = ('stat',)
+        datatables_extra_json = ('bank_stats',)
 
 
 class TransactionStatViewSet(viewsets.ViewSet):
@@ -163,18 +165,49 @@ class TransactionStatViewSet(viewsets.ViewSet):
         qs, self.min_date, self.max_date = get_daterange_queryset(self.request, Transaction)
         return qs
 
-    # def list(self, request, format=None):
-    #     qs = self.get_queryset()
-    #     ts = TransactionStat(qs, self.min_date, self.max_date, True)
-    #     serializer = TransactionStatSerializer(data=ts, many=False)
-    #     serializer.is_valid(raise_exception=True)
-    #     return Response(serializer.validated_data)
+    def list(self, request, format=None):
+        qs = self.get_queryset()
+        ts = TransactionStat(qs, self.min_date, self.max_date, True)
+        serializer = TransactionStatSerializer(data=ts, many=False)
+        serializer.is_valid()
+        return Response(serializer.validated_data)
 
-    # def retrieve(self, request, format=None):
-    #     qs = self.get_queryset()
-    #     ts = TransactionStat(qs, self.min_date, self.max_date)
-    #     # resp = stat.get_stat()
-    #     return Response(ts)
+    def retrieve(self, request, format=None):
+        qs = self.get_queryset()
+        ts = TransactionStat(qs, self.min_date, self.max_date, True)
+        # serialize : TransactionStatSerializer(ts)
+        # deserialize : TransactionStatSerializer(data=ts)
+        serializer = TransactionStatSerializer(ts)
+        return Response(serializer.data)
+
+
+class TransactionStatAPIView(APIView):
+    serializer_class = TransactionStatSerializer
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.min_date = None
+        self.max_date = None
+
+    def get_queryset(self):
+        qs, self.min_date, self.max_date = get_daterange_queryset(self.request, Transaction)
+        return qs
+
+    def list(self, request, format=None):
+        qs = self.get_queryset()
+        ts = TransactionStat(qs, self.min_date, self.max_date, True)
+        serializer = TransactionStatSerializer(data=ts, many=False)
+        serializer.is_valid()
+        return Response(serializer.validated_data)
+
+    def get(self, request, format=None):
+        qs = self.get_queryset()
+        ts = TransactionStat(qs, self.min_date, self.max_date, True)
+        # serialize : TransactionStatSerializer(ts)
+        # deserialize : TransactionStatSerializer(data=ts)
+        serializer = TransactionStatSerializer(ts)
+        return Response(serializer.data)
+
 
 
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):

@@ -26,14 +26,14 @@ class TestREST(unittest.TestCase):
             self.assertTrue(res)
 
     def test_transaction_stat(self):
-        qp = 'min_date=2020-01-01&max_date=2022-12-31'
+        qp = 'min_date=2020-01-01&max_date=2023-12-31'
         urls = [
-            ('transaction/stat/', 'HTTP 200 OK'),
-            ('transaction/stat.json', '.*min_date.*'),
-            ('transaction/stat.datatables', ".*min_date.*")
+            ('transaction/stat?format=api', 'HTTP 200 OK'),
+            ('transaction/stat?format=json', '.*min_date.*'),
+            ('transaction/stat?format=datatables', ".*min_date.*")
         ]
         for url, pattern in urls:
-            cmd = ['curl', self.api_addr + url + '?' + qp]
+            cmd = ['curl', self.api_addr + url + '&' + qp]
             r = subprocess.run(cmd, capture_output=True)
             res = find_str(r.stdout.decode('utf-8'), pattern)
             self.assertTrue(res)

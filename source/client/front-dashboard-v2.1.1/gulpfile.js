@@ -9,3 +9,13 @@
 require('./gulpfiles/watch')
 require('./gulpfiles/dist')
 require('./gulpfiles/build')
+
+
+// var replace = require('gulp-token-replace');
+
+// gulp.task('token-replace', function () {
+//     var config = require('./sjbook-config.json');
+//     return gulp.src(['src/*.js', 'src/*.html'])
+//         .pipe(replace({ global: config }))
+//         .pipe(gulp.dest('dist/'));
+// });
