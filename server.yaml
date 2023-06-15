@@ -1,4 +1,5 @@
 session_name: sjbook
+before_script: ./bootstrap.py
 
 start_directory: .
 
@@ -8,15 +9,15 @@ options:
   status-style: fg=white,bg=blue
 shell_command_before:
   - if hostname | grep "samjungenr.com" ; then tmux set status-style "fg=white,bg=red" ; fi
-  - export SJBOOK_ROOT=$(pwd)
   - source source/venv/bin/activate
 windows:
   - window_name: shell
     focus: True
     panes:
       - shell_command:
-          - until nc -vz `echo $SJBOOK_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done
-          - curl "http://$SJBOOK_HOST?format=json" | jq
+          - until nc -vz `echo $SJBOOK_RESTAPI_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done
+          - curl "http://$SJBOOK_RESTAPI_HOST?format=json" | jq
+          - until nc -vz `echo $SJBOOK_FRONTEND_HOST | sed 's/:/ /'`; do >&2 echo "server is unavailable - sleeping"; sleep 2; done
   - window_name: ranger
     panes:
       - shell_command:
@@ -26,13 +27,14 @@ windows:
       - shell_command:
           #- docker-compose --verbose up -d nextsj_master nextsj_slave nginx nginx-public adminer
           - cd data/db
+          - sqlite3 sjbook.db 'select * from "Transaction" order by datetime limit 10;'
           - sqlite3 sjbook.db
   - window_name: django-shell
     panes:
       - shell_command:
 #          - 'until nc -vz $NEXTSJ_SERVER 33306; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
           - cd source/server
-          - PYTHONPATH="$HOME/Workspace/sjbook/source/" python manage.py shell_plus
+          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py shell_plus
   - window_name: data_imp
     panes:
       - shell_command:
@@ -41,11 +43,13 @@ windows:
     panes:
       - shell_command:
           - cd source/server
-          - PYTHONPATH="$HOME/Workspace/sjbook/source/" python manage.py runserver "$SJBOOK_HOST"
+          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py runserver "$SJBOOK_RESTAPI_HOST"
   - window_name: gulp
     panes:
       - shell_command:
           - cd source/client/front-dashboard-v2.1.1/
+          - cd dist
+          - caddy file-server --listen `echo "$SJBOOK_FRONTEND_HOST" | sed -r 's/([^:]+):(.+)$/\1:8001/'` --root .
   - window_name: editor
     panes:
       - shell_command:
