@@ -6,7 +6,7 @@ import pandas as pd
 
 from database import import_transaction_data, open_database
 from transaction import load_transaction_data
-from source.config import banks_conf, database_conf, frontend_conf
+from config import banks_conf, database_conf, frontend_conf
 
 
 def export_data(file_format):

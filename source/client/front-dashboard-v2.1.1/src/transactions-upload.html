@@ -44,8 +44,19 @@
   }
 
   <!-- plugin CSS -->
+    <!-- JS Global Compulsory @@deleteLine:build -->
+    <script src="@@autopath/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="@@autopath/node_modules/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="@@autopath/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="@@autopath/node_modules/daterangepicker/daterangepicker.css">
   <script src="./node_modules/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="@@autopath/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="@@autopath/assets/vendor/datatables.net.extensions/select/select.min.js"></script>
+    <script src="@@autopath/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.colVis.min.js"></script>
 
   </head>
 
@@ -147,9 +158,53 @@
       </form>
       <!-- End File Upload -->
 
-      <!-- Card -->
-
-      <!-- End Card -->
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">파일 업로드 결과</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Table -->
+              <div class="table-responsive datatable-custom position-relative">
+                <table id="datatableresult"
+                  class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table "
+                  data-hs-datatables-options='{}'>
+                  <thead class="thead-light">
+                    <tr>
+                      <th>파일</th>
+                      <th>결과값</th>
+                      <th>처리메시지</th>
+                      <th>불러온 계좌 수</th>
+                      <th>불러온 거래내역 수</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot class="tfoot-light">
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- End Table -->
+            </div>
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button> -->
+              <button type="button" class="btn btn-primary">확인</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
     </div>
     <!-- End Content -->
 
@@ -232,11 +287,25 @@
     function convert_to_number(value) {
       return Intl.NumberFormat().format(parseInt(value));
     }
-
+    
     var restful_server_address = localStorage.getItem('sjbook.restful_server_address') ?
         localStorage.getItem('sjbook.restful_server_address') : 'http://10.8.0.1'
 
     $(document).on('ready', function () {
+
+      // INITIALIZATION OF DATATABLES
+      // =======================================================
+      HSCore.components.HSDatatables.init($('#datatableresult'), {
+        columns : [
+          {data: 'filename'}, 
+          {data: 'result', className: 'text-end'},
+          {data: 'message'},
+          {data: 'number_of_inserted_records.bankaccounts', className: 'text-end'},
+          {data: 'number_of_inserted_records.transactions', className: 'text-end'},
+        ]
+      });
+      var datatableresult = HSCore.components.HSDatatables.getItem('datatableresult')
+
       // INITIALIZATION OF DROPZONE
       // =======================================================
       HSCore.components.HSDropzone.init('.js-dropzone', {
@@ -266,7 +335,14 @@
       dropzone.on("success", function(file) {
       // Gets triggered when the files have successfully been sent.
       // Redirect user or notify of success.
-        console.log(file);
+        // console.log(file);
+        var data = JSON.parse(file.xhr.responseText); 
+        let modal = $('#staticBackdrop');
+
+        datatableresult.clear();
+        datatableresult.rows.add([data]);
+        datatableresult.draw();
+        $('#staticBackdrop').modal('show');
       });
 
       dropzone.on("error", function(file, message) {

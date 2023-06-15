@@ -18,7 +18,7 @@ if not os.getenv('SJBOOK_ROOT'):
 
 
 sjbook_root=Path(os.getenv('SJBOOK_ROOT'))
-if not sjbook_root.is_dir():
+if not sjbook_root.is_dir() or not sjbook_root.exists():
     raise FileNotFoundError('Invalid SJBOOK_ROOT directory.')
 
 
@@ -42,6 +42,7 @@ path = pr / "backend.toml"
 with path.open(mode="rb") as fp:
     backend_conf = tomli.load(fp)
     backend_conf['server']['django']['key_file'] = sjbook_root / backend_conf['server']['django']['key_file']
+    backend_conf['server']['archive_file_root'] = sjbook_root / backend_conf['server']['archive_file_root']
 
 path = pr / "faccount.toml"
 with path.open(mode="rb") as fp:

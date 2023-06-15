@@ -34,7 +34,8 @@ windows:
       - shell_command:
 #          - 'until nc -vz $NEXTSJ_SERVER 33306; do >&2 echo "server is unavailable - sleeping"; sleep 2; done'
           - cd source/server
-          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py shell_plus
+#          - PYTHONPATH="$SJBOOK_ROOT/source/server" python manage.py shell_plus
+          - python manage.py shell_plus
   - window_name: data_imp
     panes:
       - shell_command:
@@ -43,7 +44,8 @@ windows:
     panes:
       - shell_command:
           - cd source/server
-          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py runserver "$SJBOOK_RESTAPI_HOST"
+#          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py runserver "$SJBOOK_RESTAPI_HOST"
+          - python manage.py runserver "$SJBOOK_RESTAPI_HOST"
   - window_name: gulp
     panes:
       - shell_command:

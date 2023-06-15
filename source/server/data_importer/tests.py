@@ -6,7 +6,7 @@ import pandas as pd
 from config import faccount_conf
 from source.config import banks_conf
 from database import import_transaction_data
-from source.data_importer.faccount import load_faccount_data
+from data_importer.faccount import load_faccount_data
 from transaction import load_transaction_data, read_ledgers
 
 

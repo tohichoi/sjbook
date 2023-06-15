@@ -1,5 +1,11 @@
+import re
+import shutil
+import warnings
+from collections import OrderedDict
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+import pendulum
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import UploadedFile
@@ -11,9 +17,11 @@ from rest_framework_datatables.django_filters.filters import GlobalFilter
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
 from xlrd import open_workbook
 
-from config import banks_conf
+from config import banks_conf, backend_conf
 from data_importer.common import TIMEZONE
-from restful_server.datamodels import TransactionStat, TransactionBankStat
+from data_importer.database import open_database, query_count, import_transaction_data
+from data_importer.transaction import load_transaction_data
+from restful_server.datamodels import TransactionStat, TransactionBankStat, UploadedLedgerData
 from restful_server.models import BankAccount, Transaction, FAccountCategory, FAccountMajorCategory, \
     FAccountCategoryType, FAccountMinorCategory, FAccountSubCategory, FAccountMajorMinorCategoryLink
 
@@ -251,23 +259,42 @@ def validate_excel_file(value):
         is_xls = False
 
     if not is_xlsx and not is_xls:
-        raise serializers.ValidationError("유효한 형식의 엑셀파일이 아닙니다.")
+        impf = {
+            'filename': value.name,
+            'result': -1,
+            'message': '지원되지 않는 파일 형식입니다.',
+            'number_of_inserted_records': OrderedDict({
+                'bankaccounts': 0,
+                'transactions': 0,
+            })}
+        raise serializers.ValidationError(impf)
 
 
-class UploadLedgerSerializer(serializers.Serializer):
-    file_uploaded = FileField(validators=[validate_excel_file, ])
+# class ImportedFileSerializer(serializers.Serializer):
+#     filename = serializers.CharField()
+#     result: serializers.IntegerField()
+#     number_of_inserted_records: serializers.DictField(child=serializers.IntegerField())
+
+
+class UploadedLedgerSerializer(serializers.Serializer):
+    filename = serializers.CharField()
+    result = serializers.IntegerField()
+    message = serializers.CharField()
+    number_of_inserted_records = serializers.DictField(child=serializers.IntegerField())
 
     def __init__(self, instance=None, data=None, **kwargs):
         self.request = kwargs.pop('request')
         super().__init__(instance, data, **kwargs)
 
-    def _handle_uploaded_file(self, f: UploadedFile):
+    def _get_user_dirname(self):
+        if self.request.user.is_anonymous:
+            return 'anonymous'
+        return str(self.request.user.pk)
+
+    def _save_file(self, f: UploadedFile):
         # f: <InMemoryUploadedFile: KB_logo.svg (image/svg+xml)>
         file_name = f.name
-        if self.request.user.is_anonymous:
-            user_dir = 'anonymous'
-        else:
-            user_dir = str(self.request.user.pk)
+        user_dir = self._get_user_dirname()
         dest_dir = Path(banks_conf['data']['root']) / Path(f'queue/{user_dir}')
         if not dest_dir.exists():
             dest_dir.mkdir(parents=True, exist_ok=True)
@@ -277,12 +304,78 @@ class UploadLedgerSerializer(serializers.Serializer):
             for chunk in f.chunks():
                 fd.write(chunk)
 
-        return True
+        return local_file
 
+    def _import_ledgers(self, path):
+        p = Path(path)
+        if not p.match(banks_conf['data']['rglob_pattern']):
+            impf = {
+                'filename': p.name,
+                'result': -1,
+                'message': '은행 거래내역 파일 형식이 아닙니다.',
+                'number_of_inserted_records': OrderedDict({
+                    'bankaccounts': 0,
+                    'transactions': 0,
+                })}
+            return impf
+
+        conn, cur = open_database()
+        db_nbad_before = query_count(cur, 'id', 'BankAccount')
+        db_ntrd_before = query_count(cur, 'id', 'Transaction')
+
+        trs = load_transaction_data([p])
+        # nbad : # of inserted band account records
+        # ntrd : # of inserted transaction records
+        nbad, ntrd = import_transaction_data(trs)
+
+        db_nbad_after = query_count(cur, 'id', 'BankAccount')
+        db_ntrd_after = query_count(cur, 'id', 'Transaction')
+
+        # nbad == db_nbad_after - db_nbad_before
+        # ntrd == db_ntrd_after - db_ntrd_before
+
+        impf = {
+            'filename': p.name,
+            'result': nbad + ntrd,
+            'message': f'{nbad}개의 은행계정과 {ntrd}개의 거래내역을 가져왔습니다.',
+            'number_of_inserted_records': OrderedDict({
+                'bankaccounts': nbad,
+                'transactions': ntrd,
+            })}
+        return impf
+
+    def _archive_file(self, local_file: Path):
+        root = backend_conf['server']['archive_file_root']
+        user_dir = self._get_user_dirname()
+        dest_dir = root / Path(user_dir)
+        if not dest_dir.exists():
+            dest_dir.mkdir(parents=True)
+        prefix = re.sub('[-:\+]', '', pendulum.now("UTC").to_w3c_string())
+        new_file = dest_dir / local_file.with_stem(f'{prefix}-{local_file.with_suffix("").name}').name
+        shutil.move(local_file, new_file)
+
+    def validate(self, attrs):
+        return super().validate(attrs)
+        # return attrs
+
+    def _handle_uploaded_file(self, f: UploadedFile):
+        # try:
+        local_file = self._save_file(f)
+        validate_excel_file(local_file)
+        impf = self._import_ledgers(local_file)
+        if impf['result'] > 0:
+            self._archive_file(local_file)
+
+        return impf
+        # except Exception as e:
+        #     raise serializers.ValidationError(f'Cannot save file {f}')
+
+    # https://www.django-rest-framework.org/api-guide/serializers/#read-write-baseserializer-classes
     def to_internal_value(self, data):
-        self._handle_uploaded_file(data['file'])
+        ret = self._handle_uploaded_file(data['file'])
+
         # returns OrderedDict
-        return {'file_uploaded': 'OK'}
+        return ret
 
     class Meta:
         fields = ['file_uploaded']

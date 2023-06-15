@@ -3,14 +3,17 @@ import warnings
 
 import pandas as pd
 
-from source.data_importer.common import normalize_name
-from source.config import database_conf
-from source.data_importer.faccount import FAccountData
-from transaction import TransactionData
+from data_importer.common import normalize_name
+from config import database_conf
+from data_importer.faccount import FAccountData
+from data_importer.transaction import TransactionData
 
 
-def open_database(fn):
-    conn = sqlite3.connect(fn)
+def open_database(fn=None):
+    f = fn
+    if not fn:
+        f = database_conf['sqlite']['file']
+    conn = sqlite3.connect(f)
     return conn, conn.cursor()
     # return conn
 
@@ -59,23 +62,34 @@ def _insert_bankaccount(cur: sqlite3.Cursor, tr: TransactionData):
     bank_id = _query_bankaccount(cur, tr.account_number)
     if bank_id:
         warnings.warn(f'{tr.bank_name}:{tr.alias}:{tr.account_number} exists')
-        return
+        return 0
 
     sql = f'insert into BankAccount ' \
           f'(bank_name, account_name, account_number, alias, status, note)' \
           f'values (?, ?, ?, ?, ?, ?);'
     cur.execute(sql, (tr.bank_name, tr.account_name, tr.account_number, tr.alias, tr.status, tr.note))
+    return 1
 
 
 def _import_bankaccount_data(conn: sqlite3.Connection, trs):
     cur = conn.cursor()
+    n = 0
     for tr in trs:
-        _insert_bankaccount(cur, tr)
+        n += _insert_bankaccount(cur, tr)
         conn.commit()
+    return n
 
 
 def _query_bankaccount(cur, account_number):
     result = cur.execute('select id from BankAccount where account_number = ? limit 1', (account_number,))
+    value = result.fetchone()
+    if value:
+        return value[0]
+    return None
+
+
+def query_count(cur, count_field, table_name):
+    result = cur.execute('select count({}) from {}'.format(count_field, f'"{table_name}"'))
     value = result.fetchone()
     if value:
         return value[0]
@@ -120,11 +134,15 @@ def _insert_transaction_data(conn: sqlite3.Connection, td: TransactionData):
         td.dataframe['datetime'] = td.dataframe['datetime'].apply(lambda x: x.isoformat())
         td.dataframe.to_sql('Transaction', conn, index=False, if_exists='append')
 
+    return td.dataframe.shape[0]
+
 
 def _import_transaction_data(conn: sqlite3.Connection, trs):
+    n = 0
     for tr in trs:
-        _insert_transaction_data(conn, tr)
+        n += _insert_transaction_data(conn, tr)
     conn.commit()
+    return n
 
 
 def _insert_relation(conn, trs):
@@ -137,15 +155,20 @@ def _insert_relation(conn, trs):
 
 
 def _import_ledger_data(conn, trs: list):
-    _import_bankaccount_data(conn, trs)
-    _import_transaction_data(conn, trs)
+    nbad = _import_bankaccount_data(conn, trs)
+    ntrd = _import_transaction_data(conn, trs)
+
+    return nbad, ntrd
 
 
 def import_transaction_data(trs: list):
     conn, cur = open_database(database_conf['sqlite']['file'])
     # create_tables(cur)
     try:
-        _import_ledger_data(conn, trs)
+        nbad, ntrd = _import_ledger_data(conn, trs)
+        conn.close()
+        return nbad, ntrd
+
     except sqlite3.OperationalError as e:
         if 'no such table' in e.args:
             msg = '데이터베이스가 초기화되지 않았습니다.\n'
@@ -154,9 +177,6 @@ def import_transaction_data(trs: list):
             msg += 'python recreate-database.py\n'
         else:
             raise e
-
-    conn.close()
-
 
 def _query_name_value(cur, table_name, column_name, value):
     result = cur.execute(f'select id from {table_name} where {column_name} = ? limit 1', (value,))

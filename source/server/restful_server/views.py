@@ -23,7 +23,7 @@ from restful_server.models import BankAccount, Transaction, FAccountCategoryType
 from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer, \
     FAccountCategoryTypeSerializer, FAccountMajorCategorySerializer, FAccountMinorCategorySerializer, \
     FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer, \
-    TransactionFilter, TransactionStatSerializer, UploadLedgerSerializer, TransactionBankStatSerializer
+    TransactionFilter, TransactionStatSerializer, UploadedLedgerSerializer, TransactionBankStatSerializer
 
 
 # from django_filters import rest_framework as filters
@@ -85,7 +85,10 @@ class TransactionListAPIView(generics.ListCreateAPIView):
 def get_daterange_queryset(request, cls):
     # default
     # 최근 trans. 이 속한 달
-    max_db_date = pendulum.instance(Transaction.objects.order_by('-datetime').first().datetime)
+    if Transaction.objects.count() == 0:
+        max_db_date = pendulum.now()
+    else:
+        max_db_date = pendulum.instance(Transaction.objects.order_by('-datetime').first().datetime)
     min_db_date = max_db_date.start_of('month')
 
     min_idate = request.query_params.get('min_date', min_db_date.to_date_string())
@@ -320,7 +323,7 @@ class FAccountMajorMinorCategoryLinkViewSet(viewsets.ModelViewSet):
 
 class UploadLedgerAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = UploadLedgerSerializer(data=request.data, request=request)
+        serializer = UploadedLedgerSerializer(data=request.data, request=request)
         if serializer.is_valid():
             # file_uploaded = request.FILES.get('file_uploaded')
             # content_type = file_uploaded.content_type

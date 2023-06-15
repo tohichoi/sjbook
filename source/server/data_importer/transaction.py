@@ -1,17 +1,16 @@
 import dataclasses
 import datetime
 import re
-import warnings
 from pathlib import Path
 
 import pandas as pd
-
-from common import normalize_name
-from source.config import banks_conf
 import pendulum
 import xlrd
-from common import generate_transaction_hash
-from source.data_importer.common import TIMEZONE
+
+from config import banks_conf
+from data_importer.common import TIMEZONE
+from data_importer.common import generate_transaction_hash
+from data_importer.common import normalize_name
 
 
 @dataclasses.dataclass
@@ -23,6 +22,7 @@ class TransactionData:
     status: int
     note: str
     dataframe: pd.DataFrame
+    filename: Path
 
 
 def swap_columns(df, col1, col2):
@@ -75,7 +75,7 @@ def read_account_info(fn: Path, ac) -> TransactionData:
     #     REVOKED = 3
     status = 1
 
-    return TransactionData(bank_name, account_name, account_number, alias, status, 'Auto-generated', pd.DataFrame())
+    return TransactionData(bank_name, account_name, account_number, alias, status, 'Auto-generated', pd.DataFrame(), fn)
 
 
 def verify_transaction_data(df: pd.DataFrame):

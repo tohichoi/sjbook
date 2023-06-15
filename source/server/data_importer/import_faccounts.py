@@ -5,9 +5,9 @@ from pathlib import Path
 import pandas as pd
 
 from database import import_transaction_data, open_database, import_faccount_data
-from source.data_importer.faccount import load_faccount_data
+from data_importer.faccount import load_faccount_data
 from transaction import load_transaction_data
-from source.config import banks_conf, database_conf, frontend_conf, faccount_conf
+from config import banks_conf, database_conf, frontend_conf, faccount_conf
 
 
 def export_data(file_format):

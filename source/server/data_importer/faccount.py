@@ -6,8 +6,8 @@ from zipfile import BadZipFile
 
 import pandas as pd
 
-from source.config import faccount_conf
-from source.data_importer.common import TIMEZONE, normalize_name
+from config import faccount_conf
+from data_importer.common import TIMEZONE, normalize_name
 
 
 @dataclasses.dataclass

@@ -1,4 +1,6 @@
+import dataclasses
 from collections import OrderedDict
+from pathlib import Path
 
 from django.db.models import QuerySet, Sum, F
 
@@ -39,3 +41,10 @@ class TransactionStat:
             stat.append(TransactionBankStat(i['bank'], i['bank__alias'], i['sum_withdraw'], i['sum_saving'], i['sum_profit']))
         self.stat = stat
         return stat
+
+
+@dataclasses.dataclass
+class UploadedLedgerData:
+    filename: Path
+    result: int
+    number_of_inserted_records: OrderedDict
