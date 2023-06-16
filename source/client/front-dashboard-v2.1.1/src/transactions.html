@@ -44,9 +44,10 @@
   }
 
   <!-- plugin CSS -->
-  <link rel="stylesheet" href="@@autopath/node_modules/daterangepicker/daterangepicker.css">
+  <!-- <link rel="stylesheet" href="@@autopath/node_modules/daterangepicker/daterangepicker.css"> -->
+  <link rel="stylesheet" href="@@autopath/node_modules/flatpickr/dist/flatpickr.min.css">
 
-  </head>
+</head>
 
 <body class="@@if(layoutBuilder.header.layoutMode === 'default'){has-navbar-vertical-aside navbar-vertical-aside-show-xl} @@if(layoutBuilder.sidebarLayout === 'compact'){navbar-vertical-aside-compact-mode navbar-vertical-aside-compact-mini-mode} @@if(layoutBuilder.sidebarLayout === 'mini'){navbar-vertical-aside-mini-mode} footer-offset">
     @@if(layoutBuilder.extend.switcherSupport === true) {
@@ -144,14 +145,14 @@
             <!-- Date range -->
             <div class="row">
               <div class="col-sm-12 text-center">
-                  <!-- date picker -->
-                <input type="text" class="js-daterangepicker-clear form-control daterangepicker-custom-input" placeholder="검색할 기간을 선택하세요"
-                    data-hs-daterangepicker-options='{
-                    "autoUpdateInput": true,
-                    "locale": {
-                      "cancelLabel": "취소"
-                    }
-                  }'>
+                <!-- Flatpickr -->
+                <input type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="검색기간"
+                       id="range_date"
+                       data-hs-flatpickr-options='{
+                   "dateFormat": "Y-m-d",
+                   "mode": "range"
+                 }'>
+                <!-- End Flatpickr -->
               </div>
             </div>
             <!-- End Date range -->
@@ -525,9 +526,9 @@
   <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
   <script src="@@autopath/node_modules/datatables.net-buttons/js/buttons.colVis.min.js"></script>
   <script src="@@autopath/node_modules/daterangepicker/moment.min.js"></script>
-  <script src="@@autopath/node_modules/daterangepicker/daterangepicker.js"></script>
+  <script src="@@autopath/node_modules/flatpickr/dist/flatpickr.min.js"></script>
 
-  <!-- JS Front -->
+    <!-- JS Front -->
   <!-- bundlejs:theme [@@autopath] -->
   <script src="@@autopath/assets/js/hs.core.js"></script>
   <script src="@@autopath/assets/js/hs.bs-dropdown.js"></script>
@@ -535,108 +536,34 @@
   <script src="@@autopath/assets/js/hs.tom-select.js"></script>
   <script src="@@autopath/assets/js/hs.datatables.js"></script>
   <script src="@@autopath/assets/js/hs.daterangepicker.js"></script>
+  <script src="@@autopath/assets/js/hs.flatpickr.js"></script>
 
 
-  <!-- JS Plugins Init. -->
+    <!-- JS Plugins Init. -->
   <script>
     function convert_to_number(value) {
       return Intl.NumberFormat().format(parseInt(value));
     }
 
     $(document).on('ready', function () {
-      // INITIALIZATION OF FLATPICKR
-      // =======================================================
       // 데이터테이블보다 먼저 초기화 되어야 한다.
       let min_date = window.localStorage.getItem('sjbook.transactions.min_date');
       let max_date = window.localStorage.getItem('sjbook.transactions.max_date');
-      var start = (min_date) ? moment(min_date) : moment().startOf('year');
-      var end = (max_date) ? moment(max_date) : moment();
+      var default_min_date = (min_date) ? moment(min_date) : moment().startOf('year');
+      var default_max_date = (max_date) ? moment(max_date) : moment();
       var restful_server_address = localStorage.getItem('sjbook.restful_server_address') ?
         localStorage.getItem('sjbook.restful_server_address') : 'http://10.8.0.1'
-      // function daterangepicker_renderer(start, end) {
-      //   // .val(value)
-      //   // damn jquery!
-      //   $('.js-daterangepicker-clear').val(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
-      // }
-      HSCore.components.HSDaterangepicker.init('.js-daterangepicker-clear', {
-        startDate: start,
-        endDate: end,
-        ranges: { 
-          '오늘': [moment(), moment()],
-          '어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          // '지난 7일': [moment().subtract(6, 'days'), moment()],
-          // '지난 30일': [moment().subtract(29, 'days'), moment()],
-          '이번 달': [moment().startOf('month'), moment().endOf('month')],
-          // 'Today': [moment(), moment()],
-          // 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          // // '지난 7일': [moment().subtract(6, 'days'), moment()],
-          // // '지난 30일': [moment().subtract(29, 'days'), moment()],
-          // 'This Month': [moment().startOf('month'), moment().endOf('month')],
-          // 'Previous': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        "locale": {
-          "format": "YYYY-MM-DD",
-          "separator": " ~ ",
-          "applyLabel": "적용",
-          "cancelLabel": "취소",
-          "fromLabel": "시작",
-          "toLabel": "종료",
-          "customRangeLabel": "직접 설정",
-          "weekLabel": "주",
-          "daysOfWeek": [
-              "일",
-              "월",
-              "화",
-              "수",
-              "목",
-              "금",
-              "토"
-          ],
-          "monthNames": [
-              "1월",
-              "2월",
-              "3월",
-              "4월",
-              "5월",
-              "6월",
-              "7월",
-              "8월",
-              "9월",
-              "10월",
-              "11월",
-              "12월",
-          ],
-          "firstDay": 1
-        }
-      });
 
-      // daterangepicker_renderer(start, end)
+      // INITIALIZATION OF FLATPICKR
+      // =======================================================
+      // default date range
+      //$('#range_date').val([default_min_date, default_max_date])
+      HSCore.components.HSFlatpickr.init('.js-flatpickr')
 
-      // serverside 에서는 동작하지 않음 
-      // $.fn.dataTable.ext.search.push(
-      //   function( settings, data, dataIndex ) {
-      //     s = $('.js-daterangepicker-clear').value.split('~')
-      //     var min = s[0].trim();
-      //     var max = s[1].trim();
-      //     var date = new Date( data[3] );
-  
-      //     if (
-      //         ( min === null && max === null ) ||
-      //         ( min === null && date <= max ) ||
-      //         ( min <= date   && max === null ) ||
-      //         ( min <= date   && date <= max )
-      //     ) {
-      //         return true;
-      //     }
-      //     return false;
-      //   }
-      // );
+      var flatpickr = HSCore.components.HSFlatpickr.getItem('range_date');
+      flatpickr.setDate([default_min_date.toDate(), default_max_date.toDate()]);
 
-      // // // // const datarangepicker = HSCore.components.HSDaterangepicker.getItem(0)
-      // $('.js-daterangepicker-clear').on('apply.daterangepicker', (event) => {
-      // })
-      
-      // INITIALIZATION OF DATATABLES
+        // INITIALIZATION OF DATATABLES
       // =======================================================
       HSCore.components.HSDatatables.init($('#datatable'), {
         dom: 'Brtip',
@@ -650,11 +577,16 @@
           url: `${restful_server_address}/transaction/transactions.datatables`,
           // type: 'POST',
           data: function(dtParms){
-            s = $('.js-daterangepicker-clear').val().split('~')
-            let min_date = s[0].trim();
-            let max_date = s[1].trim();
-            dtParms.min_date = min_date;
-            dtParms.max_date = max_date;
+            let sel_dates = flatpickr.selectedDates
+            if (sel_dates.length === 0) {
+              dtParms.min_date = default_min_date.toDateString();
+              dtParms.max_date = default_max_date.toDateString();
+            } else if (sel_dates.length === 1) {
+              dtParms.min_date = dtParms.max_date = sel_dates[0].toDateString();
+            } else {
+              dtParms.min_date = sel_dates[0].toDateString();
+              dtParms.max_date = sel_dates[1].toDateString();
+            }
             return dtParms
           }
         },
@@ -822,8 +754,11 @@
         // }
         let start_date = moment(rel ? rel : '2020').startOf('year');
         let end_date = moment(rel ? rel : '2023').endOf('year');
+        flatpickr.setDate([start_date.toDate(), end_date.toDate()]);
+        /*
         $('.js-daterangepicker-clear').data('daterangepicker').setStartDate(start_date);
         $('.js-daterangepicker-clear').data('daterangepicker').setEndDate(end_date);
+        */
         datatable.draw();
       });
 
@@ -981,13 +916,11 @@
         update_stat(json.bank_stats);
       });
 
-      $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
-        // daterangepicker_renderer(picker.startDate, picker.endDate);
-        window.localStorage.setItem('sjbook.transaction.min_date', picker.startDate.format());
-        window.localStorage.setItem('sjbook.transaction.max_date', picker.endDate.format());
+      $('#range_date').on('onChange', function(selectedDates, dateStr, instance) {
+        window.localStorage.setItem('sjbook.transaction.max_date', selectedDates[0]);
+        window.localStorage.setItem('sjbook.transaction.min_date', selectedDates[1]);
         if (datatable) {
           datatable.draw();
-          // datatablestat.data = datatable.data['stat'];
         }
       });
 
