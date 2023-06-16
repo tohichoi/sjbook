@@ -26,7 +26,7 @@ class TestREST(unittest.TestCase):
             self.assertTrue(res)
 
     def test_transaction_stat(self):
-        qp = 'min_date=2020-01-01&max_date=2023-12-31'
+        qp = 'min_date=2023-05-01&max_date=2023-12-31'
         urls = [
             ('transaction/stat?format=api', 'HTTP 200 OK'),
             ('transaction/stat?format=json', '.*min_date.*'),
