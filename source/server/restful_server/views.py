@@ -95,8 +95,9 @@ def get_daterange_queryset(request, cls):
     max_idate = request.query_params.get('max_date', max_db_date.to_date_string())
 
     try:
-        min_date = pendulum.parse(min_idate).start_of('day').in_tz(TIMEZONE)
-        max_date = pendulum.parse(max_idate).end_of('day').in_tz(TIMEZONE)
+        # tz of input date is UTC
+        min_date = pendulum.parse(min_idate)
+        max_date = pendulum.parse(max_idate)
     except Exception:
         return QuerySet()
 
