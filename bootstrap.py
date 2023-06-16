@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import os
+import sys
+
 import requests
 
 
@@ -55,4 +57,6 @@ for e in envs:
 # for h in [restapi_host, frontend_host]:
 #     test_connection(h)
 
-input('\nPress any key to continue ...')
+print('\nPress any key to continue ...')
+sys.stdout.flush()
+input()
