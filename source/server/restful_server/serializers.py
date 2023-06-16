@@ -217,7 +217,7 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_DT_RowAttr(self, album):
         return {'data-pk': album.pk}
-
+    
     class Meta:
         model = Transaction
         fields = [

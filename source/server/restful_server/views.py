@@ -100,7 +100,7 @@ def get_daterange_queryset(request, cls):
     except Exception:
         return QuerySet()
 
-    return cls.objects.filter(datetime__gte=min_date, datetime__lte=max_date), min_date, max_date
+    return cls.objects.filter(datetime__gte=min_date, datetime__lte=max_date).order_by('-datetime'), min_date, max_date
 
 
 class TransactionViewSet(viewsets.ModelViewSet):

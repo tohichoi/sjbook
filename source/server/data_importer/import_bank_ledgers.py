@@ -7,6 +7,7 @@ import pandas as pd
 from database import import_transaction_data, open_database
 from transaction import load_transaction_data
 from config import banks_conf, database_conf, frontend_conf
+import argparse
 
 
 def export_data(file_format):
@@ -27,7 +28,11 @@ def export_data(file_format):
 
 
 def main():
-    data_root = Path(banks_conf['data']['root'])
+    parser = argparse.ArgumentParser('Importing ledgers')
+    parser.add_argument('--data-root', type=str)
+    args = parser.parse_args()
+
+    data_root = Path(banks_conf['data']['root']) if not args.data_root else Path(args.data_root)
     if not data_root.exists():
         raise FileNotFoundError(f'{data_root} not found')
     filelist = set(data_root.rglob(banks_conf['data']['rglob_pattern']))
