@@ -582,10 +582,10 @@
               dtParms.min_date = default_min_date.toDateString();
               dtParms.max_date = default_max_date.toDateString();
             } else if (sel_dates.length === 1) {
-              dtParms.min_date = dtParms.max_date = sel_dates[0].toDateString();
+              dtParms.min_date = dtParms.max_date = sel_dates[0].toISOString().slice(0, 10);
             } else {
-              dtParms.min_date = sel_dates[0].toDateString();
-              dtParms.max_date = sel_dates[1].toDateString();
+              dtParms.min_date = sel_dates[0].toISOString().slice(0, 10);
+              dtParms.max_date = sel_dates[1].toISOString().slice(0, 10);
             }
             return dtParms
           }
@@ -916,9 +916,13 @@
         update_stat(json.bank_stats);
       });
 
-      $('#range_date').on('onChange', function(selectedDates, dateStr, instance) {
-        window.localStorage.setItem('sjbook.transaction.max_date', selectedDates[0]);
-        window.localStorage.setItem('sjbook.transaction.min_date', selectedDates[1]);
+      // https://flatpickr.js.org/events/#events
+      flatpickr.config.onValueUpdate.push(function(selectedDates, dateStr, instance) {
+        window.localStorage.setItem('sjbook.transaction.min_date', selectedDates[0]);
+        if (selectedDates.length === 1)
+          window.localStorage.setItem('sjbook.transaction.max_date', selectedDates[0]);
+        else
+          window.localStorage.setItem('sjbook.transaction.max_date', selectedDates[1]);
         if (datatable) {
           datatable.draw();
         }
