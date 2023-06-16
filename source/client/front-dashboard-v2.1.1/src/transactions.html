@@ -163,13 +163,13 @@
               <div class="col-sm-12 text-center">
                 <!-- <h4 class="bg-primary text-white p-2" style="margin: 15px;">(AlbumViewSet) Full example with foreign key and many to many relation</h4> -->
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="btnradio" id="btnyear0" autocomplete="off" checked>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear0" autocomplete="off">
                   <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear0">전체기간</label>
-                  <input type="radio" class="btn-check" name="btnradio" id="btnyear1" autocomplete="off" checked>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear1" autocomplete="off">
                   <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear1" rel="2020">2020년</label>
-                  <input type="radio" class="btn-check" name="btnradio" id="btnyear2" autocomplete="off" checked>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear2" autocomplete="off">
                   <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear2" rel="2021">2021년</label>
-                  <input type="radio" class="btn-check" name="btnradio" id="btnyear3" autocomplete="off" checked>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnyear3" autocomplete="off"]>
                   <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear3" rel="2022">2022년</label>
                   <input type="radio" class="btn-check" name="btnradio" id="btnyear4" autocomplete="off" checked>
                   <label class="btn btn btn-soft-primary btn-sm btn-decade" for="btnyear4" rel="2023">2023년</label>
@@ -243,7 +243,6 @@
                     "info": {
                       "totalQty": "#datatableWithPaginationInfoTotalQty"
                     },
-                    "scrollY": 500,
                     "search": "#datatableSearch",
                     "entries": "#datatableEntries",
                     "pageLength": 10,
@@ -253,15 +252,15 @@
                  }'>
             <thead class="thead-light">
               <tr>
-                <th>은행</th>
+                <th>은행</th>   <!-- 0  -->
                 <th>계정</th>
                 <th>송수신인</th>
                 <th>거래일</th>
-                <th>출금</th>
+                <th>출금</th>   <!-- 4  -->
                 <th>입금</th>
                 <th>잔액</th>
                 <th>적요</th>
-                <th>메모</th>
+                <th>메모</th>   <!-- 8  -->
                 <!-- <th>은행</th>
                 <th>계좌명</th>
                 <th>계좌번호</th> -->
@@ -269,7 +268,7 @@
                 <!-- <th>세부정보</th> -->
                 <th>순번</th>
                 <th>pk</th>
-                <th>거래ID</th>
+                <th>거래ID</th>     <!-- 12  -->
               </tr>
             </thead>
             <tbody>
@@ -304,17 +303,18 @@
           <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
             <div class="col-sm mb-2 mb-sm-0">
               <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                <span class="me-2">Showing:</span>
+                <span class="me-2">한번에 볼 거래 수</span>
 
                 <!-- Select -->
-                <div class="tom-select-custom">
+                <div class="tom-select-custom w-25">
                   <select id="datatableEntries" class="js-select form-select form-select-borderless w-100" autocomplete="off"
                           data-hs-tom-select-options='{
                             "searchInDropdown": false,
                             "hideSearch": true
                           }'>
-                    <option value="10">10</option>
-                    <option value="15" selected>15</option>
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
                     <option value="20">20</option>
                   </select>
                 </div>
@@ -574,6 +574,8 @@
       HSCore.components.HSDatatables.init($('#datatable'), {
         dom: 'Brtip',
         serverSide: true,
+        // 거래시각, 순번
+        order: [[3, 'desc'], [10, 'desc']],
         // processing: true,
         // search: {
         //     return: true,
@@ -688,7 +690,7 @@
           // { data: 'bank_account_number', visible:false },
           { data: 'handler', visible:false },
           // { data: 'url', visible:false },
-          { data: 'transaction_order', visible:false },
+          { data: 'transaction_order' },
           { data: 'pk', visible:false },
           { data: 'transaction_id', visible:false },
         ],
@@ -764,7 +766,7 @@
         //   ;
         // }
         let start_date = DateTime.fromISO(`${rel ? rel : '2020'}-01-01`).startOf('year').setZone('Asia/Seoul');
-        let end_date = DateTime.local().endOf('year').endOf('day');
+        let end_date = rel ? start_date.endOf('year').endOf('day') : DateTime.now().endOf('day');
         flatpickr.setDate([start_date.toISO(), end_date.toISO()]);
         /*
         $('.js-daterangepicker-clear').data('daterangepicker').setStartDate(start_date);
