@@ -6,10 +6,18 @@
 // Example of a variable override to change Front's primary color and font size
 // Remove the "//" to comment it in and see it in action!
 // $primary: $red;
-// $font-size-base: .875rem;
+//$font-size-base: .875rem;
 $font-size-base: 1rem;
 
 
 
 // The color of the SVG loader should be modified manually.
 // See assets/svg/components/circle-preloader.svg
+
+
+// flatpickr style
+.flatpickr-calendar .flatpickr-day.today {
+    color: #fff;
+    border-color: #377dff;
+    // background-color: #377dff;
+}

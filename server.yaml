@@ -8,6 +8,9 @@ start_directory: .
 options:
   status-style: fg=white,bg=blue
 shell_command_before:
+  - export SJBOOK_ROOT=$HOME/Workspace/sjbook
+  - export SJBOOK_FRONTEND_HOST=localhost:8001
+  - export SJBOOK_HOST=10.8.0.1:8000
   - if hostname | grep "samjungenr.com" ; then tmux set status-style "fg=white,bg=red" ; fi
   - source source/venv/bin/activate
 windows:
@@ -46,11 +49,12 @@ windows:
           - cd source/server
 #          - PYTHONPATH="$SJBOOK_ROOT/source/" python manage.py runserver "$SJBOOK_RESTAPI_HOST"
           - python manage.py runserver "$SJBOOK_RESTAPI_HOST"
-  - window_name: gulp
+  - window_name: html
     panes:
       - shell_command:
           - cd source/client/front-dashboard-v2.1.1/
           - cd dist
+          # nginx 를 사용할 경우 SJBOOK_FRONTEND_HOST 를 nginx.conf 에 반영하기 어렵다(환경변수 지원안함) 
           - caddy file-server --listen `echo "$SJBOOK_FRONTEND_HOST" | sed -r 's/([^:]+):(.+)$/\1:8001/'` --root .
   - window_name: editor
     panes:
