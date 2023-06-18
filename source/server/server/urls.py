@@ -34,14 +34,12 @@ router.register(r'faccount/category', views.FAccountCategoryViewSet)
 router.register(r'faccount/subcategory', views.FAccountSubCategoryViewSet)
 
 urlpatterns = [
-
-    # path('unicode/', views.UnicodeListAPIView.as_view()),
-    # path('unicode/<int:pk>/', views.UnicodeRetrieveAPIView.as_view(), name='unicode-detail'),
     path('', include(router.urls)),
+    # path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='schema'),
     path('transaction/stat', views.TransactionStatAPIView.as_view(), name='transactionstat-detail'),
     path('transaction/upload-ledgers', views.UploadLedgerAPIView.as_view(), name='transaction-upload-ledgers'),
-    path('transaction/download/<str:res_type>', views.TransactionDownloadViewSet.as_view(), name='transaction-download'),
-    # path('transaction/download', views.TransactionDownloadView.as_view(), name='transaction-download'),
+    path('transaction/download/<str:file_type>', views.TransactionDownloadViewSet.as_view(), name='transaction-download'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls'))
 ]

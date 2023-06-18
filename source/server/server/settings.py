@@ -45,18 +45,21 @@ INSTALLED_APPS = [
     'restful_server',
     'django_filters',
     'django_extensions',
-    'rest_framework_datatables'
+    'rest_framework_datatables',
+    # 'drf_spectacular',
+    # 'drf_spectacular_sidecar',  # required for Django collectstatic discovery
+    'import_export'
 ]
 
 MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -144,6 +147,7 @@ REST_FRAMEWORK = {
         # No permission
         'rest_framework.permissions.AllowAny',
     ],
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -166,6 +170,19 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
+
+# SPECTACULAR_SETTINGS = {
+#     'TITLE': 'SJBook',
+#     'DESCRIPTION': 'Samjung Booking System',
+#     'VERSION': '1.0.0',
+#     'SERVE_INCLUDE_SCHEMA': False,
+#     'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+#     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+#     'REDOC_DIST': 'SIDECAR',
+#     # OTHER SETTINGS
+# }
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -181,6 +198,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -188,9 +206,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3030',
+#     'http://10.8.0.1:8001',
+#     'http://localhost:8001',
+#     'http://127.0.0.1:8001',
 # ]  # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 # CORS_ALLOWED_ORIGIN_REGEXES = [
 #     'http://localhost:3030',
@@ -198,5 +217,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = (
     *default_headers,
-    "cache-control"
+    "cache-control",
+    "content-disposition",
+    "Access-Control-Expose-Headers"
 )

@@ -211,18 +211,18 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <span class="dropdown-header">Download options</span>
-                <a id="export-excel" class="dropdown-item" href="javascript:;">
+                <!-- <a id="export-excel" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/brands/excel-icon.svg" alt="Image Description">
                   Excel
-                </a>
+                </a> -->
                 <a id="export-csv" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/components/placeholder-csv-format.svg" alt="Image Description">
                   .CSV
                 </a>
-                <a id="export-pdf" class="dropdown-item" href="javascript:;">
+                <!-- <a id="export-pdf" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/brands/pdf-icon.svg" alt="Image Description">
                   PDF
-                </a>
+                </a> -->
               </div>
             </div>
             <!-- End Dropdown -->
@@ -569,6 +569,25 @@
       var flatpickr = HSCore.components.HSFlatpickr.getItem('range_date');
       flatpickr.setDate([default_min_date.toISO(), default_max_date.toISO()]);
 
+      function get_dtParams(dtParms) {
+        // local
+        // sel_dates : JS Date()
+        let sel_dates = flatpickr.selectedDates;
+        if (sel_dates.length === 0) {
+          dtParms.min_date = default_min_date;
+          dtParms.max_date = default_max_date;
+        } else if (sel_dates.length === 1) {
+          dtParms.min_date = dtParms.max_date = DateTime.local(sel_dates[0]);
+        } else {
+          dtParms.min_date = DateTime.fromJSDate(sel_dates[0]);
+          dtParms.max_date = DateTime.fromJSDate(sel_dates[1]);
+        }
+        // convert local to utc
+        dtParms.min_date = dtParms.min_date.startOf('day').setZone('UTC').toISO()
+        dtParms.max_date = dtParms.max_date.endOf('day').setZone('UTC').toISO()
+        return dtParms
+      }
+
         // INITIALIZATION OF DATATABLES
       // =======================================================
       HSCore.components.HSDatatables.init($('#datatable'), {
@@ -585,22 +604,7 @@
           url: `${restful_server_address}/transaction/transactions.datatables`,
           // type: 'POST',
           data: function(dtParms){
-            // local
-            // sel_dates : JS Date()
-            let sel_dates = flatpickr.selectedDates;
-            if (sel_dates.length === 0) {
-              dtParms.min_date = default_min_date;
-              dtParms.max_date = default_max_date;
-            } else if (sel_dates.length === 1) {
-              dtParms.min_date = dtParms.max_date = DateTime.local(sel_dates[0]);
-            } else {
-              dtParms.min_date = DateTime.fromJSDate(sel_dates[0]);
-              dtParms.max_date = DateTime.fromJSDate(sel_dates[1]);
-            }
-            // convert local to utc
-            dtParms.min_date = dtParms.min_date.startOf('day').setZone('UTC').toISO()
-            dtParms.max_date = dtParms.max_date.endOf('day').setZone('UTC').toISO()
-            return dtParms
+            return get_dtParams(dtParms);
           }
         },
         footerCallback: function (row, data, start, end, display) {
@@ -699,18 +703,18 @@
             extend: 'copy',
             className: 'd-none'
           },
-          {
-            extend: 'excel',
-            className: 'd-none'
-          },
+          // {
+          //   extend: 'excel',
+          //   className: 'd-none'
+          // },
           {
             extend: 'csv',
             className: 'd-none'
           },
-          {
-            extend: 'pdf',
-            className: 'd-none'
-          },
+          // {
+          //   extend: 'pdf',
+          //   className: 'd-none'
+          // },
           {
             extend: 'print',
             className: 'd-none'
@@ -740,30 +744,62 @@
         datatable.button('.buttons-copy').trigger()
       });
 
-      $('#export-excel').click(function() {
-        // datatable.button('.buttons-excel').trigger()
-        fetch(restful_server_address + '/transaction/download/excel')
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error: ${response.status}`);
-            }
-            response.blob();
-          })
-          .then((text) => {
-            poemDisplay.textContent = text;
-          })
-          .catch((error) => {
-            window.alert(error);
-          });
-      });
-
       $('#export-csv').click(function() {
-        datatable.button('.buttons-csv').trigger()
+        let dtParams = get_dtParams({});
+        var jqxhr = $.ajax({
+          url: restful_server_address + '/transaction/download/excel',
+          data: {
+            'min_date': dtParams.min_date,
+            'max_date': dtParams.max_date,
+          }});
+        jqxhr.done(function(data){
+          let disposition = jqxhr.getResponseHeader('content-disposition');
+          let matches = /"([^"]*)"/.exec(disposition);
+          let filename = (matches != null && matches[1] ? matches[1] : 'file.pdf');
+          let blob=new Blob([data]);
+          let link=document.createElement('a');
+          link.href=window.URL.createObjectURL(blob);
+          link.download=filename;
+          link.click();
+        })
       });
 
-      $('#export-pdf').click(function() {
-        datatable.button('.buttons-pdf').trigger()
-      });
+      // https://javascript.info/fetch
+      // document.querySelector('#export-excel').onclick=(event) => {
+      //   let response = await fetch(restful_server_address + '/transaction/download/excel', {
+      //     // credentials: "include"
+      //     // type: 'cors'
+      //   });
+      //   if (!response.ok) {
+      //     throw new Error(`HTTP error: ${response.status}`);
+      //   }
+      //   let blob = await response.blob();
+
+      //   // Try to find out the filename from the content disposition `filename` value
+      //   // var disposition = request.getResponseHeader('content-disposition');
+      //   // var matches = /"([^"]*)"/.exec(disposition);
+      //   // var filename = (matches != null && matches[1] ? matches[1] : 'file.pdf');
+      //   var filename = 'file.xlsx'
+      //   // The actual download
+      //   var blob_data = new Blob([blob], { type: 'application/vnd.ms-excel' });
+      //   var link = document.createElement('a');
+      //   link.href = window.URL.createObjectURL(blob_data);
+      //   link.download = filename;
+      //   // document.body.appendChild(link);
+      //   link.click();
+      //   // document.body.removeChild(link);
+      //   // .catch((error) => {
+      //   //   window.alert(error);
+      //   // });
+      // };
+
+      // $('#export-excel').click(function() {
+      //   datatable.button('.buttons-excel').trigger()
+      // });
+
+      // $('#export-pdf').click(function() {
+      //   datatable.button('.buttons-pdf').trigger()
+      // });
 
       $('#export-print').click(function() {
         datatable.button('.buttons-print').trigger()

@@ -29,6 +29,7 @@ from restful_server.serializers import UserSerializer, GroupSerializer, BankAcco
     FAccountCategoryTypeSerializer, FAccountMajorCategorySerializer, FAccountMinorCategorySerializer, \
     FAccountCategorySerializer, FAccountMajorMinorCategoryLinkSerializer, FAccountSubCategorySerializer, \
     TransactionFilter, TransactionStatSerializer, UploadedLedgerSerializer, TransactionBankStatSerializer
+from server.settings import CORS_ALLOW_HEADERS
 
 
 # from django_filters import rest_framework as filters
@@ -339,20 +340,40 @@ class UploadLedgerAPIView(APIView):
 
 
 class TransactionDownloadViewSet(APIView):
+    # @extend_schema(
+    #     summary='Send Binary response',
+    #     parameters=[
+    #         OpenApiParameter(name='file_type', type=str, enum=['excel', 'text', 'docs'], required=True,
+    #                          location=OpenApiParameter.PATH)
+    #     ],
+    #     responses={
+    #         200: OpenApiResponse(description='Binary Response'),
+    #         404: OpenApiResponse(description='Resource not found')
+    #     }
+    # )
+
     def get_excel(self, queryset):
         byte_buffer = BytesIO()
         df = pd.DataFrame.from_dict(queryset.values())
-        writer = pd.ExcelWriter(byte_buffer, engine='openpyxl')
-        df.to_excel(writer, sheet_name='거래내역', index=False)
-        writer.close()
+        df['datetime'] = df['datetime'].dt.tz_convert('Asia/Seoul')
+        df['datetime'] = df['datetime'].dt.tz_localize(None)
+
+        # writer = pd.ExcelWriter(byte_buffer, engine='xlsxwriter')
+        # df.to_excel(writer, sheet_name='거래내역', index=False)
+        df.to_csv(byte_buffer)
+        # writer.close()
         return byte_buffer
 
     def get(self, request, *args, **kwargs):
         qs, min_date, max_date = get_daterange_queryset(request, Transaction)
-        file_type = request.query_params.get('file_type')
-        file_name = Path('거래내역')
+        file_type = kwargs.get('file_type')
+        file_name = Path('transactions').with_suffix('.csv')
+        file_name = file_name.with_stem(
+            f'{file_name.stem}-{min_date.to_date_string().replace("-", "")}-{max_date.to_date_string().replace("-", "")}')
 
+        content_type = None
         if file_type == 'excel':
+            # content_type = 'application/vnd.ms-excel'
             byte_buffer = self.get_excel(qs)
         elif file_type == 'text':
             pass
@@ -363,4 +384,8 @@ class TransactionDownloadViewSet(APIView):
 
         byte_buffer.seek(0)
 
-        return FileResponse(byte_buffer, filename=file_name, as_attachment=True)
+        response = FileResponse(byte_buffer, filename=file_name, as_attachment=True)
+        response.headers["Access-Control-Expose-Headers"] = '*'
+        response.headers["Access-Control-Allow-Headers"] = '*'
+        # response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response
