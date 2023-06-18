@@ -40,7 +40,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('transaction/stat', views.TransactionStatAPIView.as_view(), name='transactionstat-detail'),
     path('transaction/upload-ledgers', views.UploadLedgerAPIView.as_view(), name='transaction-upload-ledgers'),
-
+    path('transaction/download/<str:res_type>', views.TransactionDownloadViewSet.as_view(), name='transaction-download'),
+    # path('transaction/download', views.TransactionDownloadView.as_view(), name='transaction-download'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls'))
 ]

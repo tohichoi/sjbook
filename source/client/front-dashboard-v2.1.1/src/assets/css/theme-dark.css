@@ -1,4 +1,9 @@
 @charset "UTF-8";
+.flatpickr-calendar .flatpickr-day.today {
+  color: #fff;
+  border-color: #377dff;
+}
+
 /*!
  * Bootstrap  v5.3.0 (https://getbootstrap.com/)
  * Copyright 2011-2023 The Bootstrap Authors
@@ -31208,4 +31213,10 @@ select:-webkit-autofill:focus {
 .navbar-brand-logo {
   min-width: 100%;
   max-width: 6.5rem;
+}
+
+.flatpickr-calendar .flatpickr-day.today {
+  color: #fff;
+  border-color: transparent;
+  background-color: #09a5be;
 }

@@ -1,10 +1,14 @@
 from code import interact
+from io import BytesIO
+from pathlib import Path
 
 import pendulum
 from django.db.models import Min, QuerySet
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
+from django.views import View
+from django.views.generic import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, pagination, mixins
 from rest_framework import status
@@ -15,6 +19,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
+import pandas as pd
 
 from data_importer.common import TIMEZONE
 from restful_server.datamodels import TransactionStat
@@ -333,3 +338,29 @@ class UploadLedgerAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class TransactionDownloadViewSet(APIView):
+    def get_excel(self, queryset):
+        byte_buffer = BytesIO()
+        df = pd.DataFrame.from_dict(queryset.values())
+        writer = pd.ExcelWriter(byte_buffer, engine='openpyxl')
+        df.to_excel(writer, sheet_name='거래내역', index=False)
+        writer.close()
+        return byte_buffer
+
+    def get(self, request, *args, **kwargs):
+        qs, min_date, max_date = get_daterange_queryset(request, Transaction)
+        file_type = request.query_params.get('file_type')
+        file_name = Path('거래내역')
+
+        if file_type == 'excel':
+            byte_buffer = self.get_excel(qs)
+        elif file_type == 'text':
+            pass
+        elif file_type == 'docs':
+            pass
+        else:
+            return Response({"error": "Invalid file_type"}, status=status.HTTP_400_BAD_REQUEST)
+
+        byte_buffer.seek(0)
+
+        return FileResponse(byte_buffer, filename=file_name, as_attachment=True)

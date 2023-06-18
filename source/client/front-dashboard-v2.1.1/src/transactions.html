@@ -741,7 +741,20 @@
       });
 
       $('#export-excel').click(function() {
-        datatable.button('.buttons-excel').trigger()
+        // datatable.button('.buttons-excel').trigger()
+        fetch(restful_server_address + '/transaction/download/excel')
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error: ${response.status}`);
+            }
+            response.blob();
+          })
+          .then((text) => {
+            poemDisplay.textContent = text;
+          })
+          .catch((error) => {
+            window.alert(error);
+          });
       });
 
       $('#export-csv').click(function() {
