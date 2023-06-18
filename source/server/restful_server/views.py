@@ -3,7 +3,7 @@ from io import BytesIO
 from pathlib import Path
 
 import pendulum
-from django.db.models import Min, QuerySet
+from django.db.models import Min, QuerySet, F
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
@@ -354,13 +354,18 @@ class TransactionDownloadViewSet(APIView):
 
     def get_excel(self, queryset):
         byte_buffer = BytesIO()
-        df = pd.DataFrame.from_dict(queryset.values())
+        qs = queryset.annotate(bank_name=F('bank__bank_name'), bank_alias=F('bank__alias'))
+        df = pd.DataFrame.from_dict(qs.values())
         df['datetime'] = df['datetime'].dt.tz_convert('Asia/Seoul')
         df['datetime'] = df['datetime'].dt.tz_localize(None)
 
+        new_columns = ['datetime', 'bank_name', 'bank_alias', 'recipient', 'withdraw', 'saving', 'balance', 'bank_note',
+                       'user_note', 'transaction_order']
+        df_new = df[new_columns]
+        df_new.columns = ['거래시각', '은행', '은행별명', '받는분/보내는분', '출금', '입금', '잔액', '적요', '메모', '거래순서']
         # writer = pd.ExcelWriter(byte_buffer, engine='xlsxwriter')
         # df.to_excel(writer, sheet_name='거래내역', index=False)
-        df.to_csv(byte_buffer)
+        df_new.to_csv(byte_buffer, index=False)
         # writer.close()
         return byte_buffer
 
