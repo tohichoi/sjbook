@@ -41,13 +41,21 @@ def print_env(e):
 
 
 print('* Environment tests')
-envs = ('SJBOOK_ROOT', 'SJBOOK_RESTAPI_HOST', 'SJBOOK_FRONTEND_HOST')  
-for e, s in (zip(envs, ('export SJBOOK_ROOT=$(pwd)', 'export SJBOOK_RESTAPI_HOST=localhost:8000', 'export SJBOOK_FRONTEND_HOST=localhost:8001'))):
-    test_env(e, s)
+envs = ('SJBOOK_ROOT', 'SJBOOK_RESTAPI_HOST', 'SJBOOK_FRONTEND_HOST')
+suggests = (
+'export SJBOOK_ROOT=$(pwd)', 'export SJBOOK_RESTAPI_HOST=localhost:8000', 'export SJBOOK_FRONTEND_HOST=localhost:8001')
+is_env_set = []
+for e, s in (zip(envs, suggests)):
+    is_env_set.append(os.environ.get(e, None))
 
 print('* Environment variables')
 for e in envs:
     print_env(e)
+
+for i in range(len(is_env_set)):
+    if not is_env_set[i]:
+        print(suggests[i])
+
 
 # print(f'SJBOOK_ROOT={os.getenv()}')
 # print(f'SJBOOK_RESTAPI_HOST={restapi_host}')
@@ -57,10 +65,9 @@ for e in envs:
 # for h in [restapi_host, frontend_host]:
 #     test_connection(h)
 
-r = input('Press ENTER or SPACE to continue ... ')
-sys.stdout.flush()
-print(r)
-if r in [' ', '\n']:
-    sys.exit(0)
+try:
+    r = input('Press ENTER or SPACE to continue ... ')
+except EOFError:
+    sys.exit(1)
 
-sys.exit(1)
+sys.exit(0)

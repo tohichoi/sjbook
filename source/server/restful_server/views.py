@@ -155,7 +155,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             #     if serializer.is_valid():
             #         stat_ser_list.append(serializer.validated_data)
             # return 'stat', {'min_date': self.min_date, 'max_date': self.max_date, 'data': stat_ser_list}
-            serializer = TransactionStatSerializer(ts)
+            serializer = TransactionStatSerializer(ts, context={'request': self.request})
             return 'bank_stats', serializer.data
         return ts.calc_stat()
 
@@ -217,7 +217,7 @@ class TransactionStatAPIView(APIView):
         ts = TransactionStat(qs, self.min_date, self.max_date, True)
         # serialize : TransactionStatSerializer(ts)
         # deserialize : TransactionStatSerializer(data=ts)
-        serializer = TransactionStatSerializer(ts)
+        serializer = TransactionStatSerializer(ts, context={'request': request})
         return Response(serializer.data)
 
 
