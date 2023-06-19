@@ -253,14 +253,14 @@
             <thead class="thead-light">
               <tr>
                 <th>은행</th>   <!-- 0  -->
+                <th>거래시각</th>
                 <th>계정</th>
                 <th>송수신인</th>
-                <th>거래일</th>
-                <th>출금</th>   <!-- 4  -->
-                <th>입금</th>
-                <th>잔액</th>
+                <th>메모</th>   <!-- 4  -->
                 <th>적요</th>
-                <th>메모</th>   <!-- 8  -->
+                <th>출금</th>   
+                <th>입금</th>
+                <th>잔액</th>   <!-- 8  -->
                 <!-- <th>은행</th>
                 <th>계좌명</th>
                 <th>계좌번호</th> -->
@@ -662,7 +662,7 @@
                       <b>${data.alias}</b></a>
                     <div class="collapse" id="collapseDiv_${row.pk}">
                       <div class="card card-body">
-                        <span class="d-block fs-5 text-body">${data.account_name}</span>
+                        <span class="d-block fs-5 text-body">${data.account_name ? data.account_name : "알수없음"}</span>
                         <span class="d-block fs-5 text-body">${data.account_number}</span>
                       </div>
                     </div>
@@ -670,21 +670,23 @@
                 </div>`;
             }          
           },
-          { data: 'faccount_category.norm_name', name: 'faccount_category.norm_name',
-            render: function (data, type, row, meta) {
-              return (data) ? `<b class="text-dark">${data.norm_name}</b>` : '<span class="text-primary"><i class="bi bi-pencil-square"></i> 편집</span>';
-            }
-          },
-          { data: 'recipient',
-            render: function (data, type, row, meta) {
-              return (data) ? `<b class="text-dark">${data}</b>` : '<span class="text-dark"><i class="bi bi-pencil-square"></i> 편집</span>';
-            }
-          },
           { data: 'datetime',
             render: function (data, type, row, meta) {
               return `<b>${DateTime.fromISO(data).setZone('Asia/Seoul').toFormat("yyyy-MM-dd HH:mm:ss")}</b>`;
             }
           },
+          { data: 'faccount_category.norm_name', name: 'faccount_category.norm_name',
+            render: function (data, type, row, meta) {
+              return (data) ? `<b class="text-dark">${data.norm_name}</b>` : '<span class="text-muted"><i class="bi bi-pencil-square"></i> 편집</span>';
+            }
+          },
+          { data: 'recipient',
+            render: function (data, type, row, meta) {
+              return (data) ? `<b class="text-dark">${data}</b>` : '<span class="text-muted"><i class="bi bi-pencil-square"></i> 편집</span>';
+            }
+          },
+          { data: 'user_note' },
+          { data: 'bank_note' },
           { data: 'withdraw',
             className: 'text-end', 
             render: function (data, type, row, meta) {
@@ -704,8 +706,6 @@
             }
           },
 
-          { data: 'bank_note' },
-          { data: 'user_note' },
           // { data: 'bank_name', visible:false },
           // { data: 'bank_account_name', visible:false },
           // { data: 'bank_account_number', visible:false },

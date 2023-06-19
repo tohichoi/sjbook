@@ -57,6 +57,10 @@ for e in envs:
 # for h in [restapi_host, frontend_host]:
 #     test_connection(h)
 
-print('\nPress any key to continue ...')
+print('\nPress ENTER or SPACE to continue ... ')
 sys.stdout.flush()
-input()
+r = input()
+if r not in [' ', '\n']:
+    return 1
+
+return 0    
