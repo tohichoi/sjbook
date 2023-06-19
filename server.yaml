@@ -53,9 +53,8 @@ windows:
     panes:
       - shell_command:
           - cd source/client/front-dashboard-v2.1.1/
-          - cd dist
-          # nginx 를 사용할 경우 SJBOOK_FRONTEND_HOST 를 nginx.conf 에 반영하기 어렵다(환경변수 지원안함) 
-          - caddy file-server --listen `echo "$SJBOOK_FRONTEND_HOST" | sed -r 's/([^:]+):(.+)$/\1:8001/'` --root .
+          # nginx 를 사용할 경우 SJBOOK_FRONTEND_HOST 를 nginx.conf 에 반영하기 어렵다(환경변수 지원안함)
+          - gulp dist; caddy file-server --listen `echo "$SJBOOK_FRONTEND_HOST" | sed -r 's/([^:]+):(.+)$/\1:8001/'` --root dist
   - window_name: editor
     panes:
       - shell_command:

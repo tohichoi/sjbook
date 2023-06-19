@@ -93,7 +93,7 @@
     @@include("@@autopath/partials/sidebar/main.html", {
       "category": "transactions",
       "subcategory": "",
-      "link": "transactions.html"
+      "link": "transactions-upload.html"
     })
   }
 
@@ -101,7 +101,7 @@
     @@include("@@autopath/partials/sidebar/compact.html", {
       "category": "transactions",
       "subcategory": "",
-      "link": "transactions.html"
+      "link": "transactions-upload.html"
     })
   }
 
@@ -147,11 +147,11 @@
                   data-hs-datatables-options='{}'>
                   <thead class="thead-light">
                     <tr>
-                      <th>파일</th>
-                      <th>결과값</th>
-                      <th>처리메시지</th>
+                      <th>업로드된 파일</th>
+                      <th>업로드 결과</th>
                       <th>불러온 계좌 수</th>
                       <th>불러온 거래내역 수</th>
+                      <th>결과코드</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -310,11 +310,19 @@
         scrollCollapse: true,
         paging: false,
         columns : [
-          {data: 'filename'}, 
-          {data: 'result', className: 'text-end'},
+          {data: 'filename', 
+            render: function (data, type, row, meta) {
+              let v = parseInt(row['result']);
+              if (v < 0) return `<i class="bi bi-exclamation-circle-fill text-danger"></i>&nbsp;<b>${data}</b>`;
+              else if (v == 0) return `<i class="bi bi-exclamation-circle-fill text-warning"></i>&nbsp;<b>${data}</b>`;
+
+              return `<i class="bi bi-database-add text-success"></i>&nbsp;<b>${data}</b>`;
+                }
+          }, 
           {data: 'message'},
           {data: 'number_of_inserted_records.bankaccounts', className: 'text-end'},
           {data: 'number_of_inserted_records.transactions', className: 'text-end'},
+          {data: 'result', className: 'text-end'},
         ]
       });
       var datatableresult = HSCore.components.HSDatatables.getItem('datatableresult')

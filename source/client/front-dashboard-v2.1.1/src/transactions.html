@@ -343,28 +343,37 @@
       <!-- 입출금 총계 -->
       <div class="card mt-5">
         <div class="card-header card-header-content-md-between">
-          <h3>입출금 총계</h3>
+          <div class="row justify-content-between align-items-center">
+            <div class="col">
+              <h3>입출금 전체 총계</h3>
+            </div>
+            <div class="col-auto">
+              <div class="d-flex justify-content-end"><small
+                  class="ml-5 text-muted transactionstat-period">test</small></div>
+            </div>
+          </div>
         </div>
+
         <!-- HSCounter : buggy -->
         <div class="row px-3">
           <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2">출금</h6>
+                <h6 class="card-subtitle mb-2 text-end">출금</h6>
 
                 <div class="row align-items-center gx-2">
-                  <div class="col">
+                  <div class="col text-end">
                     <span class="display-4 digit-withdraw" id="sum_withdraw"
-                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>12</span>
+                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>0</span>
                     <span class="text-body fs-5 ms-1">원</span>
                   </div>
 
-                  <div class="col-auto">
+                  <!-- <div class="col-auto">
                     <span class="badge bg-soft-success text-success p-1">
                       <i class="bi-graph-up"></i> 1.2%
                     </span>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- End Row -->
               </div>
@@ -376,21 +385,21 @@
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2">입금</h6>
+                <h6 class="card-subtitle mb-2 text-end">입금</h6>
 
                 <div class="row align-items-center gx-2">
-                  <div class="col">
+                  <div class="col text-end">
                     <span class="display-4 digit-saving" id="sum_saving"
-                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>56</span>
+                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>0</span>
                     <!-- <span class="display-4 text-dark">%</span> -->
                     <span class="text-body fs-5 ms-1">원</span>
                   </div>
 
-                  <div class="col-auto">
+                  <!-- <div class="col-auto">
                     <span class="badge bg-soft-danger text-danger p-1">
                       <i class="bi-graph-down"></i> 2.8%
                     </span>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- End Row -->
               </div>
@@ -402,19 +411,19 @@
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2">이익</h6>
+                <h6 class="card-subtitle mb-2 text-end">이익</h6>
 
                 <div class="row align-items-center gx-2">
-                  <div class="col">
+                  <div class="col text-end">
                     <span class="display-4 " id="sum_profit"
-                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'>28.6</span>
+                      data-hs-counter-options='{"isCommaSeparated": true, "isReduceThousandsTo": true}'></span>
                     <!-- <span class="display-4 text-dark">%</span> -->
                     <span class="text-body fs-5 ms-1">원</span>
                   </div>
 
-                  <div class="col-auto">
+                  <!-- <div class="col-auto">
                     <span class="badge bg-soft-secondary text-secondary p-1">0.0%</span>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- End Row -->
               </div>
@@ -430,7 +439,15 @@
       <div class="card">
         <!-- Header -->
         <div class="card-header card-header-content-md-between">
-          <h3>계좌별 입출금 총계</h3>
+          <div class="row justify-content-between align-items-center">
+            <div class="col">
+              <h3>계좌별 입출금 총계</h3>
+            </div>
+            <div class="col-auto">
+              <div class="d-flex justify-content-end"><small
+                    class="ml-5 text-muted transactionstat-period">test</small></div>
+            </div>
+          </div>
         </div>
         <!-- Table -->
         <div class="table-responsive datatable-custom position-relative">
@@ -892,6 +909,12 @@
           elm.removeClass('text-primary');
           elm.addClass('text-danger');
         }
+        let min_date_str = DateTime.fromISO(bank_stats.min_date).toISODate();
+        let max_date_str = DateTime.fromISO(bank_stats.max_date).toISODate();
+
+        let elms = document.querySelectorAll('.transactionstat-period')
+        elms.forEach(e => e.innerText=`${min_date_str} ~ ${max_date_str}`)
+
         // $('#sum_withdraw').text(sum_withdraw);
         // $('#sum_saving').text(sum_saving);
         // $('#sum_profit').text(sum_profit);
