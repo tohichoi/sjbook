@@ -459,6 +459,7 @@
               <tr>
                 <th>PK</th>
                 <th>은행</th>
+                <th>잔액</th>
                 <th>출금</th>
                 <th>입금</th>
                 <th>차액(입금-출금)</th>
@@ -468,6 +469,7 @@
             </tbody>
             <tfoot class="tfoot-light">
               <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -900,14 +902,13 @@
             return g_total;
           }
 
-          // quantity, rebate, total_price
-          for (let i of [[2, 'digit-withdraw'], [3, 'digit-saving'], [4, 'digit-profit']]) {
+          for (let i of [[3, 'digit-withdraw'], [4, 'digit-saving'], [5, 'digit-profit']]) {
             calcTotal(i[0], i[1]);
           }
         },
         columns : [
-          {data: 'bank', visible:false},
-          {data: 'bank__alias',
+          {data: 'bank.bank_name', visible:false},
+          {data: 'bank.alias',
             render: function (data, type, row, meta) {
               let logo = null;
               if (data.search(/^국민.*/g) >= 0)
@@ -919,12 +920,23 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <img width="20px;" src="../assets/svg/brands/${logo}" alt="Image Description">
-                    <a class="btn btn-default" role="button">
+                    <a class="btn btn-default" data-bs-toggle="collapse" href="#collapseDiv_bank${row.bank.pk}" role="button">
                       <b>${data}</b></a>
+                    <div class="collapse" id="collapseDiv_bank${row.bank.pk}">
+                      <div class="card card-body">
+                        <span class="d-block fs-5 text-body">${row.bank.account_name ? row.bank.account_name : "알수없음"}</span>
+                        <span class="d-block fs-5 text-body">${row.bank.account_number}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>`;            
-              }
+                </div>`;
+            }
           },
+          {data: 'balance', className: 'text-end',
+            render: function (data, type, row, meta) {
+              let dt = DateTime.fromISO(row.balance_datetime).setZone('Asia/Seoul').toFormat("yyyy-MM-dd HH:mm:ss")
+              return `<b class="digit-profit">${convert_to_number(data)}<br><small class="text-muted">${dt}</small></b>`;
+            }},
           {data: 'sum_withdraw', className: 'text-end',
             render: function (data, type, row, meta) {
               return `<b class="digit-withdraw">${convert_to_number(data)}</b>`;

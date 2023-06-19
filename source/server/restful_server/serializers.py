@@ -172,18 +172,20 @@ class BankAccountSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TransactionBankStatSerializer(serializers.Serializer):
-    bank = serializers.IntegerField()
-    bank__alias = serializers.CharField()
+    bank = BankAccountSerializer(many=False, read_only=True)
+    # bank__alias = serializers.CharField()
     sum_withdraw = serializers.IntegerField()
     sum_saving = serializers.IntegerField()
     sum_profit = serializers.IntegerField()
+    balance = serializers.IntegerField()
+    balance_datetime = serializers.DateTimeField()
 
     class Meta:
-        fields = ['bank', 'bank__alias', 'sum_withdraw', 'sum_saving', 'sum_profit']
+        fields = ['bank', 'sum_withdraw', 'sum_saving', 'sum_profit']
 
     def validate(self, data):
         try:
-            BankAccount.objects.get(pk=data['bank'])
+            BankAccount.objects.get(pk=data['bank'].pk)
         except ObjectDoesNotExist:
             raise serializers.ValidationError(f"bank {data['bank']} not found")
         return data
