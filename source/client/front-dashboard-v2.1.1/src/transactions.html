@@ -196,21 +196,21 @@
             <!-- Dropdown -->
             <div class="dropdown">
               <button type="button" class="btn btn-white btn-sm dropdown-toggle w-100" id="usersExportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi-download me-2"></i> Export
+                <i class="bi-download me-2"></i> 파일로 내보내기
               </button>
 
               <div class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="usersExportDropdown">
-                <span class="dropdown-header">Options</span>
+                <span class="dropdown-header">옵션</span>
                 <a id="export-copy" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/illustrations/copy-icon.svg" alt="Image Description">
-                  Copy
+                  클립보드로 복사
                 </a>
                 <a id="export-print" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/illustrations/print-icon.svg" alt="Image Description">
-                  Print
+                  인쇄
                 </a>
                 <div class="dropdown-divider"></div>
-                <span class="dropdown-header">Download options</span>
+                <span class="dropdown-header">다운로드 옵션</span>
                 <!-- <a id="export-excel" class="dropdown-item" href="javascript:;">
                   <img class="avatar avatar-xss avatar-4x3 me-2" src="@@autopath/assets/svg/brands/excel-icon.svg" alt="Image Description">
                   Excel
@@ -238,7 +238,7 @@
 
         <!-- Table -->
         <div class="table-responsive datatable-custom position-relative">
-          <table id="datatable" class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+          <table id="datatable" class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100"
                  data-hs-datatables-options='{
                     "info": {
                       "totalQty": "#datatableWithPaginationInfoTotalQty"
@@ -360,7 +360,7 @@
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-end">출금</h6>
+                <h5 class="card-subtitle mb-2 text-end">출금</h5>
 
                 <div class="row align-items-center gx-2">
                   <div class="col text-end">
@@ -385,7 +385,7 @@
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-end">입금</h6>
+                <h5 class="card-subtitle mb-2 text-end">입금</h5>
 
                 <div class="row align-items-center gx-2">
                   <div class="col text-end">
@@ -411,7 +411,7 @@
             <!-- Card -->
             <div class="card h-100">
               <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-end">이익</h6>
+                <h5 class="card-subtitle mb-2 text-end text-dark">차액 (<span class="text-success">입금</span>-<span class="text-danger">출금</span>)</h5>
 
                 <div class="row align-items-center gx-2">
                   <div class="col text-end">
@@ -452,7 +452,7 @@
         <!-- Table -->
         <div class="table-responsive datatable-custom position-relative">
           <table id="datatablestat"
-            class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+            class="table table-sm table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100"
             data-hs-datatables-options='{
             }'>
             <thead class="thead-light">
@@ -461,7 +461,7 @@
                 <th>은행</th>
                 <th>출금</th>
                 <th>입금</th>
-                <th>이익</th>
+                <th>차액(입금-출금)</th>
               </tr>
             </thead>
             <tbody>
@@ -633,13 +633,13 @@
               const g_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
               // col = api.column(col_index, {page: 'current'});
               // const p_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
-              $(col.footer()).html(`${Intl.NumberFormat().format(parseInt(g_total))}`);
+              $(col.footer()).html(`<b class="text-dark">${Intl.NumberFormat().format(parseInt(g_total))}</b>`);
 
               return g_total;
           }
 
           // quantity, rebate, total_price
-          for (let i of [4, 5, 6]) {
+          for (let i of [6, 7, 8]) {
               const total = calcTotal(i);
           }
         },
@@ -653,11 +653,9 @@
                 logo = 'NH_logo.png';
 
               return `
-                <div class="d-flex align-items-center" href="#">
-                  <div class="avatar avatar-circle ">
-                    <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
-                  </div>
-                  <div class="ms-3">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img width="20px;" src="../assets/svg/brands/${logo}" alt="Image Description">
                     <a class="btn btn-default" data-bs-toggle="collapse" href="#collapseDiv_${row.pk}" role="button">
                       <b>${data.alias}</b></a>
                     <div class="collapse" id="collapseDiv_${row.pk}">
@@ -785,43 +783,6 @@
         });
       });
 
-      // https://javascript.info/fetch
-      // document.querySelector('#export-excel').onclick=(event) => {
-      //   let response = await fetch(restful_server_address + '/transaction/download/excel', {
-      //     // credentials: "include"
-      //     // type: 'cors'
-      //   });
-      //   if (!response.ok) {
-      //     throw new Error(`HTTP error: ${response.status}`);
-      //   }
-      //   let blob = await response.blob();
-
-      //   // Try to find out the filename from the content disposition `filename` value
-      //   // var disposition = request.getResponseHeader('content-disposition');
-      //   // var matches = /"([^"]*)"/.exec(disposition);
-      //   // var filename = (matches != null && matches[1] ? matches[1] : 'file.pdf');
-      //   var filename = 'file.xlsx'
-      //   // The actual download
-      //   var blob_data = new Blob([blob], { type: 'application/vnd.ms-excel' });
-      //   var link = document.createElement('a');
-      //   link.href = window.URL.createObjectURL(blob_data);
-      //   link.download = filename;
-      //   // document.body.appendChild(link);
-      //   link.click();
-      //   // document.body.removeChild(link);
-      //   // .catch((error) => {
-      //   //   window.alert(error);
-      //   // });
-      // };
-
-      // $('#export-excel').click(function() {
-      //   datatable.button('.buttons-excel').trigger()
-      // });
-
-      // $('#export-pdf').click(function() {
-      //   datatable.button('.buttons-pdf').trigger()
-      // });
-
       $('#export-print').click(function() {
         datatable.button('.buttons-print').trigger()
       });
@@ -838,10 +799,6 @@
         let start_date = DateTime.fromISO(`${rel ? rel : '2020'}-01-01`).startOf('year').setZone('Asia/Seoul');
         let end_date = rel ? start_date.endOf('year').endOf('day') : DateTime.now().endOf('day');
         flatpickr.setDate([start_date.toISO(), end_date.toISO()]);
-        /*
-        $('.js-daterangepicker-clear').data('daterangepicker').setStartDate(start_date);
-        $('.js-daterangepicker-clear').data('daterangepicker').setEndDate(end_date);
-        */
         datatable.draw();
       });
 
@@ -921,25 +878,6 @@
       }
 
       HSCore.components.HSDatatables.init($('#datatablestat'), {
-        // dom: 'Bfrtip',
-        // serverSide: true,
-        // processing: true,
-        // search: {
-        //     return: true,
-        // },
-        // "language": {"searchPlaceholder": "regular expression"},
-        // ajax: {
-        //   url: 'http://0.0.0.0:8000/transaction/stat',
-        //   // type: 'POST',
-        //   data: function(dtParms){
-        //     s = $('.js-daterangepicker-clear').val().split('~')
-        //     var min_date = s[0].trim();
-        //     var max_date = s[1].trim();
-        //     dtParms.min_date = min_date;
-        //     dtParms.max_date = max_date;
-        //     return dtParms
-        //   }
-        // },
         footerCallback: function (row, data, start, end, display) {
           var api = this.api(), data;
 
@@ -949,6 +887,14 @@
             const g_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
             // col = api.column(col_index, {page: 'current'});
             // const p_total = (col.data().length > 0) ? col.data().reduce((a, b) => a + b) : 0;
+            profit_style='digit-profit';
+            if (g_total < 0)
+              profit_style = 'digit-withdraw';
+            else if (g_total > 0)
+              profit_style = 'digit-saving';
+            
+            if (style == 'digit-profit')
+              style = profit_style;
             $(col.footer()).html(`<b class="${style}">${Intl.NumberFormat().format(parseInt(g_total))}</b>`);
 
             return g_total;
@@ -970,15 +916,14 @@
                 logo = 'NH_logo.png';
 
               return `
-                <div class="d-flex align-items-center" href="#">
-                  <div class="avatar avatar-circle">
-                    <img height="30px;" src="../assets/svg/brands/${logo}" alt="Image Description">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img width="20px;" src="../assets/svg/brands/${logo}" alt="Image Description">
+                    <a class="btn btn-default" role="button">
+                      <b>${data}</b></a>
                   </div>
-                  <div class="ms-3">
-                    <b>${data}</b>
-                  </div>
-                </div>`;
-            }
+                </div>`;            
+              }
           },
           {data: 'sum_withdraw', className: 'text-end',
             render: function (data, type, row, meta) {
@@ -990,8 +935,14 @@
             }},
           {data: 'sum_profit', className: 'text-end',
             render: function (data, type, row, meta) {
-              return `<b class="digit-balance">${convert_to_number(data)}</b>`;
-            }},
+              let v = parseInt(data);
+              if (v > 0)
+                return `<b class="digit-saving">${convert_to_number(data)}</b>`;
+              else if (v < 0)
+                return `<b class="digit-withdraw">${convert_to_number(data)}</b>`;
+              return `<b class="digit-profit">${convert_to_number(data)}</b>`;
+            }
+          }
         ]
       });
 
