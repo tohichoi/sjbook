@@ -747,7 +747,7 @@
       $('#export-csv').click(function() {
         let dtParams = get_dtParams({});
         var jqxhr = $.ajax({
-          url: restful_server_address + '/transaction/download/excel',
+          url: restful_server_address + '/transaction/download/csv',
           data: {
             'min_date': dtParams.min_date,
             'max_date': dtParams.max_date,
@@ -755,13 +755,17 @@
         jqxhr.done(function(data){
           let disposition = jqxhr.getResponseHeader('content-disposition');
           let matches = /"([^"]*)"/.exec(disposition);
-          let filename = (matches != null && matches[1] ? matches[1] : 'file.pdf');
+          let filename = (matches != null && matches[1] ? matches[1] : 'file.csv');
           let blob=new Blob([data]);
           let link=document.createElement('a');
           link.href=window.URL.createObjectURL(blob);
           link.download=filename;
           link.click();
-        })
+        });
+        jqxhr.fail(function( jqXHR, textStatus, errorThrown ) {
+          let message = JSON.parse(jqXHR.responseText);
+          window.alert(message);
+        });
       });
 
       // https://javascript.info/fetch

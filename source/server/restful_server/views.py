@@ -1,3 +1,4 @@
+import csv
 from code import interact
 from io import BytesIO
 from pathlib import Path
@@ -23,6 +24,7 @@ import pandas as pd
 
 from data_importer.common import TIMEZONE
 from restful_server.datamodels import TransactionStat
+from restful_server.exceptions import EmptyResultError
 from restful_server.models import BankAccount, Transaction, FAccountCategoryType, FAccountMajorCategory, \
     FAccountMinorCategory, FAccountCategory, FAccountMajorMinorCategoryLink, FAccountSubCategory
 from restful_server.serializers import UserSerializer, GroupSerializer, BankAccountSerializer, TransactionSerializer, \
@@ -219,7 +221,6 @@ class TransactionStatAPIView(APIView):
         return Response(serializer.data)
 
 
-
 class FAccountCategoryTypeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Transaction to be viewed or edited.
@@ -352,20 +353,26 @@ class TransactionDownloadViewSet(APIView):
     #     }
     # )
 
-    def get_excel(self, queryset):
+    def get_csv(self, queryset):
         byte_buffer = BytesIO()
-        qs = queryset.annotate(bank_name=F('bank__bank_name'), bank_alias=F('bank__alias'))
-        df = pd.DataFrame.from_dict(qs.values())
+        qs = queryset.annotate(bank_name=F('bank__bank_name'), bank_alias=F('bank__alias'),
+                               bank_account_number=F('bank__account_number'))
+        if qs.count() < 1:
+            raise EmptyResultError()
+
+        filtered_columns = ['datetime', 'bank_name', 'bank_account_number', 'bank_alias', 'recipient', 'withdraw',
+                            'saving', 'balance', 'bank_note', 'user_note', 'transaction_order']
+
+        df = pd.DataFrame.from_dict(qs.values(*filtered_columns))
         df['datetime'] = df['datetime'].dt.tz_convert('Asia/Seoul')
         df['datetime'] = df['datetime'].dt.tz_localize(None)
 
-        new_columns = ['datetime', 'bank_name', 'bank_alias', 'recipient', 'withdraw', 'saving', 'balance', 'bank_note',
-                       'user_note', 'transaction_order']
-        df_new = df[new_columns]
-        df_new.columns = ['거래시각', '은행', '은행별명', '받는분/보내는분', '출금', '입금', '잔액', '적요', '메모', '거래순서']
+        df_new = df[filtered_columns]
+        new_column_names = ['거래시각', '은행', '계좌번호', '계좌별칭', '받는분/보내는분', '출금', '입금', '잔액', '적요', '메모', '거래순서']
+        df_new.columns = new_column_names
         # writer = pd.ExcelWriter(byte_buffer, engine='xlsxwriter')
-        # df.to_excel(writer, sheet_name='거래내역', index=False)
-        df_new.to_csv(byte_buffer, index=False)
+        # df.to_csv(writer, sheet_name='거래내역', index=False)
+        df_new.to_csv(byte_buffer, index=False, columns=new_column_names, quoting=csv.QUOTE_ALL)
         # writer.close()
         return byte_buffer
 
@@ -376,16 +383,19 @@ class TransactionDownloadViewSet(APIView):
         file_name = file_name.with_stem(
             f'{file_name.stem}-{min_date.to_date_string().replace("-", "")}-{max_date.to_date_string().replace("-", "")}')
 
-        content_type = None
-        if file_type == 'excel':
-            # content_type = 'application/vnd.ms-excel'
-            byte_buffer = self.get_excel(qs)
-        elif file_type == 'text':
-            pass
-        elif file_type == 'docs':
-            pass
-        else:
-            return Response({"error": "Invalid file_type"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            if file_type == 'csv':
+                # content_type = 'application/vnd.ms-csv'
+                byte_buffer = self.get_csv(qs)
+            elif file_type == 'text':
+                pass
+            elif file_type == 'docs':
+                pass
+        except EmptyResultError as e:
+            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            return Response(err, status=status.HTTP_400_BAD_REQUEST)
 
         byte_buffer.seek(0)
 
