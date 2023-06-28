@@ -1,7 +1,7 @@
 [data]
 root = 'data/input/bank_ledgers/'
 rglob_pattern = '*.xls*'
-ledger_types = ['kb1', 'nh1']
+ledger_types = ['kb1', 'nh1', 'yat']
 
 
 [constants]
@@ -55,6 +55,33 @@ excel.sheet_name = [0]
 
 # row, col (zero-based)
 account.bank_name = '농협'
+account.number_pos = [5, 2]
+account.number_regexp = '([0-9-]+)' # 000-00000
+
+# row, col (zero-based)
+account.name_pos = [6, 2]
+account.name_regexp = '(.+)$' # OOOO
+
+transaction.start_row = 9 # with heading, zero-based
+transaction.parse_date_columns = [[1, 8]]
+transaction.date_format = ['%Y/%m/%d', '%I:%M:%S']
+transaction.column_indices = "A:J"
+# 농협은 일자와 시간 컬럼이 분리되어있음.
+# 구분	거래일자	출금금액(원)	입금금액(원)	거래 후 잔액(원)	거래내용	거래기록사항	거래점	거래시간	이체메모
+# pandas.read_excel의 parse_dates 와 date_format 이용하여 하나의 column 으로 통합
+# 합쳐진 시간은 "거래일자_거래시간" 으로 첫번째 column 에 위치하므로 "구분" column 이 두번째가 됨
+#     df = pd.read_excel(fn, **kwargs)
+transaction.column_names = ["datetime", "transaction_order", "withdraw", "saving", "balance", "bank_note", "recipient", "handler", "category"]
+
+
+[yat]
+# 유안타
+excel.path_pattern = '.*/유안타.*xlsx?$'
+excel.engine = 'xlrd'
+excel.sheet_name = [0]
+
+# row, col (zero-based)
+account.bank_name = '유안타증권'
 account.number_pos = [5, 2]
 account.number_regexp = '([0-9-]+)' # 000-00000
 

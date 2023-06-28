@@ -78,7 +78,7 @@ def read_account_info(fn: Path, ac) -> TransactionData:
     return TransactionData(bank_name, account_name, account_number, alias, status, 'Auto-generated', pd.DataFrame(), fn)
 
 
-def verify_transaction_data(df: pd.DataFrame):
+def verify_transaction_data(df: pd.DataFrame, bank_name, account_number):
     df['datetime'] = df['datetime'].apply(lambda x: x.tz_localize('Asia/Seoul').tz_convert('UTC') if pd.isnull(x.tz) else x)
 
     # try:
@@ -90,7 +90,7 @@ def verify_transaction_data(df: pd.DataFrame):
     # bytes(str(df['datetime']), 'utf-8')
     df['transaction_id'] = pd.Series()
     df['faccount_category_id'] = pd.Series()
-    df = df.apply(generate_transaction_hash, axis=1)
+    df = df.apply(generate_transaction_hash, axis=1, args=(bank_name, account_number))
 
     df['norm_name'] = pd.Series()
     df = df.apply(normalize_transaction_name, axis=1)
@@ -125,7 +125,7 @@ def read_ledgers(fn, ledger_type, ledger_conf: dict) -> list:
         num_columns = ['transaction_order', 'withdraw', 'saving', 'balance']
         df[num_columns] = df[num_columns].fillna(0)
         df[num_columns] = df[num_columns].astype('int64')
-        td.dataframe = verify_transaction_data(df)
+        td.dataframe = verify_transaction_data(df, td.bank_name, td.account_number)
         tds.append(td)
 
     return tds

@@ -321,30 +321,40 @@ class UploadedLedgerSerializer(serializers.Serializer):
                 })}
             return impf
 
-        conn, cur = open_database()
-        db_nbad_before = query_count(cur, 'id', 'BankAccount')
-        db_ntrd_before = query_count(cur, 'id', 'Transaction')
+        try:
+            conn, cur = open_database()
+            db_nbad_before = query_count(cur, 'id', 'BankAccount')
+            db_ntrd_before = query_count(cur, 'id', 'Transaction')
 
-        trs = load_transaction_data([p])
-        # nbad : # of inserted band account records
-        # ntrd : # of inserted transaction records
-        nbad, ntrd = import_transaction_data(trs)
+            trs = load_transaction_data([p])
+            # nbad : # of inserted band account records
+            # ntrd : # of inserted transaction records
+            nbad, ntrd = import_transaction_data(trs)
 
-        db_nbad_after = query_count(cur, 'id', 'BankAccount')
-        db_ntrd_after = query_count(cur, 'id', 'Transaction')
+            db_nbad_after = query_count(cur, 'id', 'BankAccount')
+            db_ntrd_after = query_count(cur, 'id', 'Transaction')
 
-        # nbad == db_nbad_after - db_nbad_before
-        # ntrd == db_ntrd_after - db_ntrd_before
+            # nbad == db_nbad_after - db_nbad_before
+            # ntrd == db_ntrd_after - db_ntrd_before
 
-        impf = {
-            'filename': p.name,
-            'result': nbad + ntrd,
-            'message': f'{nbad}개의 은행계정과 {ntrd}개의 거래내역을 가져왔습니다.',
-            'number_of_inserted_records': OrderedDict({
-                'bankaccounts': nbad,
-                'transactions': ntrd,
-            })}
-        return impf
+            impf = {
+                'filename': p.name,
+                'result': nbad + ntrd,
+                'message': f'{nbad}개의 은행계정과 {ntrd}개의 거래내역을 가져왔습니다.',
+                'number_of_inserted_records': OrderedDict({
+                    'bankaccounts': nbad,
+                    'transactions': ntrd,
+                })}
+            return impf
+        except Exception as e:
+            return {
+                'filename': p.name,
+                'result': -1,
+                'message': e.args,
+                'number_of_inserted_records': OrderedDict({
+                    'bankaccounts': 0,
+                    'transactions': 0,
+                })}
 
     def _archive_file(self, local_file: Path):
         root = backend_conf['server']['archive_file_root']

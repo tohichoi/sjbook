@@ -47,8 +47,9 @@ class TransactionStat:
         stat = []
         for i in l:
             ba = BankAccount.objects.get(pk=i['bank__pk'])
-            balance = qs.filter(bank=ba).order_by('-datetime').first().balance
-            balance_datetime = qs.filter(bank=ba).order_by('-datetime').first().datetime
+            last_tr = qs.filter(bank=ba).order_by('-datetime').first()
+            balance = last_tr.balance
+            balance_datetime = last_tr.datetime
             stat.append(TransactionBankStat(ba, i['sum_withdraw'], i['sum_saving'], i['sum_profit'],
                                             balance, balance_datetime))
         self.stat = stat

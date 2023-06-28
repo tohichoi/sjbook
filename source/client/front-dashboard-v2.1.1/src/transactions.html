@@ -653,6 +653,8 @@
                 logo = 'KB_logo.png';
               else if (data.bank_name.search(/^농협.*/g) >= 0)
                 logo = 'NH_logo.png';
+              else if (data.bank_name.search(/^유안타.*/g) >= 0)
+                logo = 'YuantaLogo.png';
 
               return `
                 <div class="row align-items-center">
@@ -915,6 +917,8 @@
                 logo = 'KB_logo.png';
               else if (data.search(/^농협.*/g) >= 0)
                 logo = 'NH_logo.png';
+              else if (data.search(/^유안타.*/g) >= 0)
+                logo = 'YuantaLogo.png';
 
               return `
                 <div class="row align-items-center">
