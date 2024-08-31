@@ -1,5 +1,21 @@
 # sjbook
 
+# 실행 방법
+
+```shell
+cd $HOME/Workspace/sjbook/
+
+export SJBOOK_ROOT=$(pwd)                                                                                                                  
+export SJBOOK_RESTAPI_HOST=10.8.0.1:8000
+export SJBOOK_FRONTEND_HOST=10.8.0.1:8001
+
+source source/venv/bin/activate
+
+tmuxp load server.yaml
+
+# VISIT http://10.8.0.1:8000
+```
+
 ## screen shots
 
 ### transactions
